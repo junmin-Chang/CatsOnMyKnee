@@ -1,4 +1,5 @@
 import { Board } from 'src/boards/board.entity';
+import { Cat } from 'src/cat/cat.entity';
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
@@ -15,4 +16,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Board, (board) => board.user, { eager: true })
   boards: Board[];
+
+  @OneToMany((type) => Cat, (cat) => cat.user, { eager: true })
+  cats: Cat[];
 }
