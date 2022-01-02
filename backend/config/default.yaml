@@ -1,0 +1,10 @@
+server:
+  port: 8000
+
+db:
+  type: 'postgres'
+  port: 5432
+  database: 'cats-on-my-knee'
+
+jwt:
+  expiresIn: 3600
