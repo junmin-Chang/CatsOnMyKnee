@@ -33,6 +33,7 @@
     "class-validator": "^0.13.2",
     "config": "^3.3.6",
     "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",

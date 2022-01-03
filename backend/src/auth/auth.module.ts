@@ -4,9 +4,10 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './passport/jwt.strategy';
 import { UserRepository } from './user.repository';
 import * as config from 'config';
+import { GoogleStrategy } from './passport/google.strategy';
 
 const jwtConfig = config.get('jwt');
 @Module({
@@ -21,7 +22,7 @@ const jwtConfig = config.get('jwt');
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy],
   exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}
