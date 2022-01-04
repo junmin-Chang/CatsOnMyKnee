@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -5,12 +6,7 @@ import styled from 'styled-components';
 const Home = () => {
   return (
     <Container>
-      <h2>HOME PAGE</h2>
-      <Content>
-        <h3>This is home content</h3>
-        <p>...</p>
-        <Link to="/login">로그인하러 가기</Link>
-      </Content>
+      <h2>안녕하세요</h2>
     </Container>
   );
 };

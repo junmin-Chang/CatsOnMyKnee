@@ -1,7 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import COInput from '../Atoms/COInput';
+import { GoogleLogin } from 'react-google-login';
 const LoginForm = () => {
+  const onSuccess = (res: any) => {
+    console.log(res.accessToken);
+  };
+  const onFailure = (err: any) => {
+    console.log(err);
+  };
   const [form, setForm] = useState({
     userId: '',
     password: '',
@@ -32,6 +39,8 @@ const LoginForm = () => {
         <COInput type="password" name="password" onChange={onChangeInput} inputHeight={40} inputWidth={400} />
       </InputWrapper>
       <button onClick={onClickLogin}>로그인</button>
+
+      <a href="http://localhost:8000/auth/google">구글로 로그인하기</a>
     </Container>
   );
 };

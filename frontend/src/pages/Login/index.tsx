@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import COLink from '@src/components/Atoms/COLink';
 import LoginForm from '@src/components/Organisms/LoginForm';
+import { GoogleLogin } from 'react-google-login';
 const Login = () => {
   return (
     <Container>
