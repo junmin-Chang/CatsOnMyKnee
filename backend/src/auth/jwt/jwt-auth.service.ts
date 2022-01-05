@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.entity';
-import { JwtPayload } from './jwt-auth.strategy';
 import * as config from 'config';
 
 const jwtConfig = config.get('jwt');
@@ -11,7 +10,7 @@ export class JwtAuthService {
   constructor(private jwtService: JwtService) {}
 
   getAccessToken(user: User) {
-    const payload: JwtPayload = { username: user.username, sub: user.id };
+    const payload = { id: user.id, username: user.username };
     return {
       accessToken: this.jwtService.sign(payload),
       domain: 'localhost',
@@ -22,9 +21,9 @@ export class JwtAuthService {
   }
 
   getRefreshToken(user: User) {
-    const payload: JwtPayload = { username: user.username, sub: user.id };
+    const payload = { id: user.id, username: user.username };
     const token = this.jwtService.sign(payload, {
-      secret: jwtConfig.secret,
+      secret: refreshConfig.secret,
       expiresIn: refreshConfig.expiresIn,
     });
     return {
