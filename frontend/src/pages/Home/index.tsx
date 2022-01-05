@@ -3,10 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Home = () => {
+interface Props {
+  username?: string;
+}
+const Home = ({ username }: Props) => {
   return (
     <Container>
-      <h2>안녕하세요</h2>
+      <h2>안녕하세요 {username}님</h2>
     </Container>
   );
 };

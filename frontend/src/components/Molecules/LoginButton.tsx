@@ -1,19 +1,26 @@
+import { modalAtom } from '@src/recoil/atom';
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import COLink from '../Atoms/COLink';
+import COText from '../Atoms/COText';
 
 const LoginButton = () => {
+  const setModal = useSetRecoilState(modalAtom);
   return (
-    <Container>
-      <COLink color="#FFEDAD" to="/login" size={16} weight={500}>
-        로그인 하러가기
-      </COLink>
+    <Container onClick={() => setModal({ id: 'login', visible: true })}>
+      <COText fontColor="#18171c" fontSize={20}>
+        로그인
+      </COText>
     </Container>
   );
 };
 const Container = styled.div`
   margin-left: auto;
-  padding: 0 10px;
+  padding: 8px 22px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 20px;
 `;
 
 export default LoginButton;
