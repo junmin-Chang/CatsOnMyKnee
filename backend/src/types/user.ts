@@ -1,4 +1,4 @@
-export type Provider = 'google';
+export type Provider = 'google' | 'kakao';
 
 export class User {
   id: number;

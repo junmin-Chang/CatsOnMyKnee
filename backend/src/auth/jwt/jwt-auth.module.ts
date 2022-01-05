@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthService } from './jwt-auth.service';
 import { JwtAuthStrategy } from './jwt-auth.strategy';
@@ -16,7 +15,6 @@ const jwtConfig = config.get('jwt');
           },
         };
       },
-      inject: [ConfigService],
     }),
   ],
   providers: [JwtAuthStrategy, JwtAuthService],

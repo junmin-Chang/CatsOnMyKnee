@@ -15,8 +15,14 @@ export class UsersService {
   create(user: CreateUserDto) {
     return this.userRepository.save(user);
   }
-  findOne(id: number) {
-    return this.userRepository.findOne(id);
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne(id);
+    const { name, username } = user;
+
+    return {
+      name,
+      username,
+    };
   }
   findOneByProvider(provider: Provider, providerId: string) {
     return this.userRepository.findOne({ where: { provider, providerId } });
