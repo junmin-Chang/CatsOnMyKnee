@@ -1,11 +1,12 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { UsersService } from 'src/users/users.service';
 import { JwtAuthService } from '../jwt/jwt-auth.service';
 import { KakaoOauthGuard } from './kakao-oauth.guard';
 
 @Controller('auth/kakao')
 export class KakaoOauthController {
-  constructor(private jwtAuthService: JwtAuthService) {}
+  constructor(private jwtAuthService: JwtAuthService, private userService: UsersService) {}
 
   @Get()
   @UseGuards(KakaoOauthGuard)
@@ -14,8 +15,13 @@ export class KakaoOauthController {
   @Get('redirect')
   @UseGuards(KakaoOauthGuard)
   async kakaoAuthRedirect(@Req() req, @Res() res: Response) {
-    const { accessToken } = this.jwtAuthService.login(req.user);
-    res.cookie('jwt', accessToken);
+    const user = req.user;
+    const { accessToken, ...accessOption } = this.jwtAuthService.getAccessToken(user);
+    const { refreshToken, ...refreshOption } = this.jwtAuthService.getRefreshToken(user);
+    await this.userService.setCurrentRefreshToken(refreshToken, user.id);
+
+    res.cookie('jwt', accessToken, accessOption);
+    res.cookie('Refresh', refreshToken, refreshOption);
     return res.redirect('http://localhost:3000/');
   }
 }

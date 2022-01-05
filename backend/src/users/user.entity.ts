@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Provider } from 'src/types/user';
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
@@ -25,4 +26,8 @@ export class User extends BaseEntity {
   @Column()
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column({ nullable: true })
+  @Exclude()
+  currentHashedRefreshToken?: string;
 }

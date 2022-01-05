@@ -6,3 +6,6 @@ db:
 
 jwt:
   secret: 'secretKey'
+
+refresh:
+  secret: 'secretKey'
