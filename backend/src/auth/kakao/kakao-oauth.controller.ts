@@ -14,7 +14,7 @@ export class KakaoOauthController {
 
   @Get('redirect')
   @UseGuards(KakaoOauthGuard)
-  async kakaoAuthRedirect(@Req() req, @Res() res: Response) {
+  async kakaoAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
     const { accessToken, ...accessOption } = this.jwtAuthService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.jwtAuthService.getRefreshToken(user);

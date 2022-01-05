@@ -10,28 +10,15 @@ const jwtConfig = config.get('jwt');
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy) {
   constructor() {
-    const extractJwtFromCookie = (req: Request) => {
-      let token = null;
-      if (req && req.cookies) {
-        token = req.cookies['jwt'];
-      }
-      return token || ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-    };
-
     super({
-      jwtFromRequest: extractJwtFromCookie,
-      ignoreExpiration: false,
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request) => {
+          return request?.cookies?.jwt;
+        },
+      ]),
       secretOrKey: jwtConfig.secret,
+      passReqToCallback: true,
     });
-  }
-
-  extractJwtFromCookie(req: Request) {
-    let token = null;
-    if (req && req.cookies) {
-      token = req.cookies['jwt'];
-    }
-
-    return token;
   }
 
   async validate(payload: JwtPayload) {

@@ -5,7 +5,7 @@ import { JwtAuthStrategy } from './jwt-auth.strategy';
 import * as config from 'config';
 import { JwtRefreshStrategy } from './jwt-refresh.strategy';
 import { UsersModule } from 'src/users/users.module';
-
+import { forwardRef } from '@nestjs/common';
 const jwtConfig = config.get('jwt');
 @Module({
   imports: [
@@ -19,7 +19,7 @@ const jwtConfig = config.get('jwt');
         };
       },
     }),
-    UsersModule,
+    forwardRef(() => UsersModule),
   ],
   providers: [JwtAuthStrategy, JwtAuthService, JwtRefreshStrategy],
   exports: [JwtModule, JwtAuthService],

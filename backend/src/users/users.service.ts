@@ -5,6 +5,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { hash, compare } from 'bcryptjs';
+import { ResponseUserDto } from './dto/response-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,7 @@ export class UsersService {
   create(user: CreateUserDto) {
     return this.userRepository.save(user);
   }
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     return this.userRepository.findOne(id);
   }
   findOneByProvider(provider: Provider, providerId: string) {
@@ -25,12 +26,23 @@ export class UsersService {
   findAll(params: FindManyOptions<User> = {}) {
     return this.userRepository.find(params);
   }
+
+  async getUserInfo(user: User): Promise<ResponseUserDto> {
+    const userInfo = await this.findOne(user.id);
+    const { username, name } = userInfo;
+
+    return {
+      username,
+      name,
+    };
+  }
   async setCurrentRefreshToken(refreshToken: string, id: number) {
     const currentHashedRefreshToken = await hash(refreshToken, 10);
     await this.userRepository.update(id, { currentHashedRefreshToken });
   }
   async getUserIfRefreshTokenMatches(refreshToken: string, id: number) {
     const user = await this.findOne(id);
+    console.log(user);
 
     const isRefreshTokenMatching = await compare(refreshToken, user.currentHashedRefreshToken);
 
