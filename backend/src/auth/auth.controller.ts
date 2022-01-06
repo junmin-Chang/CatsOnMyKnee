@@ -17,6 +17,7 @@ export class AuthController {
   @UseGuards(GoogleOauthGuard)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
+    this.logger.verbose(`google req.user ${JSON.stringify(user)}`);
     const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
@@ -34,7 +35,7 @@ export class AuthController {
   @UseGuards(KakaoOauthGuard)
   async kakaoAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
-    this.logger.verbose(`kakao req.user ${JSON.stringify(req.user)}`);
+    this.logger.verbose(`kakao req.user ${JSON.stringify(user)}`);
 
     const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);

@@ -1,6 +1,15 @@
 import { Exclude } from 'class-transformer';
+import { Diary } from 'src/diary/diary.entity';
 import { Provider } from 'src/types/user';
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,6 +27,9 @@ export class User extends BaseEntity {
 
   @Column({ nullable: false })
   name: string;
+
+  @OneToMany((type) => Diary, (diary) => diary.user, { eager: true })
+  diary: Diary[];
 
   @Column()
   @CreateDateColumn()
