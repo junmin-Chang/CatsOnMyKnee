@@ -12,8 +12,6 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
     });
   }
   async validate(_accessToken: string, _refreshToken: string, profile: any) {
-    console.log(profile);
-
     const { id, _json } = profile;
     let user = await this.usersService.findOneByProvider('kakao', id);
     if (!user) {
