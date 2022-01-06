@@ -16,7 +16,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   async getUserInfo(@Req() req): Promise<ResponseUserDto> {
     const user = req.user;
-    console.log(user);
     return await this.userService.getUserInfo(user);
   }
 

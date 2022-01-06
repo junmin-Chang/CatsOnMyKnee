@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Req, Res, UseGuards } from '@nestjs/common';
 import { GoogleOauthGuard } from './guards/google-oauth.guard';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
@@ -7,6 +7,8 @@ import { KakaoOauthGuard } from './guards/kakao-oauth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private userService: UsersService) {}
+
+  private logger = new Logger('AuthController');
   @Get('/google')
   @UseGuards(GoogleOauthGuard)
   async googleAuth(@Req() _req) {}
@@ -32,6 +34,8 @@ export class AuthController {
   @UseGuards(KakaoOauthGuard)
   async kakaoAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
+    this.logger.verbose(`kakao req.user ${JSON.stringify(req.user)}`);
+
     const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
