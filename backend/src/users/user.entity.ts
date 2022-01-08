@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Cat } from 'src/cat/cat.entity';
 import { Diary } from 'src/diary/diary.entity';
 import { Provider } from 'src/types/user';
 import {
@@ -30,6 +31,9 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Diary, (diary) => diary.user, { eager: true })
   diary: Diary[];
+
+  @OneToMany((type) => Cat, (cat) => cat.user, { eager: true })
+  cat: Cat[];
 
   @Column()
   @CreateDateColumn()

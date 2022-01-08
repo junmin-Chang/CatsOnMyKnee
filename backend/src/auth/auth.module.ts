@@ -11,6 +11,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { GoogleOauthStrategy } from './strategies/google-oauth.strategy';
 import { KakaoOauthStrategy } from './strategies/kakao-oauth.strategy';
 import { forwardRef } from '@nestjs/common';
+import { CatModule } from 'src/cat/cat.module';
 const jwtConfig = config.get('jwt');
 
 @Module({

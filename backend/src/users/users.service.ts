@@ -29,11 +29,12 @@ export class UsersService {
 
   async getUserInfo(user: User): Promise<ResponseUserDto> {
     const userInfo = await this.findOne(user.id);
-    const { username, name } = userInfo;
+    const { username, name, cat } = userInfo;
 
     return {
       username,
       name,
+      cat,
     };
   }
   async setCurrentRefreshToken(refreshToken: string, id: number) {

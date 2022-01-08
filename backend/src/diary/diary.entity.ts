@@ -1,3 +1,4 @@
+import { Cat } from 'src/cat/cat.entity';
 import { User } from 'src/users/user.entity';
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { DiaryFeeling } from './diary-feeling.enum';
@@ -18,6 +19,9 @@ export class Diary extends BaseEntity {
 
   @ManyToOne((type) => User, (user) => user.diary, { eager: false })
   user: User;
+
+  @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false })
+  cat: Cat;
 
   @CreateDateColumn()
   @Column()
