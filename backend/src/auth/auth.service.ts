@@ -18,6 +18,7 @@ export class AuthService {
       path: '/',
       httpOnly: true,
       maxAge: Number(jwtConfig.expiresIn) * 1000,
+      signed: true,
     };
   }
 
@@ -33,6 +34,7 @@ export class AuthService {
       path: '/',
       httpOnly: true,
       maxAge: Number(refreshConfig.expiresIn) * 1000,
+      signed: true,
     };
   }
 }

@@ -4,25 +4,13 @@ import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
 import styled from 'styled-components';
 import Header from '@src/components/Organisms/Header';
-import axios from 'axios';
 import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
+import useAuthentication from '@src/hooks/useAuthentication';
+
 const App = () => {
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-    axios
-      .get('http://localhost:8000/users', {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setUsername(res.data.name);
-      })
-      .catch((err) => {
-        if (err) {
-          axios.get('http://localhost:8000/users/refresh', { withCredentials: true });
-        }
-      });
-  }, []);
+  const { loading } = useAuthentication();
+  if (loading) return <div>Loading...</div>;
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -31,7 +19,7 @@ const App = () => {
         <Header />
         <Switch>
           <Route exact path="/">
-            <Home username={username} />
+            <Home />
           </Route>
           <Route exact path="/profile">
             <Profile />

@@ -7,7 +7,7 @@ db:
   database: 'cats-on-my-knee'
 
 jwt:
-  expiresIn: 60
+  expiresIn: 600
 refresh:
   secret: 'secretKey'
   expiresIn: 1209600

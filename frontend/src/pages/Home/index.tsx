@@ -1,15 +1,13 @@
-import axios from 'axios';
+import { userAtom } from '@src/recoil/atom';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-interface Props {
-  username?: string;
-}
-const Home = ({ username }: Props) => {
+const Home = () => {
+  const user = useRecoilValue(userAtom);
   return (
     <Container>
-      <h2>안녕하세요 {username}님</h2>
+      <h2>안녕하세요 {user?.username}님</h2>
     </Container>
   );
 };
