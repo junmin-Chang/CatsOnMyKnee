@@ -3,6 +3,6 @@ import { Board } from './Board';
 export interface User {
   username: string;
   name: string;
-  cats?: Cat[] | null;
+  cat?: Cat[] | null;
   boards?: Board[] | null;
 }

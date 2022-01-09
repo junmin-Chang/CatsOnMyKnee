@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../Molecules/Logo';
 import LoginButton from '../Molecules/LoginButton';
-import { useSetRecoilState } from 'recoil';
-import { modalAtom } from '@src/recoil/atom';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from '@src/recoil/atom';
 const Header = () => {
+  const user = useRecoilValue(userAtom);
   return (
     <Container>
       <Logo />
-      <LoginButton />
+      {!user && <LoginButton />}
     </Container>
   );
 };
