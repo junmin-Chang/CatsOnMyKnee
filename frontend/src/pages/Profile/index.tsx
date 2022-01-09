@@ -1,6 +1,4 @@
-import { instance } from '@src/api/api';
-import axios from 'axios';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Card, AddCard } from '@src/components/Molecules/Card';
 import COText from '@src/components/Atoms/COText';
@@ -41,6 +39,10 @@ const CardContainer = styled.div`
   border: none;
   align-items: center;
   padding: 0 10px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default Profile;

@@ -31,3 +31,13 @@ export const getUserInfo = async () => {
   const res = await instance.get('/users');
   return res.data;
 };
+
+export const logout = async () => {
+  return await instance.get('/auth/logout').then((res) => {
+    if (res.data.success) {
+      window.location.reload();
+    } else {
+      alert('로그아웃 도중 오류 발생');
+    }
+  });
+};

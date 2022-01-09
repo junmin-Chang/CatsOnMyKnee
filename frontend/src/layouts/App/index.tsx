@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
@@ -7,8 +7,6 @@ import Header from '@src/components/Organisms/Header';
 import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
 import useAuthentication from '@src/hooks/useAuthentication';
-import { useRecoilValue } from 'recoil';
-import { modalAtom } from '@src/recoil/atom';
 
 const App = () => {
   const { loading } = useAuthentication();

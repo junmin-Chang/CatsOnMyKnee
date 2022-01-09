@@ -7,20 +7,19 @@ import COText from '../Atoms/COText';
 const LoginButton = () => {
   const setModal = useSetRecoilState(modalAtom);
   return (
-    <Container onClick={() => setModal({ id: 'login', visible: true, size: { width: 600, height: 440 } })}>
-      <COText fontColor="#18171c" fontSize={20}>
-        로그인
-      </COText>
-    </Container>
+    <Button onClick={() => setModal({ id: 'login', visible: true, size: { width: 600, height: 440 } })}>로그인</Button>
   );
 };
-const Container = styled.div`
-  margin-left: auto;
-  padding: 8px 22px;
-  background-color: #ffffff;
+
+const Button = styled.button`
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
   border-radius: 8px;
+  border: none;
+  padding: 12px 10px;
   cursor: pointer;
+  margin-left: auto;
   margin-right: 20px;
 `;
-
 export default LoginButton;
