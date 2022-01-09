@@ -5,11 +5,7 @@ import styled from 'styled-components';
 import EnrollModal from './EnrollModal';
 import LoginModal from './LoginModal';
 
-interface Props {
-  width: number;
-  height: number;
-}
-const Modal = ({ width, height }: Props) => {
+const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
   const closeModal = useCallback(() => {
     setModal({ ...modal, visible: false });
@@ -21,7 +17,7 @@ const Modal = ({ width, height }: Props) => {
   return (
     <>
       {modal.visible && (
-        <CreateModal onClick={closeModal} width={width} height={height}>
+        <CreateModal onClick={closeModal} width={modal.size.width} height={modal.size.height}>
           <div onClick={stopPropagation}>
             {modal.id === 'login' && modal.visible && <LoginModal onClose={closeModal} />}
             {modal.id === 'enroll' && modal.visible && <EnrollModal onClose={closeModal} />}

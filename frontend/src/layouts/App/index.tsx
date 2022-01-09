@@ -11,14 +11,13 @@ import { useRecoilValue } from 'recoil';
 import { modalAtom } from '@src/recoil/atom';
 
 const App = () => {
-  const modal = useRecoilValue(modalAtom);
   const { loading } = useAuthentication();
   if (loading) return <div>Loading...</div>;
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Container>
-        <Modal width={modal.size.width} height={modal.size.height} />
+        <Modal />
         <Header />
         <Switch>
           <Route exact path="/">
