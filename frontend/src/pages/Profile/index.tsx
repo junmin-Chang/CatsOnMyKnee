@@ -8,13 +8,14 @@ import { useRecoilValue } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
+
   return (
     <Container>
       <COText fontColor="#18171c" fontSize={25} fontWeight={600}>
         {user?.name}님의 아이들
       </COText>
       <CardContainer>
-        {user && user.cat?.map((c, i) => <Card key={i} />)}
+        {user && user.cat?.map((c, i) => <Card key={i} cat={c} />)}
         <AddCard />
       </CardContainer>
     </Container>

@@ -7,15 +7,18 @@ import Header from '@src/components/Organisms/Header';
 import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
 import useAuthentication from '@src/hooks/useAuthentication';
+import { useRecoilValue } from 'recoil';
+import { modalAtom } from '@src/recoil/atom';
 
 const App = () => {
+  const modal = useRecoilValue(modalAtom);
   const { loading } = useAuthentication();
   if (loading) return <div>Loading...</div>;
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Container>
-        <Modal />
+        <Modal width={modal.size.width} height={modal.size.height} />
         <Header />
         <Switch>
           <Route exact path="/">

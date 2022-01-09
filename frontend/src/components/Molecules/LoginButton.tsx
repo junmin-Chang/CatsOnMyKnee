@@ -7,7 +7,7 @@ import COText from '../Atoms/COText';
 const LoginButton = () => {
   const setModal = useSetRecoilState(modalAtom);
   return (
-    <Container onClick={() => setModal({ id: 'login', visible: true })}>
+    <Container onClick={() => setModal({ id: 'login', visible: true, size: { width: 600, height: 440 } })}>
       <COText fontColor="#18171c" fontSize={20}>
         로그인
       </COText>

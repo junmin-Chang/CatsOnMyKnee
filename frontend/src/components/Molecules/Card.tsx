@@ -1,12 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BiPlus, BiPlusMedical } from 'react-icons/bi';
-export const Card = () => {
-  return <CardContent />;
+import { BiPlus } from 'react-icons/bi';
+import { useSetRecoilState } from 'recoil';
+import { modalAtom } from '@src/recoil/atom';
+import COText from '../Atoms/COText';
+import { Cat } from '@src/typings/Cat';
+
+interface Props {
+  cat: Cat;
+}
+export const Card = ({ cat }: Props) => {
+  return (
+    <CardContent>
+      <COText fontSize={25} fontColor="#000000" fontWeight={700}>
+        {cat.name}
+      </COText>
+      🐱
+    </CardContent>
+  );
 };
 export const AddCard = () => {
+  const setModal = useSetRecoilState(modalAtom);
   return (
-    <CardButton>
+    <CardButton onClick={() => setModal({ id: 'enroll', visible: true, size: { width: 500, height: 650 } })}>
       <AddIcon />
     </CardButton>
   );
