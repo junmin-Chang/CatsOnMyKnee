@@ -10,7 +10,7 @@ const useAuthentication = () => {
   const reset = useResetRecoilState(userAtom);
   useEffect(() => {
     const unsubscribe = async () => {
-      const user = await getUserInfo().catch(() => {
+      const { user } = await getUserInfo().catch(() => {
         setLoading(false);
       });
       if (user) {

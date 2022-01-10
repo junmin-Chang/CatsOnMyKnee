@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as config from 'config';
 import { User } from 'src/users/user.entity';
-
 const jwtConfig = config.get('jwt');
 const refreshConfig = config.get('refresh');
 

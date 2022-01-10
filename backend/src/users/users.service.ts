@@ -32,9 +32,11 @@ export class UsersService {
     const { username, name, cat } = userInfo;
 
     return {
-      username,
-      name,
-      cat,
+      user: {
+        username,
+        name,
+        cat,
+      },
     };
   }
   async setCurrentRefreshToken(refreshToken: string, id: string) {
