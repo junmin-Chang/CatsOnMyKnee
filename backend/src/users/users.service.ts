@@ -17,7 +17,7 @@ export class UsersService {
   create(user: CreateUserDto) {
     return this.userRepository.save(user);
   }
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne(id);
   }
   findOneByProvider(provider: Provider, providerId: string) {
@@ -37,11 +37,11 @@ export class UsersService {
       cat,
     };
   }
-  async setCurrentRefreshToken(refreshToken: string, id: number) {
+  async setCurrentRefreshToken(refreshToken: string, id: string) {
     const currentHashedRefreshToken = await hash(refreshToken, 10);
     await this.userRepository.update(id, { currentHashedRefreshToken });
   }
-  async getUserIfRefreshTokenMatches(refreshToken: string, id: number) {
+  async getUserIfRefreshTokenMatches(refreshToken: string, id: string) {
     const user = await this.findOne(id);
     console.log(user);
 
@@ -52,7 +52,7 @@ export class UsersService {
     }
   }
 
-  async removeRefreshToken(id: number) {
+  async removeRefreshToken(id: string) {
     return await this.userRepository.update(id, {
       currentHashedRefreshToken: null,
     });

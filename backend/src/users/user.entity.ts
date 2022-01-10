@@ -14,8 +14,8 @@ import {
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   provider: Provider;
