@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CatGender } from './cat-gender.enum';
 
 @Entity()
 export class Cat extends BaseEntity {
@@ -24,6 +25,15 @@ export class Cat extends BaseEntity {
 
   @Column()
   age: string;
+
+  @Column({ nullable: false })
+  gender: CatGender;
+
+  @Column({ nullable: true })
+  favorite: string;
+
+  @Column({ nullable: true })
+  hate: string;
 
   @ManyToOne((type) => User, (user) => user.cat, { eager: false })
   user: User;

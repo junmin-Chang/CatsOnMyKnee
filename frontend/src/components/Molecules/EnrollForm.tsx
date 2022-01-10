@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  onChange: () => void;
+  onChange: any;
 }
 
 const EnrollForm = ({ onChange }: Props) => {
@@ -20,6 +20,14 @@ const EnrollForm = ({ onChange }: Props) => {
         <Label>종</Label>
         <Input placeholder="종" name="breed" onChange={onChange} />
       </Content>
+      <Content2>
+        <Label>좋아하는 것</Label>
+        <Input placeholder="생략 가능" name="favorite" onChange={onChange} />
+      </Content2>
+      <Content2>
+        <Label>싫어하는 것</Label>
+        <Input placeholder="생략 가능" name="hate" onChange={onChange} />
+      </Content2>
     </Container>
   );
 };
@@ -33,6 +41,7 @@ const Container = styled.div`
   height: 100%;
   align-items: center;
   padding: 15px;
+  justify-content: center;
 `;
 
 const Content = styled.div`
@@ -42,6 +51,15 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+`;
+
+const Content2 = styled.div`
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Input = styled.input`
@@ -59,4 +77,5 @@ const Label = styled.label`
   font-size: 16px;
   font-weight: 600;
   color: #18171c;
+  white-space: nowrap;
 `;
