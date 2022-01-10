@@ -6,14 +6,15 @@ import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs'
 import COText from '@src/components/Atoms/COText';
 
 import { enrollCat } from '@src/api/api';
+import { Cat } from '@src/typings/Cat';
 
 interface Props {
   onClose: () => void;
 }
 const EnrollModal = ({ onClose }: Props) => {
-  const [info, setInfo] = useState({
+  const [cat, setCat] = useState<Cat>({
     name: '',
-    gender: '',
+    gender: 'NO',
     breed: '',
     age: '',
     favorite: '',
@@ -22,17 +23,16 @@ const EnrollModal = ({ onClose }: Props) => {
   const onChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      setInfo({
-        ...info,
+      setCat({
+        ...cat,
         [name]: value,
       });
-      console.log(info);
     },
-    [info],
+    [cat],
   );
   const onSubmit = useCallback(() => {
-    enrollCat(info);
-  }, [info]);
+    enrollCat(cat);
+  }, [cat]);
   return (
     <Container>
       <Header>
@@ -50,14 +50,14 @@ const EnrollModal = ({ onClose }: Props) => {
           <COText fontColor="18171c" fontSize={20} fontWeight={400}>
             성별
           </COText>
-          <IconWrapper onClick={() => setInfo({ ...info, gender: 'FEMALE' })}>
-            <BsGenderFemale />
+          <IconWrapper onClick={() => setCat({ ...cat, gender: 'FEMALE' })} selected={cat.gender === 'FEMALE'}>
+            <BsGenderFemale size={40} />
           </IconWrapper>
-          <IconWrapper onClick={() => setInfo({ ...info, gender: 'MALE' })}>
-            <BsGenderMale />
+          <IconWrapper onClick={() => setCat({ ...cat, gender: 'MALE' })} selected={cat.gender === 'MALE'}>
+            <BsGenderMale size={40} />
           </IconWrapper>
-          <IconWrapper onClick={() => setInfo({ ...info, gender: 'NO' })}>
-            <BsGenderAmbiguous />
+          <IconWrapper onClick={() => setCat({ ...cat, gender: 'NO' })} selected={cat.gender === 'NO'}>
+            <BsGenderAmbiguous size={40} />
           </IconWrapper>
         </RightContent>
       </Content>
@@ -124,8 +124,9 @@ const RightContent = styled.div`
   justify-content: space-evenly;
 `;
 
-const IconWrapper = styled.div`
-  background-color: #ffffff;
+const IconWrapper = styled.div<{ selected: boolean }>`
+  background-color: ${({ selected }) => (selected ? '#f28500' : '#ffffff')};
+  color: ${({ selected }) => (selected ? '#ffffff' : '#18171c')};
   border-radius: 15px;
   border: none;
   display: flex;
@@ -136,6 +137,7 @@ const IconWrapper = styled.div`
   cursor: pointer;
   &:hover {
     background-color: #f28500;
+    color: #ffffff;
   }
 `;
 

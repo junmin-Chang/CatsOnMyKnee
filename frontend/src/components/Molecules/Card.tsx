@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { BiPlus } from 'react-icons/bi';
 import { useSetRecoilState } from 'recoil';
@@ -9,13 +9,18 @@ import { Cat } from '@src/typings/Cat';
 interface Props {
   cat: Cat;
 }
+
 export const Card = ({ cat }: Props) => {
+  const setModal = useSetRecoilState(modalAtom);
+  const onClickCard = useCallback(() => {
+    setModal({ id: 'cat', visible: true, size: { width: 600, height: 400 } });
+  }, [setModal]);
   return (
-    <CardContent>
+    <CardContent onClick={onClickCard}>
       <COText fontSize={25} fontColor="#000000" fontWeight={700}>
         {cat.name}
       </COText>
-      🐱
+      {cat.age}살 🐱
     </CardContent>
   );
 };

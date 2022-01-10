@@ -2,6 +2,7 @@ import { modalAtom } from '@src/recoil/atom';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import CatModal from './CatModal';
 import EnrollModal from './EnrollModal';
 import LoginModal from './LoginModal';
 
@@ -21,6 +22,7 @@ const Modal = () => {
           <div onClick={stopPropagation}>
             {modal.id === 'login' && modal.visible && <LoginModal onClose={closeModal} />}
             {modal.id === 'enroll' && modal.visible && <EnrollModal onClose={closeModal} />}
+            {modal.id === 'cat' && modal.visible && <CatModal />}
           </div>
         </CreateModal>
       )}
