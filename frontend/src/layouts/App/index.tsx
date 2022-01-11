@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import Header from '@src/components/Organisms/Header';
 import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
 import useAuthentication from '@src/hooks/useAuthentication';
+import CatInfo from '@src/components/Organisms/CatInfo';
 
 const App = () => {
   const { loading } = useAuthentication();
@@ -17,14 +18,12 @@ const App = () => {
       <Container>
         <Modal />
         <Header />
-        <Switch>
-          <Route exact path="/">
-            <Home />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cat" element={<Profile />}>
+            <Route path=":name" element={<CatInfo />} />
           </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-        </Switch>
+        </Routes>
       </Container>
     </BrowserRouter>
   );

@@ -5,7 +5,8 @@ import LoginButton from '../Molecules/LoginButton';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
 import { logout } from '@src/api/api';
-
+import COLink from '../Atoms/COLink';
+import { Link } from 'react-router-dom';
 const Header = () => {
   const user = useRecoilValue(userAtom);
 
@@ -13,7 +14,12 @@ const Header = () => {
     <Container>
       <Logo />
       {!user && <LoginButton />}
-      {user && <Button onClick={logout}>로그아웃</Button>}
+      {user && (
+        <ButtonWrapper>
+          <ProfileLink to="/cat">프로필</ProfileLink>
+          <Button onClick={logout}>로그아웃</Button>
+        </ButtonWrapper>
+      )}
     </Container>
   );
 };
@@ -36,4 +42,28 @@ const Button = styled.button`
   cursor: pointer;
   margin-left: auto;
   margin-right: 20px;
+  font-size: 16px;
+`;
+
+const ProfileLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 10px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 20px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #18171c;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: 20px;
+  align-items: center;
 `;

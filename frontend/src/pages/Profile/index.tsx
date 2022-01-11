@@ -4,6 +4,8 @@ import { Card, AddCard } from '@src/components/Molecules/Card';
 import COText from '@src/components/Atoms/COText';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
+import { Outlet } from 'react-router-dom';
+import CatInfo from '@src/components/Organisms/CatInfo';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
 
@@ -16,6 +18,7 @@ const Profile = () => {
         {user && user.cat?.map((c, i) => <Card key={i} cat={c} />)}
         <AddCard />
       </CardContainer>
+      <Outlet />
     </Container>
   );
 };

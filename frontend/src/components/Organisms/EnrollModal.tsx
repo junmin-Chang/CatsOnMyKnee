@@ -2,11 +2,13 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { EnrollForm } from '@src/components/Molecules/EnrollForm';
-import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
 import COText from '@src/components/Atoms/COText';
 
 import { enrollCat } from '@src/api/api';
 import { Cat } from '@src/typings/Cat';
+import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { modalAtom, userAtom } from '@src/recoil/atom';
 
 interface Props {
   onClose: () => void;
@@ -20,6 +22,8 @@ const EnrollModal = ({ onClose }: Props) => {
     favorite: '',
     hate: '',
   });
+  const [user, setUser] = useRecoilState(userAtom);
+  const [modal, setModal] = useRecoilState(modalAtom);
   const onChange = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -31,8 +35,14 @@ const EnrollModal = ({ onClose }: Props) => {
     [cat],
   );
   const onSubmit = useCallback(() => {
-    enrollCat(cat);
-  }, [cat]);
+    setUser({
+      ...user!,
+      cat: [...user?.cat!, cat],
+    });
+    enrollCat(cat).then(() => {
+      setModal({ ...modal, visible: false });
+    });
+  }, [cat, setUser, user, setModal, modal]);
   return (
     <Container>
       <Header>
@@ -124,6 +134,15 @@ const RightContent = styled.div`
   justify-content: space-evenly;
 `;
 
+const Button = styled.button`
+  background-color: #f28500;
+  width: 150px;
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #ffffff;
+`;
 const IconWrapper = styled.div<{ selected: boolean }>`
   background-color: ${({ selected }) => (selected ? '#f28500' : '#ffffff')};
   color: ${({ selected }) => (selected ? '#ffffff' : '#18171c')};
@@ -139,14 +158,4 @@ const IconWrapper = styled.div<{ selected: boolean }>`
     background-color: #f28500;
     color: #ffffff;
   }
-`;
-
-const Button = styled.button`
-  background-color: #f28500;
-  width: 150px;
-  height: 60px;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  color: #ffffff;
 `;

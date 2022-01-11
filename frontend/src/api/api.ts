@@ -44,6 +44,6 @@ export const logout = async () => {
 
 export const enrollCat = async (data: any) => {
   await instance.post('/cat/enroll', data).then(() => {
-    window.location.reload();
+    alert('등록 완료!');
   });
 };

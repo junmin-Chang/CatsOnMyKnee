@@ -5,18 +5,15 @@ import { useSetRecoilState } from 'recoil';
 import { modalAtom } from '@src/recoil/atom';
 import COText from '../Atoms/COText';
 import { Cat } from '@src/typings/Cat';
+import { Link } from 'react-router-dom';
 
 interface Props {
   cat: Cat;
 }
 
 export const Card = ({ cat }: Props) => {
-  const setModal = useSetRecoilState(modalAtom);
-  const onClickCard = useCallback(() => {
-    setModal({ id: 'cat', visible: true, size: { width: 600, height: 400 } });
-  }, [setModal]);
   return (
-    <CardContent onClick={onClickCard}>
+    <CardContent to={`/cat/${cat.name}`}>
       <COText fontSize={25} fontColor="#000000" fontWeight={700}>
         {cat.name}
       </COText>
@@ -32,7 +29,7 @@ export const AddCard = () => {
     </CardButton>
   );
 };
-const CardContent = styled.div`
+const CardContent = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +39,8 @@ const CardContent = styled.div`
   width: 130px;
   height: 130px;
   margin-right: 10px;
-  cursor: pointer;
+  text-decoration: none;
+  color: #18171c;
 `;
 
 const CardButton = styled.div`
