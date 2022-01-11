@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, AddCard } from '@src/components/Molecules/Card';
 import COText from '@src/components/Atoms/COText';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
 import { Outlet } from 'react-router-dom';
-import CatInfo from '@src/components/Organisms/CatInfo';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
 
@@ -42,6 +41,7 @@ const CardContainer = styled.div`
   border: none;
   align-items: center;
   padding: 0 10px;
+  margin: 20px 0;
   overflow-x: scroll;
   &::-webkit-scrollbar {
     display: none;

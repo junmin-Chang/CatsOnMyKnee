@@ -32,6 +32,11 @@ export const getUserInfo = async () => {
   return res.data;
 };
 
+export const getCatInfo = async (name: string) => {
+  const res = await instance.get(`/cat/${name}`);
+  return res.data;
+};
+
 export const logout = async () => {
   return await instance.get('/auth/logout').then((res) => {
     if (res.data.success) {
