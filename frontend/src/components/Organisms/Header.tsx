@@ -2,14 +2,20 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Logo from '../Molecules/Logo';
 import LoginButton from '../Molecules/LoginButton';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
 import { logout } from '@src/api/api';
-import COLink from '../Atoms/COLink';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
   const user = useRecoilValue(userAtom);
-
+  const navigate = useNavigate();
+  const resetUser = useResetRecoilState(userAtom);
+  const onLogout = useCallback(() => {
+    logout().then(() => {
+      resetUser();
+      navigate('/');
+    });
+  }, [resetUser, navigate]);
   return (
     <Container>
       <Logo />
@@ -17,7 +23,7 @@ const Header = () => {
       {user && (
         <ButtonWrapper>
           <ProfileLink to="/cat">프로필</ProfileLink>
-          <Button onClick={logout}>로그아웃</Button>
+          <Button onClick={onLogout}>로그아웃</Button>
         </ButtonWrapper>
       )}
     </Container>

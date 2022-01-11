@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
@@ -12,8 +12,14 @@ export class CatController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':name')
-  async getCatInfo(@Param('name') name: string) {
-    return await this.catService.getCatInfo(decodeURIComponent(name));
+  async getCatInfo(@GetUser() user: User, @Param('name') name: string) {
+    return await this.catService.getCatInfo(decodeURIComponent(name), user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':name')
+  async deleteCat(@GetUser() user: User, @Param('name') name: string) {
+    return await this.catService.deleteCat(decodeURIComponent(name), user);
   }
 
   @UseGuards(JwtAuthGuard)
