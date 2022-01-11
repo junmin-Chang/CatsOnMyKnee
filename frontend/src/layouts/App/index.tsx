@@ -1,42 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
 import styled from 'styled-components';
 import Header from '@src/components/Organisms/Header';
-import axios from 'axios';
 import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
+import useAuthentication from '@src/hooks/useAuthentication';
+import CatInfo from '@src/components/Organisms/CatInfo';
+
 const App = () => {
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-    axios
-      .get('http://localhost:8000/users', {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setUsername(res.data.name);
-      })
-      .catch((err) => {
-        if (err) {
-          axios.get('http://localhost:8000/users/refresh', { withCredentials: true });
-        }
-      });
-  }, []);
+  const { loading } = useAuthentication();
+  if (loading) return <div>Loading...</div>;
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Container>
         <Modal />
         <Header />
-        <Switch>
-          <Route exact path="/">
-            <Home username={username} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cat" element={<Profile />}>
+            <Route path=":name" element={<CatInfo />} />
           </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-        </Switch>
+        </Routes>
       </Container>
     </BrowserRouter>
   );

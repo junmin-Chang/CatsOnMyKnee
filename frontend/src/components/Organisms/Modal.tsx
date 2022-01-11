@@ -2,7 +2,9 @@ import { modalAtom } from '@src/recoil/atom';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import EnrollModal from './EnrollModal';
 import LoginModal from './LoginModal';
+
 const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
   const closeModal = useCallback(() => {
@@ -15,9 +17,10 @@ const Modal = () => {
   return (
     <>
       {modal.visible && (
-        <CreateModal onClick={closeModal}>
+        <CreateModal onClick={closeModal} width={modal.size.width} height={modal.size.height}>
           <div onClick={stopPropagation}>
             {modal.id === 'login' && modal.visible && <LoginModal onClose={closeModal} />}
+            {modal.id === 'enroll' && modal.visible && <EnrollModal onClose={closeModal} />}
           </div>
         </CreateModal>
       )}
@@ -27,7 +30,7 @@ const Modal = () => {
 
 export default Modal;
 
-const CreateModal = styled.div`
+const CreateModal = styled.div<{ width: number; height: number }>`
   display: flex;
   align-items: center;
   position: fixed;
@@ -44,8 +47,8 @@ const CreateModal = styled.div`
     flex-direction: column;
     opacity: 1 !important;
     margin: 0 auto;
-    width: 600px;
-    height: 440px;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
     background: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;

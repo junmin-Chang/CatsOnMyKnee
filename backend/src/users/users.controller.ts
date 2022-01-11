@@ -1,10 +1,9 @@
 import { Controller, Get, Logger, Req, Res, UseGuards, Inject, forwardRef } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { JwtRefreshGuard } from 'src/auth/guards/jwt-refresh.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { ResponseUserDto } from './dto/response-user.dto';
-import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -16,6 +15,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   async getUserInfo(@Req() req): Promise<ResponseUserDto> {
     const user = req.user;
+    console.log(user);
     return await this.userService.getUserInfo(user);
   }
 

@@ -4,6 +4,7 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { KakaoOauthGuard } from './guards/kakao-oauth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private userService: UsersService) {}
@@ -17,6 +18,7 @@ export class AuthController {
   @UseGuards(GoogleOauthGuard)
   async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
+    this.logger.verbose(`google req.user ${JSON.stringify(user)}`);
     const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
@@ -34,7 +36,7 @@ export class AuthController {
   @UseGuards(KakaoOauthGuard)
   async kakaoAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
     const user = req.user;
-    this.logger.verbose(`kakao req.user ${JSON.stringify(req.user)}`);
+    this.logger.verbose(`kakao req.user ${JSON.stringify(user)}`);
 
     const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
     const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
@@ -43,5 +45,16 @@ export class AuthController {
     res.cookie('jwt', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
     return res.redirect('http://localhost:3000/');
+  }
+  @Get('/logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() req, @Res() res: Response): Promise<any> {
+    const user = req.user;
+    this.logger.verbose(`users id : ${JSON.stringify(user.id)}`);
+
+    res.status(200).clearCookie('jwt').clearCookie('Refresh').json({
+      success: true,
+    });
+    return await this.userService.removeRefreshToken(user.id);
   }
 }
