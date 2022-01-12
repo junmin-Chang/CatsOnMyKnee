@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Outlet } from 'react-router';
 import { Suspense } from 'react';
 import styled from 'styled-components';
 import { getCatInfo } from '@src/api/api';
-
+import COText from '../Atoms/COText';
+import { Link } from 'react-router-dom';
 const CatInfo = () => {
   const { name } = useParams();
   const [cat, setCat] = useState({
@@ -29,12 +30,24 @@ const CatInfo = () => {
           <p>
             <Name>{cat.name}</Name>
           </p>
-          <p>{cat.age}살</p>
-          <p>{cat.breed}</p>
+          <COText fontSize={20} fontColor="#18171c">
+            {cat.age}살
+          </COText>
+          <COText fontSize={20} fontColor="#18171c">
+            {cat.breed}
+          </COText>
         </InfoContainer>
 
-        <DiaryContainer></DiaryContainer>
+        <DiaryContainer>
+          <Header>
+            <p>
+              <Name>{cat.name}의 다이어리</Name>
+            </p>
+            <Button to={`/cat/${cat.name}/diary`}>글 작성</Button>
+          </Header>
+        </DiaryContainer>
       </Container>
+      <Outlet />
     </Suspense>
   );
 };
@@ -53,59 +66,54 @@ const Container = styled.h1`
 const InfoContainer = styled.span`
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #ffedad;
   border-radius: 15px;
   width: 30%;
   margin-right: 15px;
   height: 100%;
-  padding: 10px;
+  padding: 20px;
 `;
 
 const DiaryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #ffedad;
   border-radius: 15px;
   width: 70%;
   height: 100%;
+  padding: 20px;
 `;
 
 const Name = styled.span`
-  z-index: 1001;
-  position: relative;
-  &::before {
-    content: '';
-    z-index: -1;
-    left: -0.5em;
-    top: -0.1em;
-    border-width: 2px;
-    border-style: solid;
-    border-color: red;
-    position: absolute;
-    border-right-color: transparent;
-    width: 100%;
-    height: 1em;
-    transform: rotate(2deg);
-    opacity: 0.7;
-    border-radius: 50%;
-    padding: 0.1em 0.25em;
-  }
+  display: inline;
+  box-shadow: inset 0 -30px 0 #eee71b;
+  /*-10px은 highlight의 두께*/
+
   &::after {
-    content: '';
-    z-index: -1;
-    left: -0.5em;
-    top: 0.1em;
-    padding: 0.1em 0.25em;
-    border-width: 2px;
-    border-style: solid;
-    border-color: red;
-    border-left-color: transparent;
-    border-top-color: transparent;
-    position: absolute;
-    width: 100%;
-    height: 1em;
-    transform: rotate(-1deg);
-    opacity: 0.7;
-    border-radius: 50%;
+    display: inline;
+    box-shadow: inset 0 -30px 0 #eee71b;
+    /*-10px은 highlight의 두께*/
   }
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+const Button = styled(Link)`
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #a8a545;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000000;
+  font-size: 15px;
 `;

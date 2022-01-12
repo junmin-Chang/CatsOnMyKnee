@@ -2,8 +2,9 @@ import { modalAtom } from '@src/recoil/atom';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import EnrollModal from './EnrollModal';
-import LoginModal from './LoginModal';
+import DiaryModal from '../Molecules/DiaryModal';
+import LoginModal from '../Molecules/LoginModal';
+import EnrollModal from '../Molecules/EnrollModal';
 
 const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
@@ -21,6 +22,7 @@ const Modal = () => {
           <div onClick={stopPropagation}>
             {modal.id === 'login' && modal.visible && <LoginModal onClose={closeModal} />}
             {modal.id === 'enroll' && modal.visible && <EnrollModal onClose={closeModal} />}
+            {modal.id === 'diary' && modal.visible && <DiaryModal />}
           </div>
         </CreateModal>
       )}

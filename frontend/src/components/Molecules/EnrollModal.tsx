@@ -7,7 +7,7 @@ import COText from '@src/components/Atoms/COText';
 import { enrollCat } from '@src/api/api';
 import { Cat } from '@src/typings/Cat';
 import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { modalAtom, userAtom } from '@src/recoil/atom';
 
 interface Props {

@@ -32,7 +32,7 @@ const Button = styled.button`
   margin-top: 44px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #191919;
+  border: none;
 
   &:hover {
     cursor: pointer;

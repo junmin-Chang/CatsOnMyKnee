@@ -1,4 +1,4 @@
-type CatGender = 'MALE' | 'FEMALE' | 'NO';
+export type CatGender = 'MALE' | 'FEMALE' | 'NO';
 export interface Cat {
   name: string;
   breed: string;

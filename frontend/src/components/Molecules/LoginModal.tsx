@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
-import GoogleButton from '../Molecules/GoogleButton';
-import KakaoButton from '../Molecules/KakaoButton';
+import GoogleButton from './GoogleButton';
+import KakaoButton from './KakaoButton';
 interface Props {
   onClose: () => void;
 }
