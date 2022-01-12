@@ -18,6 +18,7 @@ export class AuthService {
       httpOnly: true,
       maxAge: Number(jwtConfig.expiresIn) * 1000,
       signed: true,
+      secure: true,
     };
   }
 
@@ -34,6 +35,7 @@ export class AuthService {
       httpOnly: true,
       maxAge: Number(refreshConfig.expiresIn) * 1000,
       signed: true,
+      secure: true,
     };
   }
 }
