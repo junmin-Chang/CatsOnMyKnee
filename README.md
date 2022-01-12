@@ -1,3 +1,5 @@
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fjunmin-Chang%2FCatsOnMyKnee&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
 # CatsOnMyKnee
 
 > 한글로 번역하면 내 무릎 위에 고양이 가 되겠습니다.
@@ -14,7 +16,7 @@
 
 ### 고양이 등록
 
-> (지금은 쌩 text input 으로 되어있지만 곧 바꿀 예정)
+> (지금은 모든 인풋들이 쌩 text input 으로 되어있지만 곧 바꿀 예정)
 
 ![스크린샷 2022-01-13 오전 1 00 05](https://user-images.githubusercontent.com/65433256/149178854-11ef7b13-b6d6-4a8f-b46f-e008472e2fa7.png)
 
