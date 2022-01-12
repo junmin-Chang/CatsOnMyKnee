@@ -9,7 +9,7 @@ export class CreateDiaryDto {
   description: string;
 
   @IsNotEmpty()
-  date?: Date;
+  date: string;
 
   @IsNotEmpty()
   feeling: DiaryFeeling;

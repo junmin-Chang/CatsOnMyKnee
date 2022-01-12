@@ -17,8 +17,8 @@ export class Diary extends BaseEntity {
   @Column({ nullable: false })
   feeling: DiaryFeeling;
 
-  @Column({ nullable: true })
-  date: Date;
+  @Column({ nullable: false })
+  date: string;
 
   @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false })
   cat: Cat;

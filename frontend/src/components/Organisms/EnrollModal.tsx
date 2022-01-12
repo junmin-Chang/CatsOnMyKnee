@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { EnrollForm } from '@src/components/Molecules/EnrollForm';
 import COText from '@src/components/Atoms/COText';
-
+import COButton from '../Atoms/COButton';
 import { enrollCat } from '@src/api/api';
 import { Cat } from '@src/typings/Cat';
 import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
@@ -54,7 +54,7 @@ const EnrollModal = ({ onClose }: Props) => {
             정보 입력
           </COText>
           <EnrollForm onChange={onChange} />
-          <Button onClick={onSubmit}>등록하기!</Button>
+          <COButton onClick={onSubmit}>등록하기!</COButton>
         </LeftContent>
         <RightContent>
           <COText fontColor="18171c" fontSize={20} fontWeight={400}>
@@ -134,15 +134,6 @@ const RightContent = styled.div`
   justify-content: space-evenly;
 `;
 
-const Button = styled.button`
-  background-color: #f28500;
-  width: 150px;
-  height: 60px;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  color: #ffffff;
-`;
 const IconWrapper = styled.div<{ selected: boolean }>`
   background-color: ${({ selected }) => (selected ? '#f28500' : '#ffffff')};
   color: ${({ selected }) => (selected ? '#ffffff' : '#18171c')};

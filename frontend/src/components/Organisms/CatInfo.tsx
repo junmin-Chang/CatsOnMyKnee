@@ -6,6 +6,7 @@ import { getCatInfo } from '@src/api/api';
 import COText from '../Atoms/COText';
 import { Link } from 'react-router-dom';
 import { Cat } from '@src/typings/Cat';
+import Notebook from '@src/assets/notebook.svg';
 const CatInfo = () => {
   const { name } = useParams();
   const [cat, setCat] = useState<Cat>({
@@ -47,7 +48,21 @@ const CatInfo = () => {
             </p>
             <Button to={`/cat/${cat.name}/diary`}>글 작성</Button>
           </Header>
-          <span>총 {cat.diary?.length}개 있네요!</span>
+          <COText fontColor="#18171c" fontSize={20}>
+            총 {cat.diary?.length}개 있네요!
+          </COText>
+          <Content>
+            {cat.diary?.map((d, i) => (
+              <Link to={`/cat/${cat.name}/diary/${d.id}`} style={{ marginRight: '15px', textDecoration: 'none' }}>
+                <NoteBookIcon />
+                <div>
+                  <COText fontColor="#18171c" fontSize={15}>
+                    {d.date}
+                  </COText>
+                </div>
+              </Link>
+            ))}
+          </Content>
         </DiaryContainer>
       </Container>
       <Outlet />
@@ -119,4 +134,20 @@ const Button = styled(Link)`
   text-decoration: none;
   color: #000000;
   font-size: 15px;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+`;
+const NoteBookIcon = styled(Notebook)`
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  &:hover {
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+  }
 `;

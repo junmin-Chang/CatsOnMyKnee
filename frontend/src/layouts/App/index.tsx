@@ -8,8 +8,8 @@ import Modal from '@src/components/Organisms/Modal';
 import Profile from '@src/pages/Profile';
 import useAuthentication from '@src/hooks/useAuthentication';
 import CatInfo from '@src/components/Organisms/CatInfo';
-import DiaryModal from '@src/components/Molecules/DiaryModal';
-
+import DiaryWriteModal from '@src/components/Organisms/DiaryWriteModal';
+import DiaryReadModal from '@src/components/Organisms/DiaryReadModal';
 const App = () => {
   const { loading } = useAuthentication();
 
@@ -24,7 +24,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cat" element={<Profile />}>
             <Route path=":name" element={<CatInfo />}>
-              <Route path="diary" element={<DiaryModal />} />
+              <Route path="diary" element={<DiaryWriteModal />} />
+              <Route path="diary/:id" element={<DiaryReadModal />} />
             </Route>
           </Route>
         </Routes>

@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { AiOutlineClose } from 'react-icons/ai';
-import DiaryForm from './DiaryForm';
-import { useNavigate, useParams } from 'react-router';
-
-const DiaryModal = () => {
-  const { name } = useParams();
+const DiaryReadModal = () => {
+  const { name, id } = useParams();
   const navigate = useNavigate();
   const goBack = useCallback(() => {
     navigate(-1);
@@ -14,20 +13,18 @@ const DiaryModal = () => {
     e.stopPropagation();
   }, []);
   return (
-    <CreateModal width={600} height={600} onClick={goBack}>
+    <CreateModal width={700} height={1000} onClick={goBack}>
       <div onClick={stopPropagation}>
         <Header>
           <CloseIcon onClick={goBack} />
         </Header>
-        <Content>
-          <DiaryForm name={name!} />
-        </Content>
+        <Content></Content>
       </div>
     </CreateModal>
   );
 };
 
-export default DiaryModal;
+export default DiaryReadModal;
 
 const CreateModal = styled.div<{ width: number; height: number }>`
   display: flex;
@@ -55,14 +52,6 @@ const CreateModal = styled.div<{ width: number; height: number }>`
     user-select: none;
     z-index: 1012;
   }
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
 `;
 
 const Header = styled.div`

@@ -3,7 +3,7 @@ import useInput from '@src/hooks/useInput';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-
+import COButton from '@src/components/Atoms/COButton';
 interface Props {
   name: string;
 }
@@ -22,7 +22,6 @@ const DiaryForm = ({ name }: Props) => {
       feeling,
     }).then((res: any) => {
       if (res) {
-        console.log(res);
         alert('등록 완료!');
         navigate(`/cat/${name}`);
       }
@@ -49,7 +48,7 @@ const DiaryForm = ({ name }: Props) => {
           <Input type="text" name="description" value={description} onChange={onChangeDescription} />
         </Label>
       </Form>
-      <Button onClick={onSubmit}>등록!</Button>
+      <COButton onClick={onSubmit}>등록!</COButton>
     </Container>
   );
 };
@@ -105,32 +104,4 @@ const Input = styled.input`
   }
 `;
 
-export const Button = styled.button`
-  margin-bottom: 12px;
-  width: 100%;
-  max-width: 100%;
-  color: #fff;
-  background-color: #ffb120;
-  border: none;
-  font-size: 18px;
-  font-weight: 900;
-  height: 44px;
-  min-width: 96px;
-  padding: 0 16px 3px;
-  transition: all 80ms linear;
-  user-select: none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-
-  &:hover {
-    background-color: #7a5c25;
-    border: none;
-  }
-  &:focus {
-    --saf-0: rgba(var(--sk_highlight, 18, 100, 163), 1);
-    box-shadow: 0 0 0 1px var(--saf-0), 0 0 0 5px rgba(29, 155, 209, 0.3);
-  }
-`;
 export default DiaryForm;
