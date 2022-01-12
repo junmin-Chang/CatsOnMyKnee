@@ -29,9 +29,6 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   name: string;
 
-  @OneToMany((type) => Diary, (diary) => diary.user, { eager: true })
-  diary: Diary[];
-
   @OneToMany((type) => Cat, (cat) => cat.user, { eager: true })
   cat: Cat[];
 

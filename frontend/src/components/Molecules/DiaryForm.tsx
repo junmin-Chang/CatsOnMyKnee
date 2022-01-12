@@ -1,30 +1,55 @@
-import React from 'react';
+import { createDiary } from '@src/api/api';
+import useInput from '@src/hooks/useInput';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+
 interface Props {
   name: string;
 }
 const DiaryForm = ({ name }: Props) => {
+  const [title, onChangeTitle] = useInput('');
+  const [description, onChangeDescription] = useInput('');
+  const [feeling, onChangeFeeling] = useInput('');
+  const [date, onChangeDate] = useInput('');
+
+  const navigate = useNavigate();
+  const onSubmit = useCallback(async () => {
+    await createDiary(encodeURIComponent(name), {
+      title,
+      description,
+      date,
+      feeling,
+    }).then((res: any) => {
+      if (res) {
+        console.log(res);
+        alert('등록 완료!');
+        navigate(`/cat/${name}`);
+      }
+    });
+  }, [name, navigate, date, title, description, feeling]);
   return (
     <Container>
       <h2>오늘 {name}의 하루는 어땠나요?</h2>
       <Form>
         <Label>
           <span>제목</span>
-          <Input />
+          <Input type="text" name="title" value={title} onChange={onChangeTitle} />
         </Label>
         <Label>
           <span>날짜</span>
-          <Input type="date" />
+          <Input type="date" name="date" value={date} onChange={onChangeDate} />
         </Label>
         <Label>
           <span>{name}의 기분은 어땠나요?</span>
-          <Input />
+          <Input type="text" name="feeling" value={feeling} onChange={onChangeFeeling} />
         </Label>
         <Label>
           <span>일기장</span>
-          <Input />
+          <Input type="text" name="description" value={description} onChange={onChangeDescription} />
         </Label>
       </Form>
+      <Button onClick={onSubmit}>등록!</Button>
     </Container>
   );
 };
@@ -85,7 +110,7 @@ export const Button = styled.button`
   width: 100%;
   max-width: 100%;
   color: #fff;
-  background-color: #4a154b;
+  background-color: #ffb120;
   border: none;
   font-size: 18px;
   font-weight: 900;
@@ -100,7 +125,7 @@ export const Button = styled.button`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background-color: rgba(74, 21, 75, 0.9);
+    background-color: #7a5c25;
     border: none;
   }
   &:focus {
@@ -108,5 +133,4 @@ export const Button = styled.button`
     box-shadow: 0 0 0 1px var(--saf-0), 0 0 0 5px rgba(29, 155, 209, 0.3);
   }
 `;
-
 export default DiaryForm;

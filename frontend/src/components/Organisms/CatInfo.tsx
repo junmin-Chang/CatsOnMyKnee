@@ -5,15 +5,17 @@ import styled from 'styled-components';
 import { getCatInfo } from '@src/api/api';
 import COText from '../Atoms/COText';
 import { Link } from 'react-router-dom';
+import { Cat } from '@src/typings/Cat';
 const CatInfo = () => {
   const { name } = useParams();
-  const [cat, setCat] = useState({
+  const [cat, setCat] = useState<Cat>({
     name: '',
     age: '',
     breed: '',
-    gender: '',
+    gender: 'NO',
     favorite: '',
     hate: '',
+    diary: null,
   });
   useEffect(() => {
     const getCat = async () => {
@@ -45,6 +47,7 @@ const CatInfo = () => {
             </p>
             <Button to={`/cat/${cat.name}/diary`}>글 작성</Button>
           </Header>
+          <span>총 {cat.diary?.length}개 있네요!</span>
         </DiaryContainer>
       </Container>
       <Outlet />
