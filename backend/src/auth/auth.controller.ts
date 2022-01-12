@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { KakaoOauthGuard } from './guards/kakao-oauth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { ResponseUserDto } from 'src/users/dto/response-user.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private userService: UsersService) {}
@@ -46,6 +48,15 @@ export class AuthController {
     res.cookie('Refresh', refreshToken, refreshOption);
     return res.redirect('http://localhost:3000/');
   }
+  @Get('/refresh')
+  @UseGuards(JwtRefreshGuard)
+  async refresh(@Req() req, @Res({ passthrough: true }) res: Response): Promise<ResponseUserDto> {
+    const user = req.user;
+    const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
+    res.cookie('jwt', accessToken, accessOption);
+    return await this.userService.getUserInfo(user);
+  }
+
   @Get('/logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req, @Res() res: Response): Promise<any> {

@@ -18,13 +18,4 @@ export class UsersController {
     console.log(user);
     return await this.userService.getUserInfo(user);
   }
-
-  @Get('refresh')
-  @UseGuards(JwtRefreshGuard)
-  async refresh(@Req() req, @Res({ passthrough: true }) res: Response): Promise<ResponseUserDto> {
-    const user = req.user;
-    const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
-    res.cookie('jwt', accessToken, accessOption);
-    return await this.userService.getUserInfo(user);
-  }
 }
