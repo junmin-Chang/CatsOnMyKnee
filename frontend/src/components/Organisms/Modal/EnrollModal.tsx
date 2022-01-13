@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { EnrollForm } from '@src/components/Molecules/EnrollForm';
 import COText from '@src/components/Atoms/COText';
-import COButton from '../Atoms/COButton';
+import COButton from '@src/components/Atoms/COButton';
 import { enrollCat } from '@src/api/api';
 import { Cat } from '@src/typings/Cat';
 import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';

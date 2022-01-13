@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 import { DiaryFeeling } from '../diary-feeling.enum';
 
 export class CreateDiaryDto {
@@ -12,5 +12,6 @@ export class CreateDiaryDto {
   date: string;
 
   @IsNotEmpty()
+  @IsEnum(DiaryFeeling)
   feeling: DiaryFeeling;
 }

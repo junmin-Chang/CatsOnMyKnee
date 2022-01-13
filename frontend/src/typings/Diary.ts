@@ -1,7 +1,7 @@
 export interface Diary {
-  id: string;
+  id?: string;
   title: string;
-  date: Date;
+  date: string;
   feeling: string;
   description: string;
 }

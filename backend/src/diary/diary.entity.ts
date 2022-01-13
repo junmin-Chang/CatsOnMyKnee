@@ -20,7 +20,7 @@ export class Diary extends BaseEntity {
   @Column({ nullable: false })
   date: string;
 
-  @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false })
+  @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false, onDelete: 'CASCADE' })
   cat: Cat;
 
   @CreateDateColumn()

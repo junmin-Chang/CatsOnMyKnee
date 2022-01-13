@@ -1,31 +1,5 @@
-import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router';
-import { useNavigate } from 'react-router';
 import { AiOutlineClose } from 'react-icons/ai';
-const DiaryReadModal = () => {
-  const { name, id } = useParams();
-  const navigate = useNavigate();
-  const goBack = useCallback(() => {
-    navigate(-1);
-  }, [navigate]);
-  const stopPropagation = useCallback((e) => {
-    e.stopPropagation();
-  }, []);
-  return (
-    <CreateModal width={700} height={1000} onClick={goBack}>
-      <div onClick={stopPropagation}>
-        <Header>
-          <CloseIcon onClick={goBack} />
-        </Header>
-        <Content></Content>
-      </div>
-    </CreateModal>
-  );
-};
-
-export default DiaryReadModal;
-
 const CreateModal = styled.div<{ width: number; height: number }>`
   display: flex;
   align-items: center;
@@ -71,11 +45,4 @@ const CloseIcon = styled(AiOutlineClose)`
   cursor: pointer;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 25px;
-`;
+export { CloseIcon, CreateModal, Header };

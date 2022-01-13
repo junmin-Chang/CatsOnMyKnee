@@ -14,8 +14,8 @@ import { CatGender } from './cat-gender.enum';
 
 @Entity()
 export class Cat extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   name: string;

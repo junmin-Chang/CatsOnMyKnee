@@ -7,6 +7,7 @@ import COText from '../Atoms/COText';
 import { Link } from 'react-router-dom';
 import { Cat } from '@src/typings/Cat';
 import Notebook from '@src/assets/notebook.svg';
+import DropdownCard from '@src/components/Molecules/DropdownCard';
 const CatInfo = () => {
   const { name } = useParams();
   const [cat, setCat] = useState<Cat>({
@@ -30,9 +31,12 @@ const CatInfo = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Container>
         <InfoContainer>
-          <p>
+          <Header>
             <Name>{cat.name}</Name>
-          </p>
+            <DropdownContainer>
+              <DropdownCard />
+            </DropdownContainer>
+          </Header>
           <COText fontSize={20} fontColor="#18171c">
             {cat.age}살
           </COText>
@@ -150,4 +154,9 @@ const NoteBookIcon = styled(Notebook)`
   &:hover {
     filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
   }
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  margin-left: auto;
 `;

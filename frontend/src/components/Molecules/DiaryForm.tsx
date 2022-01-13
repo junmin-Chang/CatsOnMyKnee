@@ -1,17 +1,27 @@
 import { createDiary } from '@src/api/api';
 import useInput from '@src/hooks/useInput';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import COButton from '@src/components/Atoms/COButton';
+import COTextArea from '../Atoms/COTextArea';
+import SelectInput from '@src/components/Organisms/SelectInput';
+import feelingOptions from '@src/data/SelectData';
 interface Props {
   name: string;
 }
 const DiaryForm = ({ name }: Props) => {
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
-  const [feeling, onChangeFeeling] = useInput('');
   const [date, onChangeDate] = useInput('');
+
+  const [feeling, setFeeling] = useState<{
+    value: string;
+    label: string;
+  }>({
+    value: '기분 좋음',
+    label: '기분 좋음 🥰',
+  });
 
   const navigate = useNavigate();
   const onSubmit = useCallback(async () => {
@@ -19,7 +29,7 @@ const DiaryForm = ({ name }: Props) => {
       title,
       description,
       date,
-      feeling,
+      feeling: feeling.value,
     }).then((res: any) => {
       if (res) {
         alert('등록 완료!');
@@ -41,11 +51,23 @@ const DiaryForm = ({ name }: Props) => {
         </Label>
         <Label>
           <span>{name}의 기분은 어땠나요?</span>
-          <Input type="text" name="feeling" value={feeling} onChange={onChangeFeeling} />
+          {/* <Input type="text" name="feeling" value={feeling} onChange={onChangeFeeling} /> */}
+          <SelectInput
+            options={feelingOptions}
+            onChange={(v: any) => setFeeling(v)}
+            value={feeling}
+            placeholder={`${name}의 기분을 선택해주세요`}
+          />
         </Label>
         <Label>
           <span>일기장</span>
-          <Input type="text" name="description" value={description} onChange={onChangeDescription} />
+          <COTextArea
+            name="description"
+            value={description}
+            onChange={onChangeDescription}
+            disabled={false}
+            height={500}
+          />
         </Label>
       </Form>
       <COButton onClick={onSubmit}>등록!</COButton>
@@ -65,6 +87,7 @@ const Form = styled.form`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const Label = styled.label`
