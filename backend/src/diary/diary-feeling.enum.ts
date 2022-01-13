@@ -1,7 +1,5 @@
 export enum DiaryFeeling {
-  TERRIBLE = 'TERRIBLE',
-  BAD = 'BAD',
-  SOSO = 'SOSO',
-  GOOD = 'GOOD',
-  GREAT = 'GREAT',
+  GOOD = '기분 좋음',
+  SOSO = '그저 그럼',
+  BAD = '기분 안 좋음',
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Card, AddCard } from '@src/components/Molecules/Card';
 import COText from '@src/components/Atoms/COText';
@@ -35,7 +35,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 80%;
-  height: 150px;
+  min-height: 150px;
   border-radius: 15px;
   background-color: #ffd078;
   border: none;

@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
     }
     axiosInstance.interceptors.response.eject(0);
     return axiosInstance
-      .get('/users/refresh')
+      .get('/auth/refresh')
       .then(() => {
         return axiosInstance(err.response?.config!);
       })

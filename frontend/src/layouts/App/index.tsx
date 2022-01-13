@@ -4,13 +4,15 @@ import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
 import styled from 'styled-components';
 import Header from '@src/components/Organisms/Header';
-import Modal from '@src/components/Organisms/Modal';
+import Modal from '@src/components/Organisms/Modal/Modal';
 import Profile from '@src/pages/Profile';
 import useAuthentication from '@src/hooks/useAuthentication';
 import CatInfo from '@src/components/Organisms/CatInfo';
-
+import DiaryReadModal from '@src/components/Organisms/Modal/DiaryReadModal';
+import DiaryWriteModal from '@src/components/Organisms/Modal/DiaryWriteModal';
 const App = () => {
   const { loading } = useAuthentication();
+
   if (loading) return <div>Loading...</div>;
   return (
     <BrowserRouter>
@@ -21,7 +23,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cat" element={<Profile />}>
-            <Route path=":name" element={<CatInfo />} />
+            <Route path=":name" element={<CatInfo />}>
+              <Route path="diary" element={<DiaryWriteModal />} />
+              <Route path="diary/:id" element={<DiaryReadModal />} />
+            </Route>
           </Route>
         </Routes>
       </Container>

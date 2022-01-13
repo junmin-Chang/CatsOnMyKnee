@@ -2,8 +2,8 @@ import { modalAtom } from '@src/recoil/atom';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import EnrollModal from './EnrollModal';
 import LoginModal from './LoginModal';
+import EnrollModal from './EnrollModal';
 
 const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);

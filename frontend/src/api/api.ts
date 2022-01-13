@@ -1,48 +1,41 @@
-import axios, { AxiosError } from 'axios';
-
-export const instance = axios.create({
-  baseURL: 'http://localhost:8000',
-
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-});
-
-instance.interceptors.response.use(
-  (response) => response,
-  async (err: AxiosError) => {
-    if (err.response?.status !== 401) {
-      return Promise.reject(err);
-    }
-    instance.interceptors.response.eject(0);
-    return instance
-      .get('/users/refresh')
-      .then(() => {
-        return instance(err.response?.config!);
-      })
-      .catch((err) => {
-        return Promise.reject(err);
-      });
-  },
-);
+import axiosInstance from './index';
 
 export const getUserInfo = async () => {
-  const res = await instance.get('/users');
+  const res = await axiosInstance.get('/users');
   return res.data;
 };
 
 export const getCatInfo = async (name: string) => {
-  const res = await instance.get(`/cat/${name}`);
+  const res = await axiosInstance.get(`/cat/${name}`);
+  return res.data;
+};
+
+export const deleteCat = async (name: string) => {
+  const res = await axiosInstance.delete(`/cat/${name}`);
+  return res.data;
+};
+
+export const createDiary = async (name: string, data: any) => {
+  const res = await axiosInstance.post(`/diary/${name}`, data);
+  return res.data;
+};
+
+export const getDiary = async (name: string, id: string) => {
+  const res = await axiosInstance.get(`diary/${name}/${id}`);
+  return res.data;
+};
+
+export const deleteDiary = async (name: string, id: string) => {
+  const res = await axiosInstance.delete(`diary/${name}/${id}`);
   return res.data;
 };
 
 export const logout = async () => {
-  return await instance.get('/auth/logout');
+  return await axiosInstance.get('/auth/logout');
 };
 
 export const enrollCat = async (data: any) => {
-  await instance.post('/cat/enroll', data).then(() => {
+  await axiosInstance.post('/cat/enroll', data).then(() => {
     alert('등록 완료!');
   });
 };

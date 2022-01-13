@@ -5,8 +5,8 @@ import { DiaryFeeling } from './diary-feeling.enum';
 
 @Entity()
 export class Diary extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   title: string;
@@ -17,13 +17,12 @@ export class Diary extends BaseEntity {
   @Column({ nullable: false })
   feeling: DiaryFeeling;
 
-  @ManyToOne((type) => User, (user) => user.diary, { eager: false })
-  user: User;
+  @Column({ nullable: false })
+  date: string;
 
-  @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false })
+  @ManyToOne((type) => Cat, (cat) => cat.diary, { eager: false, onDelete: 'CASCADE' })
   cat: Cat;
 
   @CreateDateColumn()
-  @Column()
   created_at: Date;
 }
