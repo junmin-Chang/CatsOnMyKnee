@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { CatRepository } from './cat.repository';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Injectable()
 export class CatService {
@@ -22,5 +23,14 @@ export class CatService {
 
   async deleteCat(name: string, user: User) {
     return await this.catRepository.delete({ name, user });
+  }
+
+  async updateCat(name: string, user: User, updateCatDto: UpdateCatDto) {
+    return await this.catRepository.update(
+      { name, user },
+      {
+        ...updateCatDto,
+      },
+    );
   }
 }

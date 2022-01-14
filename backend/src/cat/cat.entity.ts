@@ -24,7 +24,7 @@ export class Cat extends BaseEntity {
   breed: string;
 
   @Column()
-  age: string;
+  age: number;
 
   @Column({ nullable: false })
   gender: CatGender;
