@@ -14,13 +14,13 @@ module.exports = {
     },
     compress: true,
     hot: true,
-    proxy: {
-      '/auth/': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        ws: false,
-      },
-    },
+    // proxy: {
+    //   '/auth/': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true,
+    //     ws: false,
+    //   },
+    // },
   },
   entry: {
     app: path.join(__dirname, 'index.tsx'),

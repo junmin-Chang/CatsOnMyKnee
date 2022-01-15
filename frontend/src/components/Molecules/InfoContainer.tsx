@@ -7,19 +7,22 @@ import COButton from '../Atoms/COButton';
 import useInput from '@src/hooks/useInput';
 import { updateCat } from '@src/api/api';
 import { useNavigate } from 'react-router';
+import COError from '../Atoms/COError';
 
 interface Props {
   cat: Cat;
 }
 const InfoContainer = ({ cat }: Props) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [name, onChangeName] = useInput(cat.name);
-  const [age, onChangeAge] = useInput(cat?.age!);
-  const [breed, onChangeBreed] = useInput(cat.breed);
-  const [favorite, onChangeFavorite] = useInput(cat.favorite);
-  const [hate, onChangeHate] = useInput(cat.hate);
+  const [name, onChangeName] = useInput('');
+  const [age, onChangeAge] = useInput('');
+  const [breed, onChangeBreed] = useInput('');
+  const [favorite, onChangeFavorite] = useInput('');
+  const [hate, onChangeHate] = useInput('');
+  const [error, setError] = useState<string[] | null>(null);
 
   const navigate = useNavigate();
+
   return (
     <Container>
       <Header>
@@ -34,33 +37,41 @@ const InfoContainer = ({ cat }: Props) => {
       <TextContainer>
         {edit && (
           <EditContainer>
-            <Label style={{ marginBottom: '15px', color: 'red' }}>수정할 영역만 수정해주세요</Label>
+            <Label style={{ marginBottom: '15px', color: 'red', whiteSpace: 'nowrap' }}>
+              수정할 영역만 수정해주세요
+            </Label>
+            {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
+
             <Label>나이</Label>
-            <Input type="number" placeholder={String(cat.age)} onChange={onChangeAge} />
+            <Input type="number" placeholder={cat.age} onChange={onChangeAge} />
             <Label>종</Label>
-            <Input placeholder={String(cat.breed)} onChange={onChangeBreed} />
+            <Input placeholder={cat.breed} onChange={onChangeBreed} />
             <Label>좋아하는 것</Label>
-            <Input placeholder={String(cat.favorite)} onChange={onChangeFavorite} />
+            <Input placeholder={cat.favorite} onChange={onChangeFavorite} />
             <Label>싫어하는 것</Label>
-            <Input placeholder={String(cat.hate)} onChange={onChangeHate} />
+            <Input placeholder={cat.hate} onChange={onChangeHate} />
             <COButton
               onClick={() => {
                 console.log(typeof age);
                 updateCat(encodeURIComponent(cat?.name!), {
-                  name,
-                  age,
-                  breed,
-                  hate,
-                  favorite,
-                }).then(() => {
-                  if (name !== undefined) {
-                    navigate(`/cat/${name}`);
-                    window.location.reload();
-                  } else {
-                    navigate(`/cat/${cat.name}`);
-                    window.location.reload();
-                  }
-                });
+                  name: name.trim().length !== 0 ? name : undefined,
+                  age: age.trim().length !== 0 ? age : undefined,
+                  breed: breed.trim().length !== 0 ? breed : undefined,
+                  hate: hate.trim().length !== 0 ? hate : undefined,
+                  favorite: favorite.trim().length !== 0 ? favorite : undefined,
+                })
+                  .then(() => {
+                    if (name !== undefined) {
+                      navigate(`/cat/${name}`);
+                      window.location.reload();
+                    } else {
+                      navigate(`/cat/${cat.name}`);
+                      window.location.reload();
+                    }
+                  })
+                  .catch((err) => {
+                    setError(err.response.data.message);
+                  });
               }}
             >
               수정하기
@@ -70,18 +81,34 @@ const InfoContainer = ({ cat }: Props) => {
         )}
         {!edit && (
           <>
-            <COText fontSize={15} fontColor="#18171c">
-              {cat.age}살
-            </COText>
-            <COText fontSize={15} fontColor="#18171c">
-              {cat.breed}
-            </COText>
-            <COText fontSize={15} fontColor="#18171c">
-              {cat.favorite}
-            </COText>
-            <COText fontSize={15} fontColor="#18171c">
-              {cat.hate}
-            </COText>
+            <Content>
+              <Label>나이 :</Label>
+              <COText fontSize={15} fontColor="#18171c">
+                {cat.age}살
+              </COText>
+            </Content>
+            <Content>
+              <Label>종 : </Label>
+
+              <COText fontSize={15} fontColor="#18171c">
+                {cat.breed}
+              </COText>
+            </Content>
+            <Content>
+              <Label>좋아하는 것 : </Label>
+
+              <COText fontSize={15} fontColor="#18171c">
+                {cat.favorite}
+              </COText>
+            </Content>
+
+            <Content>
+              <Label>싫어하는 것 : </Label>
+
+              <COText fontSize={15} fontColor="#18171c">
+                {cat.hate}
+              </COText>
+            </Content>
           </>
         )}
       </TextContainer>
@@ -100,6 +127,10 @@ const Container = styled.span`
   margin-right: 15px;
   height: 100%;
   padding: 20px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Name = styled.span`
@@ -178,4 +209,11 @@ const Label = styled.label`
   font-size: 16px;
   color: #18171c;
   font-weight: normal;
+  width: 40%;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 `;

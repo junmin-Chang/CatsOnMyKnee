@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import { Diary } from '@src/typings/Diary';
-import { getDiary } from '@src/api/api';
+import { deleteDiary, getDiary } from '@src/api/api';
 import COTextArea from '../../Atoms/COTextArea';
 import { CloseIcon, CreateModal, Header } from '@src/components/Organisms/Modal/styles';
+import COButton from '@src/components/Atoms/COButton';
 const DiaryReadModal = () => {
   const { name, id } = useParams();
   const [diary, setDiary] = useState<Diary>({
@@ -43,6 +44,16 @@ const DiaryReadModal = () => {
             이 날 {name}의 기분 : <mark>{diary.feeling}</mark>
           </Feeling>
           <COTextArea disabled defaultValue={diary.description} />
+          <COButton
+            onClick={() => {
+              deleteDiary(encodeURIComponent(name!), id!).then(() => {
+                navigate(`/cat/${name}`);
+                window.location.reload();
+              });
+            }}
+          >
+            삭제하기
+          </COButton>
         </Content>
       </div>
     </CreateModal>

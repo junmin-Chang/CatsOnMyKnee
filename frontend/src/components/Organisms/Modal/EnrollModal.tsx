@@ -9,6 +9,7 @@ import { Cat } from '@src/typings/Cat';
 import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { modalAtom, userAtom } from '@src/recoil/atom';
+import COError from '@src/components/Atoms/COError';
 
 interface Props {
   onClose: () => void;
@@ -59,7 +60,7 @@ const EnrollModal = ({ onClose }: Props) => {
             정보 입력
           </COText>
           <EnrollForm onChange={onChange} />
-          {error && error.map((err, i) => <Error key={i}>{err}</Error>)}
+          {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
           <COButton onClick={onSubmit}>등록하기!</COButton>
         </LeftContent>
         <RightContent>
@@ -155,9 +156,4 @@ const IconWrapper = styled.div<{ selected: boolean }>`
     background-color: #f28500;
     color: #ffffff;
   }
-`;
-
-const Error = styled.span`
-  color: red;
-  font-size: 15px;
 `;
