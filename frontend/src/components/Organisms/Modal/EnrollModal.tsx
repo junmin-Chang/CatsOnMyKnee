@@ -1,82 +1,19 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
 import { EnrollForm } from '@src/components/Molecules/EnrollForm';
-import COText from '@src/components/Atoms/COText';
-import COButton from '@src/components/Atoms/COButton';
-import { enrollCat } from '@src/api/api';
-import { Cat } from '@src/typings/Cat';
-import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
-import { modalAtom, userAtom } from '@src/recoil/atom';
-import COError from '@src/components/Atoms/COError';
 
 interface Props {
   onClose: () => void;
 }
 const EnrollModal = ({ onClose }: Props) => {
-  const [error, setError] = useState<string[] | null>(null);
-  const [cat, setCat] = useState<Cat>({
-    name: '',
-    gender: 'NO',
-    breed: '',
-    age: '',
-    favorite: '',
-    hate: '',
-  });
-  const [user, setUser] = useRecoilState(userAtom);
-  const [modal, setModal] = useRecoilState(modalAtom);
-  const onChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setCat({
-        ...cat,
-        [name]: value,
-      });
-    },
-    [cat],
-  );
-  const onSubmit = useCallback(() => {
-    enrollCat(cat)
-      .then(() => {
-        setModal({ ...modal, visible: false });
-        setUser({
-          ...user!,
-          cat: [...user?.cat!, cat],
-        });
-      })
-      .catch((err) => {
-        setError(err.response.data.message);
-      });
-  }, [cat, setUser, user, setModal, modal]);
   return (
     <Container>
       <Header>
         <CloseIcon onClick={onClose} />
       </Header>
       <Content>
-        <LeftContent>
-          <COText fontWeight={400} fontColor="#18171c" fontSize={20}>
-            정보 입력
-          </COText>
-          <EnrollForm onChange={onChange} />
-          {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
-          <COButton onClick={onSubmit}>등록하기!</COButton>
-        </LeftContent>
-        <RightContent>
-          <COText fontColor="18171c" fontSize={20} fontWeight={400}>
-            성별
-          </COText>
-          <IconWrapper onClick={() => setCat({ ...cat, gender: 'FEMALE' })} selected={cat.gender === 'FEMALE'}>
-            <BsGenderFemale size={40} />
-          </IconWrapper>
-          <IconWrapper onClick={() => setCat({ ...cat, gender: 'MALE' })} selected={cat.gender === 'MALE'}>
-            <BsGenderMale size={40} />
-          </IconWrapper>
-          <IconWrapper onClick={() => setCat({ ...cat, gender: 'NO' })} selected={cat.gender === 'NO'}>
-            <BsGenderAmbiguous size={40} />
-          </IconWrapper>
-        </RightContent>
+        <EnrollForm />
       </Content>
     </Container>
   );
@@ -116,44 +53,4 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
   padding: 25px;
-`;
-
-const LeftContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: 100%;
-  background-color: #ffedad;
-  border-radius: 15px;
-  margin-right: 10px;
-  align-items: center;
-  padding: 20px;
-`;
-
-const RightContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  height: 100%;
-  background-color: #ffedad;
-  border-radius: 15px;
-  align-items: center;
-  justify-content: space-evenly;
-`;
-
-const IconWrapper = styled.div<{ selected: boolean }>`
-  background-color: ${({ selected }) => (selected ? '#f28500' : '#ffffff')};
-  color: ${({ selected }) => (selected ? '#ffffff' : '#18171c')};
-  border-radius: 15px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-  height: 70px;
-  cursor: pointer;
-  &:hover {
-    background-color: #f28500;
-    color: #ffffff;
-  }
 `;

@@ -1,33 +1,91 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import COText from '@src/components/Atoms/COText';
+import COError from '@src/components/Atoms/COError';
+import COButton from '@src/components/Atoms/COButton';
+import useInput from '@src/hooks/useInput';
+import { CatGender } from '@src/typings/Cat';
+import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
+import { enrollCat } from '@src/api/api';
+import { useRecoilState } from 'recoil';
+import { modalAtom, userAtom } from '@src/recoil/atom';
 
-interface Props {
-  onChange: any;
-}
-
-const EnrollForm = ({ onChange }: Props) => {
+const EnrollForm = () => {
+  const [name, onChangeName] = useInput('');
+  const [age, onChangeAge] = useInput('');
+  const [breed, onChangeBreed] = useInput('');
+  const [favorite, onChangeFavorite] = useInput('');
+  const [hate, onChangeHate] = useInput('');
+  const [gender, _, setGender] = useInput<CatGender>('NO');
+  const [error, setError] = useState<string[] | null>(null);
+  const [modal, setModal] = useRecoilState(modalAtom);
+  const [user, setUser] = useRecoilState(userAtom);
+  const onSubmit = useCallback(() => {
+    const newCat = {
+      name,
+      age,
+      gender,
+      favorite,
+      hate,
+      breed,
+    };
+    enrollCat(newCat)
+      .then(() => {
+        setModal({ ...modal, visible: false });
+        setUser({
+          ...user!,
+          cat: [...user?.cat!, newCat],
+        });
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
+  }, [name, age, gender, breed, favorite, hate, modal, setModal, user, setUser]);
   return (
     <Container>
-      <Content>
-        <Label>이름</Label>
-        <Input type="text" placeholder="이름" name="name" onChange={onChange} />
-      </Content>
-      <Content>
-        <Label>나이</Label>
-        <Input type="number" placeholder="나이" name="age" onChange={onChange} min={1} max={20} />
-      </Content>
-      <Content>
-        <Label>종</Label>
-        <Input placeholder="종" name="breed" onChange={onChange} />
-      </Content>
-      <Content2>
-        <Label>좋아하는 것</Label>
-        <Input placeholder="생략 가능" name="favorite" onChange={onChange} />
-      </Content2>
-      <Content2>
-        <Label>싫어하는 것</Label>
-        <Input placeholder="생략 가능" name="hate" onChange={onChange} />
-      </Content2>
+      <LeftContent>
+        <COText fontWeight={400} fontColor="#18171c" fontSize={20}>
+          정보 입력
+        </COText>
+        <Content>
+          <Label>이름</Label>
+          <Input type="text" placeholder="이름" name="name" onChange={onChangeName} value={name} />
+        </Content>
+        <Content>
+          <Label>나이</Label>
+          <Input type="number" placeholder="나이" name="age" onChange={onChangeAge} min={1} max={20} value={age} />
+        </Content>
+        <Content>
+          <Label>종</Label>
+          <Input placeholder="종" name="breed" onChange={onChangeBreed} value={breed} />
+        </Content>
+        <Content2>
+          <Label>좋아하는 것</Label>
+          <Input placeholder="생략 가능" name="favorite" onChange={onChangeFavorite} value={favorite} />
+        </Content2>
+        <Content2>
+          <Label>싫어하는 것</Label>
+          <Input placeholder="생략 가능" name="hate" onChange={onChangeHate} value={hate} />
+        </Content2>
+        {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
+        <div style={{ marginTop: 'auto', width: '100%' }}>
+          <COButton onClick={onSubmit}>등록하기!</COButton>
+        </div>
+      </LeftContent>
+      <RightContent>
+        <COText fontColor="18171c" fontSize={20} fontWeight={400}>
+          성별
+        </COText>
+        <IconWrapper onClick={() => setGender('FEMALE')} selected={gender === 'FEMALE'}>
+          <BsGenderFemale size={40} />
+        </IconWrapper>
+        <IconWrapper onClick={() => setGender('MALE')} selected={gender === 'MALE'}>
+          <BsGenderMale size={40} />
+        </IconWrapper>
+        <IconWrapper onClick={() => setGender('NO')} selected={gender === 'NO'}>
+          <BsGenderAmbiguous size={40} />
+        </IconWrapper>
+      </RightContent>
     </Container>
   );
 };
@@ -36,7 +94,7 @@ export { EnrollForm };
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   height: 100%;
   align-items: center;
@@ -78,4 +136,44 @@ const Label = styled.label`
   font-weight: 600;
   color: #18171c;
   white-space: nowrap;
+`;
+
+const LeftContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+  background-color: #ffedad;
+  border-radius: 15px;
+  margin-right: 10px;
+  align-items: center;
+  padding: 20px;
+`;
+
+const RightContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  background-color: #ffedad;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
+const IconWrapper = styled.div<{ selected: boolean }>`
+  background-color: ${({ selected }) => (selected ? '#f28500' : '#ffffff')};
+  color: ${({ selected }) => (selected ? '#ffffff' : '#18171c')};
+  border-radius: 15px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f28500;
+    color: #ffffff;
+  }
 `;
