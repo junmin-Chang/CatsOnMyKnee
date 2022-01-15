@@ -37,8 +37,14 @@ export class CatController {
   @UseGuards(JwtAuthGuard)
   @Patch(':name')
   @UsePipes(ValidationPipe)
-  async updateCat(@GetUser() user: User, @Param('name') name: string, @Body() updateCatDto: UpdateCatDto) {
-    return await this.catService.updateCat(decodeURIComponent(name), user, updateCatDto);
+  async updateCat(@GetUser() user: User, @Param('name') catName: string, @Body() updateCatDto: UpdateCatDto) {
+    const { name } = updateCatDto;
+    const cat = await this.catService.getCatInfo(name, user);
+
+    if (cat) {
+      throw new BadRequestException(['이미 존재하는 고양이 이름입니다.']);
+    }
+    return await this.catService.updateCat(decodeURIComponent(catName), user, updateCatDto);
   }
 
   @UseGuards(JwtAuthGuard)
