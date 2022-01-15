@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes,
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
-import { Cat } from './cat.entity';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -25,6 +24,7 @@ export class CatController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':name')
+  @UsePipes(ValidationPipe)
   async updateCat(@GetUser() user: User, @Param('name') name: string, @Body() updateCatDto: UpdateCatDto) {
     return await this.catService.updateCat(decodeURIComponent(name), user, updateCatDto);
   }

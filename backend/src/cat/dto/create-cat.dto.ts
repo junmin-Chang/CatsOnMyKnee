@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CatGender } from '../cat-gender.enum';
 
 export class CreateCatDto {
@@ -6,7 +6,8 @@ export class CreateCatDto {
   name: string;
 
   @IsNotEmpty()
-  age: number;
+  @IsString()
+  age: string;
 
   @IsNotEmpty()
   breed: string;
