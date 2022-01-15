@@ -14,7 +14,7 @@ const EnrollForm = ({ onChange }: Props) => {
       </Content>
       <Content>
         <Label>나이</Label>
-        <Input type="text" placeholder="나이" name="age" onChange={onChange} />
+        <Input type="number" placeholder="나이" name="age" onChange={onChange} min={1} max={20} />
       </Content>
       <Content>
         <Label>종</Label>

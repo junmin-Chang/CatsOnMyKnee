@@ -15,6 +15,11 @@ export const deleteCat = async (name: string) => {
   return res.data;
 };
 
+export const updateCat = async (name: string, body: any) => {
+  const res = await axiosInstance.patch(`/cat/${name}`, body);
+  return res.data;
+};
+
 export const createDiary = async (name: string, data: any) => {
   const res = await axiosInstance.post(`/diary/${name}`, data);
   return res.data;

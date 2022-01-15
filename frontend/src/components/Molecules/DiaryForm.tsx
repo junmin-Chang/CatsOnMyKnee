@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import COButton from '@src/components/Atoms/COButton';
 import COTextArea from '../Atoms/COTextArea';
 import SelectInput from '@src/components/Organisms/SelectInput';
-import feelingOptions from '@src/data/SelectData';
+import { feelingOptions } from '@src/data/SelectData';
 interface Props {
   name: string;
 }
