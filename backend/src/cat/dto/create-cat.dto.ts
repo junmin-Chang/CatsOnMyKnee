@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Unique } from 'typeorm';
 import { CatGender } from '../cat-gender.enum';
 
 export class CreateCatDto {

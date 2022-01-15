@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
@@ -33,6 +45,12 @@ export class CatController {
   @Post('/enroll')
   @UsePipes(ValidationPipe)
   async enrollCat(@Body() createCatDto: CreateCatDto, @GetUser() user: User): Promise<any> {
+    const { name } = createCatDto;
+    const cat = await this.catService.getCatInfo(name, user);
+
+    if (cat) {
+      throw new BadRequestException(['이미 존재하는 고양이 이름입니다']);
+    }
     return this.catService.enrollCat(createCatDto, user);
   }
 }
