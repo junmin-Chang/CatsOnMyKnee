@@ -23,4 +23,8 @@ export class DiaryService {
     const cat = await this.catRepository.findOne({ name });
     return await this.diaryRepository.findOne({ where: { id, cat } });
   }
+  async deleteDiary(name: string, id: string): Promise<any> {
+    const cat = await this.catRepository.findOne({ name });
+    return await this.diaryRepository.delete({ id, cat });
+  }
 }
