@@ -9,11 +9,13 @@ import { Cat } from '@src/typings/Cat';
 import { BsGenderFemale, BsGenderMale, BsGenderAmbiguous } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { modalAtom, userAtom } from '@src/recoil/atom';
+import COError from '@src/components/Atoms/COError';
 
 interface Props {
   onClose: () => void;
 }
 const EnrollModal = ({ onClose }: Props) => {
+  const [error, setError] = useState<string[] | null>(null);
   const [cat, setCat] = useState<Cat>({
     name: '',
     gender: 'NO',
@@ -35,13 +37,17 @@ const EnrollModal = ({ onClose }: Props) => {
     [cat],
   );
   const onSubmit = useCallback(() => {
-    setUser({
-      ...user!,
-      cat: [...user?.cat!, cat],
-    });
-    enrollCat(cat).then(() => {
-      setModal({ ...modal, visible: false });
-    });
+    enrollCat(cat)
+      .then(() => {
+        setModal({ ...modal, visible: false });
+        setUser({
+          ...user!,
+          cat: [...user?.cat!, cat],
+        });
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
   }, [cat, setUser, user, setModal, modal]);
   return (
     <Container>
@@ -54,6 +60,7 @@ const EnrollModal = ({ onClose }: Props) => {
             정보 입력
           </COText>
           <EnrollForm onChange={onChange} />
+          {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
           <COButton onClick={onSubmit}>등록하기!</COButton>
         </LeftContent>
         <RightContent>

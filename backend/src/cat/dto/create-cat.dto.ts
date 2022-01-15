@@ -1,20 +1,24 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Unique } from 'typeorm';
 import { CatGender } from '../cat-gender.enum';
 
 export class CreateCatDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '이름을 입력해주세요' })
   name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '나이를 입력해주세요' })
+  @IsString()
   age: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '종을 입력해주세요' })
   breed: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '성별을 입력해주세요' })
   gender: CatGender;
 
+  @IsOptional()
   favorite: string;
 
+  @IsOptional()
   hate: string;
 }

@@ -5,7 +5,10 @@ import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import useOutsideClick from '@src/hooks/useOutsideClick';
 import { deleteCat } from '@src/api/api';
 
-const DropdownCard = () => {
+interface Props {
+  handleEdit: (edit: boolean) => void;
+}
+const DropdownCard = ({ handleEdit }: Props) => {
   const { name } = useParams();
   const [active, setActive] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ const DropdownCard = () => {
                 onClick={() => {
                   // api call,
                   onToggle();
+                  handleEdit(true);
                 }}
               >
                 수정하기

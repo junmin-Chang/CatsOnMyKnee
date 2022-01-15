@@ -1,14 +1,8 @@
-import { Cat } from '@src/typings/Cat';
 import { User } from '@src/typings/User';
 import { atom } from 'recoil';
 
 const userAtom = atom<User | null>({
   key: 'atom/user',
-  default: null,
-});
-
-const catAtom = atom<Cat | null>({
-  key: 'atom/cat',
   default: null,
 });
 
@@ -24,4 +18,4 @@ const modalAtom = atom({
   },
 });
 
-export { userAtom, catAtom, modalAtom };
+export { userAtom, modalAtom };

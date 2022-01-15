@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import COButton from '@src/components/Atoms/COButton';
 import COTextArea from '../Atoms/COTextArea';
 import SelectInput from '@src/components/Organisms/SelectInput';
-import feelingOptions from '@src/data/SelectData';
+import { feelingOptions } from '@src/data/SelectData';
+import COText from '@src/components/Atoms/COText';
+
 interface Props {
   name: string;
 }
@@ -14,7 +16,6 @@ const DiaryForm = ({ name }: Props) => {
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [date, onChangeDate] = useInput('');
-
   const [feeling, setFeeling] = useState<{
     value: string;
     label: string;
@@ -34,12 +35,15 @@ const DiaryForm = ({ name }: Props) => {
       if (res) {
         alert('등록 완료!');
         navigate(`/cat/${name}`);
+        window.location.reload();
       }
     });
   }, [name, navigate, date, title, description, feeling]);
   return (
     <Container>
-      <h2>오늘 {name}의 하루는 어땠나요?</h2>
+      <COText fontSize={20} fontColor="#18171c">
+        오늘 {name}의 하루는 어땠나요?
+      </COText>
       <Form>
         <Label>
           <span>제목</span>

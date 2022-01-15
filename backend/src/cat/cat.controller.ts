@@ -1,10 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
-import { Cat } from './cat.entity';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cat')
 export class CatController {
@@ -23,9 +35,28 @@ export class CatController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Patch(':name')
+  @UsePipes(ValidationPipe)
+  async updateCat(@GetUser() user: User, @Param('name') catName: string, @Body() updateCatDto: UpdateCatDto) {
+    const { name } = updateCatDto;
+    const cat = await this.catService.getCatInfo(name, user);
+
+    if (cat) {
+      throw new BadRequestException(['이미 존재하는 고양이 이름입니다.']);
+    }
+    return await this.catService.updateCat(decodeURIComponent(catName), user, updateCatDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/enroll')
   @UsePipes(ValidationPipe)
   async enrollCat(@Body() createCatDto: CreateCatDto, @GetUser() user: User): Promise<any> {
+    const { name } = createCatDto;
+    const cat = await this.catService.getCatInfo(name, user);
+
+    if (cat) {
+      throw new BadRequestException(['이미 존재하는 고양이 이름입니다']);
+    }
     return this.catService.enrollCat(createCatDto, user);
   }
 }
