@@ -1,16 +1,19 @@
 import {
   BadRequestException,
   Body,
-  Controller,
   Delete,
   Get,
+  Controller,
   Param,
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
@@ -58,5 +61,12 @@ export class CatController {
       throw new BadRequestException(['이미 존재하는 고양이 이름입니다']);
     }
     return this.catService.enrollCat(createCatDto, user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/:name/image')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImage(@GetUser() user: User, @Param('name') name: string, @UploadedFile() file: Express.Multer.File) {
+    return this.catService.uploadImage(name, user, file.buffer, file.originalname);
   }
 }
