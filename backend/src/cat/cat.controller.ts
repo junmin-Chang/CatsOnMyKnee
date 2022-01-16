@@ -69,4 +69,10 @@ export class CatController {
   async uploadImage(@GetUser() user: User, @Param('name') name: string, @UploadedFile() file: Express.Multer.File) {
     return this.catService.uploadImage(name, user, file.buffer, file.originalname);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:name/image')
+  async deleteImage(@GetUser() user: User, @Param('name') name: string) {
+    return this.catService.deleteImage(name, user);
+  }
 }

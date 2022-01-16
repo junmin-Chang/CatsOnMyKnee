@@ -19,8 +19,9 @@ export class CatService {
   }
 
   async getCatInfo(name: string, user: User) {
-    this.logger.verbose(`user : ${JSON.stringify(user)}`);
-    return await this.catRepository.findOne({ where: { name, user } });
+    const cat = await this.catRepository.findOne({ name, user });
+    this.logger.verbose(`CAT INFO : ${JSON.stringify(cat)}`);
+    return cat;
   }
 
   async deleteCat(name: string, user: User) {
@@ -38,6 +39,8 @@ export class CatService {
   async uploadImage(name: string, user: User, imageBuffer: Buffer, filename: string) {
     const image = await this.uploadService.uploadImage(imageBuffer, filename);
     const cat = await this.catRepository.findOne({ name, user });
+    this.logger.verbose(`FOUNDED CAT ${JSON.stringify(cat)}`);
+
     const { id } = cat;
     await this.catRepository.update(
       { id },
@@ -46,5 +49,17 @@ export class CatService {
       },
     );
     return image;
+  }
+
+  async deleteImage(name: string, user: User) {
+    const cat = await this.catRepository.findOne({ user, name });
+    const fileId = cat.image.id;
+    const { id } = cat;
+    if (fileId) {
+      await this.catRepository.update(id, {
+        image: null,
+      });
+      await this.uploadService.deleteImage(fileId);
+    }
   }
 }

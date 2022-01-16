@@ -44,3 +44,14 @@ export const enrollCat = async (data: any) => {
     alert('등록 완료!');
   });
 };
+
+export const deleteImage = async (name: string) => {
+  await axiosInstance.delete(`/cat/${name}/image`).then(() => {
+    alert('삭제 완료!');
+  });
+};
+export const uploadImage = async (name: string, formData: any) => {
+  await axiosInstance.post(`/cat/${name}/image`, formData).then(() => {
+    alert('등록 완료!');
+  });
+};

@@ -4,6 +4,7 @@ import * as AWS from 'aws-sdk';
 import { UploadImage } from './upload.entity';
 import { v4 as uuid } from 'uuid';
 import { Repository } from 'typeorm';
+import { S3 } from 'aws-sdk';
 @Injectable()
 export class UploadService {
   constructor(
@@ -18,6 +19,7 @@ export class UploadService {
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Body: dataBuffer,
         Key: `${uuid()}-${filename}`,
+        ContentType: 'image/*',
       })
       .promise();
 
@@ -27,5 +29,17 @@ export class UploadService {
     });
     await this.uploadRepository.save(newFile);
     return newFile;
+  }
+
+  async deleteImage(fileId: number) {
+    const file = await this.uploadRepository.findOne({ id: fileId });
+    const s3 = new S3();
+    await s3
+      .deleteObject({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: file.key,
+      })
+      .promise();
+    await this.uploadRepository.delete(fileId);
   }
 }
