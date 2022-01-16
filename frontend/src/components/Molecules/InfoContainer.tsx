@@ -1,13 +1,14 @@
 import { Cat } from '@src/typings/Cat';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import COText from '../Atoms/COText';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
 import COButton from '../Atoms/COButton';
 import useInput from '@src/hooks/useInput';
-import { updateCat } from '@src/api/api';
+import { deleteImage, updateCat, uploadImage } from '@src/api/api';
 import { useNavigate } from 'react-router';
 import COError from '../Atoms/COError';
+import { ChangeEvent } from 'react';
 
 interface Props {
   cat: Cat;
@@ -19,10 +20,21 @@ const InfoContainer = ({ cat }: Props) => {
   const [breed, onChangeBreed] = useInput('');
   const [favorite, onChangeFavorite] = useInput('');
   const [hate, onChangeHate] = useInput('');
+  const [image, setImage] = useState<any>();
   const [error, setError] = useState<string[] | null>(null);
 
   const navigate = useNavigate();
-
+  const onChangeFile = (e: ChangeEvent<any>) => {
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+  const onSubmit = useCallback(async () => {
+    const formData = new FormData();
+    formData.append('file', image);
+    await uploadImage(encodeURIComponent(cat.name!), formData).then(() => {
+      window.location.reload();
+    });
+  }, [image, cat]);
   return (
     <Container>
       <Header>
@@ -32,11 +44,31 @@ const InfoContainer = ({ cat }: Props) => {
         </DropdownContainer>
       </Header>
 
-      <ImageContainer></ImageContainer>
+      <ImageContainer>
+        {cat.image?.url ? (
+          <ProfileImage src={cat.image?.url} />
+        ) : (
+          <ProfileImage
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm8GHCfbjdiwwvyr-UGxobMjOD8XwUqdYCwA&usqp=CAU"
+            alt="image123"
+          />
+        )}
+      </ImageContainer>
 
       <TextContainer>
         {edit && (
           <EditContainer>
+            <Input type="file" onChange={onChangeFile} />
+            <button onClick={onSubmit}>변경하기</button>
+            <button
+              onClick={() => {
+                deleteImage(encodeURIComponent(name)).then(() => {
+                  window.location.reload();
+                });
+              }}
+            >
+              사진 삭제
+            </button>
             <Label style={{ marginBottom: '15px', color: 'red', whiteSpace: 'nowrap' }}>
               수정할 영역만 수정해주세요
             </Label>
@@ -216,4 +248,10 @@ const Content = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+`;
+
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
 `;

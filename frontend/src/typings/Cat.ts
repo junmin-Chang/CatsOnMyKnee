@@ -9,4 +9,7 @@ export interface Cat {
   favorite?: string;
   hate?: string;
   diary?: Diary[] | null;
+  image?: {
+    url: string;
+  };
 }

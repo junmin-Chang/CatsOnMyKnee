@@ -7,16 +7,19 @@ import { ConfigModule } from '@nestjs/config';
 import { forwardRef } from '@nestjs/common';
 import { DiaryModule } from './diary/diary.module';
 import { CatModule } from './cat/cat.module';
+import { UploadModule } from './upload/upload.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
     AuthModule,
     DiaryModule,
     CatModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
