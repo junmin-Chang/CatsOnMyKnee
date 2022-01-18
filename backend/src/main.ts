@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common';
 import * as config from 'config';
 import { config as awsConfig } from 'aws-sdk';
 import * as cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
@@ -12,6 +13,7 @@ async function bootstrap() {
   });
 
   app.use(cookieParser('dsakfjdsalfjoasi'));
+  app.useGlobalFilters(new HttpExceptionFilter());
   const serverConfig = config.get('server');
   const port = serverConfig.port;
 
