@@ -11,8 +11,8 @@ const CatInfo = () => {
   const [cat, setCat] = useState<Cat>({});
   useEffect(() => {
     const getCat = async () => {
-      const cat = await getCatInfo(encodeURIComponent(name!));
-      setCat(cat);
+      const res = await getCatInfo(encodeURIComponent(name!));
+      setCat(res.data);
     };
 
     getCat();
