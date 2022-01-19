@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
@@ -8,6 +8,7 @@ import { forwardRef } from '@nestjs/common';
 import { DiaryModule } from './diary/diary.module';
 import { CatModule } from './cat/cat.module';
 import { UploadModule } from './upload/upload.module';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,4 +23,8 @@ import { UploadModule } from './upload/upload.module';
     UploadModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
