@@ -5,7 +5,7 @@ import { CreateDiaryDto } from './dto/create-diary.dto';
 
 @EntityRepository(Diary)
 export class DiaryRepository extends Repository<Diary> {
-  async createDiary(createDiaryDto: CreateDiaryDto, cat: Cat): Promise<any> {
+  async createDiary(createDiaryDto: CreateDiaryDto, cat: Cat): Promise<Diary> {
     const { title, description, feeling, date } = createDiaryDto;
     const diary = this.create({
       title,
@@ -16,8 +16,10 @@ export class DiaryRepository extends Repository<Diary> {
     });
     await this.save(diary);
 
-    return {
-      success: true,
-    };
+    return diary;
+  }
+
+  async deleteDiary(cat: Cat, id: string): Promise<any> {
+    return await this.delete({ id, cat });
   }
 }

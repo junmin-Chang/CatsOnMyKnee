@@ -19,8 +19,6 @@ export class CatRepository extends Repository<Cat> {
 
     await this.save(cat);
 
-    return {
-      success: true,
-    };
+    return cat;
   }
 }

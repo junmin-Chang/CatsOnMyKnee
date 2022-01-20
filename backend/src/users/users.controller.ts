@@ -5,6 +5,8 @@ import { JwtRefreshGuard } from 'src/auth/guards/jwt-refresh.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { UsersService } from './users.service';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { User } from './user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -13,9 +15,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getUserInfo(@Req() req): Promise<ResponseUserDto> {
-    const user = req.user;
-    console.log(user);
+  async getUserInfo(@GetUser() user: User): Promise<ResponseUserDto> {
     return await this.userService.getUserInfo(user);
   }
 }
