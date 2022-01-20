@@ -1,18 +1,19 @@
-import { Cat } from '@src/typings/Cat';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  cat: Cat;
+  onClick: () => void;
+  src: any;
 }
-const COImage = ({ cat }: Props) => {
+const COImage = ({ src, onClick }: Props) => {
   return (
     <>
-      {cat.image?.url ? (
-        <Image src={cat.image.url} />
-      ) : (
-        <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm8GHCfbjdiwwvyr-UGxobMjOD8XwUqdYCwA&usqp=CAU" />
-      )}
+      <Image
+        src={
+          src ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1mFdHIh-ATxP-RN_vMoOBXAlikpRGPxJugQ&usqp=CAU'
+        }
+        onClick={onClick}
+      />
     </>
   );
 };
@@ -23,4 +24,8 @@ const Image = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 100%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;

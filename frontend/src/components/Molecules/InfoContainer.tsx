@@ -1,5 +1,5 @@
 import { Cat } from '@src/typings/Cat';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import COText from '../Atoms/COText';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
@@ -9,6 +9,7 @@ import { deleteImage, updateCat, uploadImage } from '@src/api/Cat/index';
 import { useNavigate } from 'react-router';
 import COError from '../Atoms/COError';
 import { ChangeEvent } from 'react';
+import COImage from '../Atoms/COImage';
 
 interface Props {
   cat: Cat;
@@ -21,12 +22,24 @@ const InfoContainer = ({ cat }: Props) => {
   const [favorite, onChangeFavorite] = useInput('');
   const [hate, onChangeHate] = useInput('');
   const [image, setImage] = useState<any>();
+  const [imgBase64, setImgBase64] = useState('');
   const [error, setError] = useState<string[] | null>(null);
 
+  const hiddenFileRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const onChangeFile = (e: ChangeEvent<any>) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
+    let reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString());
+      }
+    };
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+      setImage(e.target.files[0]);
+    }
   };
   const onSubmit = useCallback(async () => {
     const formData = new FormData();
@@ -35,8 +48,16 @@ const InfoContainer = ({ cat }: Props) => {
       window.location.reload();
     });
   }, [image, cat]);
+
+  const onClickImage = useCallback(() => {
+    if (hiddenFileRef.current) {
+      hiddenFileRef.current.click();
+    }
+  }, [hiddenFileRef]);
   return (
     <Container>
+      <Input type="file" onChange={onChangeFile} style={{ display: 'none' }} ref={hiddenFileRef} />
+
       <Header>
         {edit ? <Input placeholder={String(cat.name)} onChange={onChangeName} /> : <Name>{cat.name}</Name>}
         <DropdownContainer>
@@ -45,24 +66,16 @@ const InfoContainer = ({ cat }: Props) => {
       </Header>
 
       <ImageContainer>
-        {cat.image?.url ? (
-          <ProfileImage src={cat.image?.url} />
-        ) : (
-          <ProfileImage
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm8GHCfbjdiwwvyr-UGxobMjOD8XwUqdYCwA&usqp=CAU"
-            alt="image123"
-          />
-        )}
+        <COImage src={imgBase64 || cat.image?.url} onClick={onClickImage} />
       </ImageContainer>
 
       <TextContainer>
         {edit && (
           <EditContainer>
-            <Input type="file" onChange={onChangeFile} />
             <button onClick={onSubmit}>변경하기</button>
             <button
               onClick={() => {
-                deleteImage(encodeURIComponent(name)).then(() => {
+                deleteImage(encodeURIComponent(cat.name!)).then(() => {
                   window.location.reload();
                 });
               }}
