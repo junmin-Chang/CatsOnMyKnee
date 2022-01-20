@@ -21,39 +21,38 @@ const InfoContainer = ({ cat }: Props) => {
   const [breed, onChangeBreed] = useInput('');
   const [favorite, onChangeFavorite] = useInput('');
   const [hate, onChangeHate] = useInput('');
-  const [image, setImage] = useState<any>();
-  const [imgBase64, setImgBase64] = useState('');
+  const [image, setImage] = useState<any>({
+    file: '',
+    previewUrl: '',
+  });
   const [error, setError] = useState<string[] | null>(null);
 
   const hiddenFileRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const onChangeFile = (e: ChangeEvent<any>) => {
     let reader = new FileReader();
-
+    let file = e.target.files[0];
     reader.onloadend = () => {
-      const base64 = reader.result;
-      if (base64) {
-        setImgBase64(base64.toString());
-      }
+      setImage({
+        file,
+        previewUrl: reader.result,
+      });
     };
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-      setImage(e.target.files[0]);
-    }
+    reader.readAsDataURL(file);
   };
   const onSubmit = useCallback(async () => {
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append('file', image.file);
     await uploadImage(encodeURIComponent(cat.name!), formData).then(() => {
       window.location.reload();
     });
   }, [image, cat]);
 
   const onClickImage = useCallback(() => {
-    if (hiddenFileRef.current) {
+    if (edit && hiddenFileRef.current) {
       hiddenFileRef.current.click();
     }
-  }, [hiddenFileRef]);
+  }, [edit, hiddenFileRef]);
   return (
     <Container>
       <Input type="file" onChange={onChangeFile} style={{ display: 'none' }} ref={hiddenFileRef} />
@@ -66,13 +65,13 @@ const InfoContainer = ({ cat }: Props) => {
       </Header>
 
       <ImageContainer>
-        <COImage src={imgBase64 || cat.image?.url} onClick={onClickImage} />
+        <COImage src={image.previewUrl || cat.image?.url} onClick={onClickImage} />
       </ImageContainer>
 
       <TextContainer>
         {edit && (
           <EditContainer>
-            <button onClick={onSubmit}>변경하기</button>
+            {image.file && <button onClick={onSubmit}>변경하기</button>}
             <button
               onClick={() => {
                 deleteImage(encodeURIComponent(cat.name!)).then(() => {
@@ -261,10 +260,4 @@ const Content = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-`;
-
-const ProfileImage = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
 `;

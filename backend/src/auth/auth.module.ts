@@ -3,26 +3,24 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
-import * as config from 'config';
 import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { GoogleOauthStrategy } from './strategies/google-oauth.strategy';
 import { KakaoOauthStrategy } from './strategies/kakao-oauth.strategy';
-import { forwardRef } from '@nestjs/common';
-import { CatModule } from 'src/cat/cat.module';
-const jwtConfig = config.get('jwt');
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [AuthController],
   imports: [
     JwtModule.registerAsync({
-      useFactory: async () => {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         return {
-          secret: jwtConfig.secret || process.env.JWT_SECRET,
+          secret: configService.get('JWT_SECRET'),
           signOptions: {
-            expiresIn: jwtConfig.expiresIn || process.env.JWT_EXPIRES_IN,
+            expiresIn: Number(configService.get('JWT_EXPIRES')),
           },
         };
       },

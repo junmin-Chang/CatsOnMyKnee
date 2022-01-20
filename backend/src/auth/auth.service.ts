@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import * as config from 'config';
 import { User } from 'src/users/user.entity';
-const jwtConfig = config.get('jwt');
-const refreshConfig = config.get('refresh');
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(private jwtService: JwtService, private readonly configService: ConfigService) {}
 
   getAccessToken(user: User) {
     const payload = { id: user.id, username: user.username };
@@ -16,7 +14,7 @@ export class AuthService {
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(jwtConfig.expiresIn) * 1000,
+      maxAge: Number(this.configService.get('JWT_EXPIRES')) * 1000,
       signed: true,
       secure: true,
     };
@@ -25,15 +23,15 @@ export class AuthService {
   getRefreshToken(user: User) {
     const payload = { id: user.id, username: user.username };
     const token = this.jwtService.sign(payload, {
-      secret: refreshConfig.secret,
-      expiresIn: refreshConfig.expiresIn,
+      secret: this.configService.get('JWT_SECRET'),
+      expiresIn: Number(this.configService.get('REFRESH_EXPIRES')),
     });
     return {
       refreshToken: token,
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(refreshConfig.expiresIn) * 1000,
+      maxAge: Number(this.configService.get('REFRESH_EXPIRES')) * 1000,
       signed: true,
       secure: true,
     };
