@@ -3,16 +3,11 @@ import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
-import * as config from 'config';
 import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { GoogleOauthStrategy } from './strategies/google-oauth.strategy';
 import { KakaoOauthStrategy } from './strategies/kakao-oauth.strategy';
-import { forwardRef } from '@nestjs/common';
-import { CatModule } from 'src/cat/cat.module';
-const jwtConfig = config.get('jwt');
 
 @Module({
   controllers: [AuthController],
@@ -20,9 +15,9 @@ const jwtConfig = config.get('jwt');
     JwtModule.registerAsync({
       useFactory: async () => {
         return {
-          secret: jwtConfig.secret || process.env.JWT_SECRET,
+          secret: process.env.JWT_SECRET,
           signOptions: {
-            expiresIn: jwtConfig.expiresIn || process.env.JWT_EXPIRES_IN,
+            expiresIn: process.env.JWT_EXPIRES,
           },
         };
       },
