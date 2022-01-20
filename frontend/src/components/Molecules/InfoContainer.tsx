@@ -5,7 +5,7 @@ import COText from '../Atoms/COText';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
 import COButton from '../Atoms/COButton';
 import useInput from '@src/hooks/useInput';
-import { deleteImage, updateCat, uploadImage } from '@src/api/api';
+import { deleteImage, updateCat, uploadImage } from '@src/api/Cat/index';
 import { useNavigate } from 'react-router';
 import COError from '../Atoms/COError';
 import { ChangeEvent } from 'react';

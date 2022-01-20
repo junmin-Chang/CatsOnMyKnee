@@ -4,7 +4,7 @@ import Logo from '../Molecules/Logo';
 import LoginButton from '../Molecules/LoginButton';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userAtom } from '@src/recoil/atom';
-import { logout } from '@src/api/api';
+import { logout } from '@src/api/User/index';
 import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
   const user = useRecoilValue(userAtom);

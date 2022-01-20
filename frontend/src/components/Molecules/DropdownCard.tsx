@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import useOutsideClick from '@src/hooks/useOutsideClick';
-import { deleteCat } from '@src/api/api';
+import { deleteCat } from '@src/api/Cat/index';
 
 interface Props {
   handleEdit: (edit: boolean) => void;

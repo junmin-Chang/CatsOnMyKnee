@@ -1,4 +1,4 @@
-import { createDiary } from '@src/api/api';
+import { createDiary } from '@src/api/Diary/index';
 import useInput from '@src/hooks/useInput';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';

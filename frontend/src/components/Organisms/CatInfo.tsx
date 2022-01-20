@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Outlet } from 'react-router';
 import { Suspense } from 'react';
 import styled from 'styled-components';
-import { getCatInfo } from '@src/api/api';
+import { getCatInfo } from '@src/api/Cat/index';
 import { Cat } from '@src/typings/Cat';
 import InfoContainer from '@src/components/Molecules/InfoContainer';
 import DiaryContainer from '../Molecules/DiaryContainer';

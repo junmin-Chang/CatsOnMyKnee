@@ -6,7 +6,7 @@ import COButton from '@src/components/Atoms/COButton';
 import useInput from '@src/hooks/useInput';
 import { CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
-import { enrollCat } from '@src/api/api';
+import { enrollCat } from '@src/api/Cat/index';
 import { useRecoilState } from 'recoil';
 import { modalAtom, userAtom } from '@src/recoil/atom';
 
