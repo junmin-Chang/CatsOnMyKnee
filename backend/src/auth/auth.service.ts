@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as config from 'config';
 import { User } from 'src/users/user.entity';
-const jwtConfig = config.get('jwt');
-const refreshConfig = config.get('refresh');
 
 @Injectable()
 export class AuthService {
@@ -16,7 +13,7 @@ export class AuthService {
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(jwtConfig.expiresIn) * 1000,
+      maxAge: Number(process.env.JWT_EXPIRES) * 1000,
       signed: true,
       secure: true,
     };
@@ -25,15 +22,15 @@ export class AuthService {
   getRefreshToken(user: User) {
     const payload = { id: user.id, username: user.username };
     const token = this.jwtService.sign(payload, {
-      secret: refreshConfig.secret,
-      expiresIn: refreshConfig.expiresIn,
+      secret: process.env.JWT_SECRET,
+      expiresIn: process.env.REFRESH_EXPIRES,
     });
     return {
       refreshToken: token,
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(refreshConfig.expiresIn) * 1000,
+      maxAge: Number(process.env.REFRESH_EXPIRES) * 1000,
       signed: true,
       secure: true,
     };

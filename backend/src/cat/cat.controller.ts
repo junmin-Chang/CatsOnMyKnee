@@ -12,15 +12,18 @@ import {
   UsePipes,
   ValidationPipe,
   UploadedFile,
+  UseFilters,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { GetUser } from 'src/auth/get-user.decorator';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/users/user.entity';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 
+@UseInterceptors(SuccessInterceptor)
 @Controller('cat')
 export class CatController {
   constructor(private catService: CatService) {}

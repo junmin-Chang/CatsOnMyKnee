@@ -6,29 +6,21 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { hash, compare } from 'bcryptjs';
 import { ResponseUserDto } from './dto/response-user.dto';
+import { UserRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
   ) {}
 
-  create(user: CreateUserDto) {
-    return this.userRepository.save(user);
-  }
-  async findOne(id: string): Promise<User> {
-    return this.userRepository.findOne(id);
-  }
-  findOneByProvider(provider: Provider, providerId: string) {
-    return this.userRepository.findOne({ where: { provider, providerId } });
-  }
-  findAll(params: FindManyOptions<User> = {}) {
-    return this.userRepository.find(params);
+  createUser(user: CreateUserDto) {
+    return this.userRepository.createUser(user);
   }
 
   async getUserInfo(user: User): Promise<ResponseUserDto> {
-    const userInfo = await this.findOne(user.id);
+    const userInfo = await this.userRepository.findUserById(user.id);
     const { username, name, cat } = userInfo;
 
     return {
@@ -39,12 +31,17 @@ export class UsersService {
       },
     };
   }
+
+  async getUserByProvider(provider: Provider, providerId: string) {
+    return await this.userRepository.findUserByProvider(provider, providerId);
+  }
+
   async setCurrentRefreshToken(refreshToken: string, id: string) {
     const currentHashedRefreshToken = await hash(refreshToken, 10);
     await this.userRepository.update(id, { currentHashedRefreshToken });
   }
   async getUserIfRefreshTokenMatches(refreshToken: string, id: string) {
-    const user = await this.findOne(id);
+    const user = await this.userRepository.findUserById(id);
     console.log(user);
 
     const isRefreshTokenMatching = await compare(refreshToken, user.currentHashedRefreshToken);

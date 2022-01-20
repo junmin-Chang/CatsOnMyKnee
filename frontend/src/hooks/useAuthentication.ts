@@ -1,4 +1,4 @@
-import { getUserInfo } from '@src/api/api';
+import { getUserInfo } from '@src/api/User/index';
 import { userAtom } from '@src/recoil/atom';
 import { User } from '@src/typings/User';
 import { useEffect, useState } from 'react';

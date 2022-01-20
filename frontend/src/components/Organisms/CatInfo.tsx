@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Outlet } from 'react-router';
 import { Suspense } from 'react';
 import styled from 'styled-components';
-import { getCatInfo } from '@src/api/api';
+import { getCatInfo } from '@src/api/Cat/index';
 import { Cat } from '@src/typings/Cat';
 import InfoContainer from '@src/components/Molecules/InfoContainer';
 import DiaryContainer from '../Molecules/DiaryContainer';
@@ -11,8 +11,8 @@ const CatInfo = () => {
   const [cat, setCat] = useState<Cat>({});
   useEffect(() => {
     const getCat = async () => {
-      const cat = await getCatInfo(encodeURIComponent(name!));
-      setCat(cat);
+      const res = await getCatInfo(encodeURIComponent(name!));
+      setCat(res.data);
     };
 
     getCat();

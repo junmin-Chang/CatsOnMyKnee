@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import { Diary } from '@src/typings/Diary';
-import { deleteDiary, getDiary } from '@src/api/api';
+import { deleteDiary, getDiary } from '@src/api/Diary/index';
 import COTextArea from '../../Atoms/COTextArea';
 import { CloseIcon, CreateModal, Header } from '@src/components/Organisms/Modal/styles';
 import COButton from '@src/components/Atoms/COButton';
