@@ -21,4 +21,7 @@ export class CreateCatDto {
 
   @IsOptional()
   hate: string;
+
+  @IsNotEmpty({ message: '날짜를 입력해주세요' })
+  startDate: string;
 }

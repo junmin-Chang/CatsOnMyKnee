@@ -38,6 +38,9 @@ export class Cat extends BaseEntity {
   @Column({ nullable: true })
   hate: string;
 
+  @Column({ nullable: false, type: 'date' })
+  startDate: string;
+
   @ManyToOne((type) => User, (user) => user.cat, { eager: false })
   user: User;
 
