@@ -28,7 +28,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UsersModule,
     PassportModule,
   ],
-  providers: [AuthService, JwtAuthStrategy, JwtRefreshStrategy, GoogleOauthStrategy, KakaoOauthStrategy],
+  providers: [
+    AuthService,
+    JwtAuthStrategy,
+    JwtRefreshStrategy,
+    GoogleOauthStrategy,
+    KakaoOauthStrategy,
+  ],
   exports: [JwtModule, AuthService],
 })
 export class AuthModule {}

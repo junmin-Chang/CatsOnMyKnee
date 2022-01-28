@@ -5,7 +5,10 @@ import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService, private readonly configService: ConfigService) {}
+  constructor(
+    private jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   getAccessToken(user: User) {
     const payload = { id: user.id, username: user.username };

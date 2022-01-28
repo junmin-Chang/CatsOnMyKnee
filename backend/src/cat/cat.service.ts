@@ -36,7 +36,12 @@ export class CatService {
       },
     );
   }
-  async uploadImage(name: string, user: User, imageBuffer: Buffer, filename: string) {
+  async uploadImage(
+    name: string,
+    user: User,
+    imageBuffer: Buffer,
+    filename: string,
+  ) {
     const image = await this.uploadService.uploadImage(imageBuffer, filename);
     const cat = await this.catRepository.findOne({ name, user });
     this.logger.verbose(`FOUNDED CAT ${JSON.stringify(cat)}`);

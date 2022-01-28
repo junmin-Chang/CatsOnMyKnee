@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { DiaryService } from './diary.service';
 import { CreateDiaryDto } from './dto/create-diary.dto';
@@ -9,7 +19,10 @@ export class DiaryController {
   @Post(':name')
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
-  createDiary(@Body() createDiaryDto: CreateDiaryDto, @Param('name') name: string): Promise<any> {
+  createDiary(
+    @Body() createDiaryDto: CreateDiaryDto,
+    @Param('name') name: string,
+  ): Promise<any> {
     return this.diaryService.createDiary(createDiaryDto, name);
   }
 
@@ -21,7 +34,10 @@ export class DiaryController {
 
   @Delete(':name/:id')
   @UseGuards(JwtAuthGuard)
-  deleteDiary(@Param('name') name: string, @Param('id') id: string): Promise<any> {
+  deleteDiary(
+    @Param('name') name: string,
+    @Param('id') id: string,
+  ): Promise<any> {
     return this.diaryService.deleteDiary(name, id);
   }
 }

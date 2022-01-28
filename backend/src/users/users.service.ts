@@ -44,7 +44,10 @@ export class UsersService {
     const user = await this.userRepository.findUserById(id);
     console.log(user);
 
-    const isRefreshTokenMatching = await compare(refreshToken, user.currentHashedRefreshToken);
+    const isRefreshTokenMatching = await compare(
+      refreshToken,
+      user.currentHashedRefreshToken,
+    );
 
     if (isRefreshTokenMatching) {
       return user;

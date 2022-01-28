@@ -41,7 +41,10 @@ export class Cat extends BaseEntity {
   @ManyToOne((type) => User, (user) => user.cat, { eager: false })
   user: User;
 
-  @OneToMany((type) => Diary, (diary) => diary.cat, { eager: true, nullable: true })
+  @OneToMany((type) => Diary, (diary) => diary.cat, {
+    eager: true,
+    nullable: true,
+  })
   diary: Diary[];
 
   @OneToOne(() => UploadImage, {
