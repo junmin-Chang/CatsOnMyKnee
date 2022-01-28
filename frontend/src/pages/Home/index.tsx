@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 const Home = () => {
   const user = useRecoilValue(userAtom);
+  console.log(user);
   return (
     <Container>
       <h2>안녕하세요 {user?.name}님</h2>

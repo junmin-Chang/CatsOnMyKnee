@@ -1,9 +1,16 @@
+import { getUserInfo } from '@src/api/User';
 import { User } from '@src/typings/User';
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 const userAtom = atom<User | null>({
   key: 'atom/user',
-  default: null,
+  default: selector({
+    key: 'user/Default',
+    get: () =>
+      getUserInfo().catch((err) => {
+        Promise.reject(err);
+      }),
+  }),
 });
 
 const modalAtom = atom({

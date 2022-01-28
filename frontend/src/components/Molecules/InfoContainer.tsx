@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import COError from '../Atoms/COError';
 import { ChangeEvent } from 'react';
 import COImage from '../Atoms/COImage';
+import { format, differenceInDays } from 'date-fns';
 
 interface Props {
   cat: Cat;
@@ -27,6 +28,8 @@ const InfoContainer = ({ cat }: Props) => {
   });
   const [error, setError] = useState<string[] | null>(null);
 
+  const startDate = new Date(cat.startDate!);
+  const nowDate = format(new Date(), 'yyyy-MM-dd');
   const hiddenFileRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const onChangeFile = (e: ChangeEvent<any>) => {
@@ -125,6 +128,12 @@ const InfoContainer = ({ cat }: Props) => {
         )}
         {!edit && (
           <>
+            <Content>
+              <Label>{cat.name}와 함께한지...</Label>
+              <COText fontSize={24} fontColor="#18171c">
+                +{differenceInDays(new Date(), startDate)} Day
+              </COText>
+            </Content>
             <Content>
               <Label>나이 :</Label>
               <COText fontSize={15} fontColor="#18171c">
