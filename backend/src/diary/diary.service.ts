@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CatRepository } from 'src/cat/cat.repository';
 import { Diary } from './diary.entity';
@@ -13,7 +13,10 @@ export class DiaryService {
     @InjectRepository(CatRepository)
     private catRepository: CatRepository,
   ) {}
-  async createDiary(createDiaryDto: CreateDiaryDto, name: string): Promise<Diary> {
+  async createDiary(
+    createDiaryDto: CreateDiaryDto,
+    name: string,
+  ): Promise<Diary> {
     const cat = await this.catRepository.findOne({ name });
 
     return await this.diaryRepository.createDiary(createDiaryDto, cat);

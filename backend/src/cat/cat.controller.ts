@@ -29,6 +29,12 @@ export class CatController {
   constructor(private catService: CatService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get()
+  async getCats(@GetUser() user: User) {
+    return await this.catService.getCats(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':name')
   async getCatInfo(@GetUser() user: User, @Param('name') name: string) {
     return await this.catService.getCatInfo(decodeURIComponent(name), user);
@@ -43,20 +49,31 @@ export class CatController {
   @UseGuards(JwtAuthGuard)
   @Patch(':name')
   @UsePipes(ValidationPipe)
-  async updateCat(@GetUser() user: User, @Param('name') catName: string, @Body() updateCatDto: UpdateCatDto) {
+  async updateCat(
+    @GetUser() user: User,
+    @Param('name') catName: string,
+    @Body() updateCatDto: UpdateCatDto,
+  ) {
     const { name } = updateCatDto;
     const cat = await this.catService.getCatInfo(name, user);
 
     if (cat) {
       throw new BadRequestException(['이미 존재하는 고양이 이름입니다.']);
     }
-    return await this.catService.updateCat(decodeURIComponent(catName), user, updateCatDto);
+    return await this.catService.updateCat(
+      decodeURIComponent(catName),
+      user,
+      updateCatDto,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('/enroll')
   @UsePipes(ValidationPipe)
-  async enrollCat(@Body() createCatDto: CreateCatDto, @GetUser() user: User): Promise<any> {
+  async enrollCat(
+    @Body() createCatDto: CreateCatDto,
+    @GetUser() user: User,
+  ): Promise<any> {
     const { name } = createCatDto;
     const cat = await this.catService.getCatInfo(name, user);
 
@@ -69,8 +86,17 @@ export class CatController {
   @UseGuards(JwtAuthGuard)
   @Post('/:name/image')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(@GetUser() user: User, @Param('name') name: string, @UploadedFile() file: Express.Multer.File) {
-    return this.catService.uploadImage(name, user, file.buffer, file.originalname);
+  async uploadImage(
+    @GetUser() user: User,
+    @Param('name') name: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.catService.uploadImage(
+      name,
+      user,
+      file.buffer,
+      file.originalname,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

@@ -38,10 +38,16 @@ export class Cat extends BaseEntity {
   @Column({ nullable: true })
   hate: string;
 
+  @Column({ nullable: false, type: 'date' })
+  startDate: string;
+
   @ManyToOne((type) => User, (user) => user.cat, { eager: false })
   user: User;
 
-  @OneToMany((type) => Diary, (diary) => diary.cat, { eager: true, nullable: true })
+  @OneToMany((type) => Diary, (diary) => diary.cat, {
+    eager: true,
+    nullable: true,
+  })
   diary: Diary[];
 
   @OneToOne(() => UploadImage, {

@@ -1,10 +1,4 @@
-import { User } from '@src/typings/User';
-import { atom } from 'recoil';
-
-const userAtom = atom<User | null>({
-  key: 'atom/user',
-  default: null,
-});
+import { atom, selector } from 'recoil';
 
 const modalAtom = atom({
   key: 'atom/modal',
@@ -18,4 +12,4 @@ const modalAtom = atom({
   },
 });
 
-export { userAtom, modalAtom };
+export { modalAtom };

@@ -4,43 +4,45 @@ import COText from '@src/components/Atoms/COText';
 import COError from '@src/components/Atoms/COError';
 import COButton from '@src/components/Atoms/COButton';
 import useInput from '@src/hooks/useInput';
-import { CatGender } from '@src/typings/Cat';
+import { Cat, CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
 import { enrollCat } from '@src/api/Cat/index';
 import { useRecoilState } from 'recoil';
-import { modalAtom, userAtom } from '@src/recoil/atom';
+import { modalAtom } from '@src/recoil/atom';
+import { catAtom } from '@src/recoil/atom/cat';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const EnrollForm = () => {
+  const [cat, setCat] = useRecoilState(catAtom);
   const [name, onChangeName] = useInput('');
   const [age, onChangeAge] = useInput('');
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [breed, onChangeBreed] = useInput('');
   const [favorite, onChangeFavorite] = useInput('');
   const [hate, onChangeHate] = useInput('');
   const [gender, _, setGender] = useInput<CatGender>('NO');
   const [error, setError] = useState<string[] | null>(null);
   const [modal, setModal] = useRecoilState(modalAtom);
-  const [user, setUser] = useRecoilState(userAtom);
   const onSubmit = useCallback(() => {
-    const newCat = {
+    const newCat: Cat = {
       name,
       age,
       gender,
       favorite,
       hate,
       breed,
+      startDate,
     };
     enrollCat(newCat)
       .then(() => {
         setModal({ ...modal, visible: false });
-        setUser({
-          ...user!,
-          cat: [...user?.cat!, newCat],
-        });
+        setCat([...cat, newCat]);
       })
       .catch((err) => {
         setError(err.response.data.message);
       });
-  }, [name, age, gender, breed, favorite, hate, modal, setModal, user, setUser]);
+  }, [name, age, gender, breed, favorite, hate, modal, setModal, startDate, cat, setCat]);
   return (
     <Container>
       <LeftContent>
@@ -58,6 +60,16 @@ const EnrollForm = () => {
         <Content>
           <Label>종</Label>
           <Input placeholder="종" name="breed" onChange={onChangeBreed} value={breed} />
+        </Content>
+        <Content>
+          <Label>처음 만난 날</Label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => {
+              setStartDate(date);
+            }}
+            dateFormat="yyyy/MM/dd"
+          />
         </Content>
         <Content2>
           <Label>좋아하는 것</Label>

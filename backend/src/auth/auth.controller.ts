@@ -9,7 +9,10 @@ import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { ResponseUserDto } from 'src/users/dto/response-user.dto';
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private userService: UsersService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {}
 
   private logger = new Logger('AuthController');
   @Get('/google')
@@ -18,11 +21,16 @@ export class AuthController {
 
   @Get('/google/redirect')
   @UseGuards(GoogleOauthGuard)
-  async googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
+  async googleAuthRedirect(
+    @Req() req,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const user = req.user;
     this.logger.verbose(`google req.user ${JSON.stringify(user)}`);
-    const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
-    const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
+    const { accessToken, ...accessOption } =
+      this.authService.getAccessToken(user);
+    const { refreshToken, ...refreshOption } =
+      this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
     res.cookie('jwt', accessToken, accessOption);
@@ -36,12 +44,17 @@ export class AuthController {
 
   @Get('/kakao/redirect')
   @UseGuards(KakaoOauthGuard)
-  async kakaoAuthRedirect(@Req() req, @Res({ passthrough: true }) res: Response) {
+  async kakaoAuthRedirect(
+    @Req() req,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const user = req.user;
     this.logger.verbose(`kakao req.user ${JSON.stringify(user)}`);
 
-    const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
-    const { refreshToken, ...refreshOption } = this.authService.getRefreshToken(user);
+    const { accessToken, ...accessOption } =
+      this.authService.getAccessToken(user);
+    const { refreshToken, ...refreshOption } =
+      this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
     res.cookie('jwt', accessToken, accessOption);
@@ -50,9 +63,13 @@ export class AuthController {
   }
   @Get('/refresh')
   @UseGuards(JwtRefreshGuard)
-  async refresh(@Req() req, @Res({ passthrough: true }) res: Response): Promise<ResponseUserDto> {
+  async refresh(
+    @Req() req,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<ResponseUserDto> {
     const user = req.user;
-    const { accessToken, ...accessOption } = this.authService.getAccessToken(user);
+    const { accessToken, ...accessOption } =
+      this.authService.getAccessToken(user);
     res.cookie('jwt', accessToken, accessOption);
     return await this.userService.getUserInfo(user);
   }

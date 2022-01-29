@@ -1,5 +1,5 @@
 import { Cat } from '@src/typings/Cat';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import COText from '../Atoms/COText';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
@@ -9,34 +9,54 @@ import { deleteImage, updateCat, uploadImage } from '@src/api/Cat/index';
 import { useNavigate } from 'react-router';
 import COError from '../Atoms/COError';
 import { ChangeEvent } from 'react';
-
-interface Props {
-  cat: Cat;
-}
-const InfoContainer = ({ cat }: Props) => {
+import COImage from '../Atoms/COImage';
+import useTimeDiff from '@src/hooks/useTimeDiff';
+import { useRecoilValue } from 'recoil';
+import { filteredCat } from '@src/recoil/selector/cat';
+const InfoContainer = () => {
+  const cat = useRecoilValue(filteredCat);
   const [edit, setEdit] = useState<boolean>(false);
   const [name, onChangeName] = useInput('');
   const [age, onChangeAge] = useInput('');
   const [breed, onChangeBreed] = useInput('');
   const [favorite, onChangeFavorite] = useInput('');
   const [hate, onChangeHate] = useInput('');
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<any>({
+    file: '',
+    previewUrl: '',
+  });
   const [error, setError] = useState<string[] | null>(null);
-
+  const diff = useTimeDiff(new Date(cat.startDate!));
+  const hiddenFileRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const onChangeFile = (e: ChangeEvent<any>) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setImage({
+        file,
+        previewUrl: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
   };
   const onSubmit = useCallback(async () => {
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append('file', image.file);
     await uploadImage(encodeURIComponent(cat.name!), formData).then(() => {
       window.location.reload();
     });
   }, [image, cat]);
+
+  const onClickImage = useCallback(() => {
+    if (edit && hiddenFileRef.current) {
+      hiddenFileRef.current.click();
+    }
+  }, [edit, hiddenFileRef]);
   return (
     <Container>
+      <Input type="file" onChange={onChangeFile} style={{ display: 'none' }} ref={hiddenFileRef} />
+
       <Header>
         {edit ? <Input placeholder={String(cat.name)} onChange={onChangeName} /> : <Name>{cat.name}</Name>}
         <DropdownContainer>
@@ -45,24 +65,16 @@ const InfoContainer = ({ cat }: Props) => {
       </Header>
 
       <ImageContainer>
-        {cat.image?.url ? (
-          <ProfileImage src={cat.image?.url} />
-        ) : (
-          <ProfileImage
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm8GHCfbjdiwwvyr-UGxobMjOD8XwUqdYCwA&usqp=CAU"
-            alt="image123"
-          />
-        )}
+        <COImage src={image.previewUrl || cat.image?.url} onClick={onClickImage} />
       </ImageContainer>
 
       <TextContainer>
         {edit && (
           <EditContainer>
-            <Input type="file" onChange={onChangeFile} />
-            <button onClick={onSubmit}>변경하기</button>
+            {image.file && <button onClick={onSubmit}>변경하기</button>}
             <button
               onClick={() => {
-                deleteImage(encodeURIComponent(name)).then(() => {
+                deleteImage(encodeURIComponent(cat.name!)).then(() => {
                   window.location.reload();
                 });
               }}
@@ -113,6 +125,12 @@ const InfoContainer = ({ cat }: Props) => {
         )}
         {!edit && (
           <>
+            <Content>
+              <Label>{cat.name}와 함께한지...</Label>
+              <COText fontSize={24} fontColor="#18171c">
+                +{diff} Day
+              </COText>
+            </Content>
             <Content>
               <Label>나이 :</Label>
               <COText fontSize={15} fontColor="#18171c">
@@ -248,10 +266,4 @@ const Content = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-`;
-
-const ProfileImage = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
 `;

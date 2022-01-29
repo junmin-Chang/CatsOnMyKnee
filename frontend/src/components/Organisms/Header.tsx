@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Logo from '../Molecules/Logo';
 import LoginButton from '../Molecules/LoginButton';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { userAtom } from '@src/recoil/atom';
+import { userAtom } from '@src/recoil/atom/user';
 import { logout } from '@src/api/User/index';
 import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {

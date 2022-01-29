@@ -8,16 +8,19 @@ import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { GoogleOauthStrategy } from './strategies/google-oauth.strategy';
 import { KakaoOauthStrategy } from './strategies/kakao-oauth.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [AuthController],
   imports: [
     JwtModule.registerAsync({
-      useFactory: async () => {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         return {
-          secret: process.env.JWT_SECRET,
+          secret: configService.get('JWT_SECRET'),
           signOptions: {
-            expiresIn: process.env.JWT_EXPIRES,
+            expiresIn: Number(configService.get('JWT_EXPIRES')),
           },
         };
       },
@@ -25,7 +28,13 @@ import { KakaoOauthStrategy } from './strategies/kakao-oauth.strategy';
     UsersModule,
     PassportModule,
   ],
-  providers: [AuthService, JwtAuthStrategy, JwtRefreshStrategy, GoogleOauthStrategy, KakaoOauthStrategy],
+  providers: [
+    AuthService,
+    JwtAuthStrategy,
+    JwtRefreshStrategy,
+    GoogleOauthStrategy,
+    KakaoOauthStrategy,
+  ],
   exports: [JwtModule, AuthService],
 })
 export class AuthModule {}

@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Outlet } from 'react-router';
 import { Suspense } from 'react';
 import styled from 'styled-components';
-import { getCatInfo } from '@src/api/Cat/index';
-import { Cat } from '@src/typings/Cat';
 import InfoContainer from '@src/components/Molecules/InfoContainer';
 import DiaryContainer from '../Molecules/DiaryContainer';
+import { useSetRecoilState } from 'recoil';
+import { catNameAtom } from '@src/recoil/atom/cat';
 const CatInfo = () => {
   const { name } = useParams();
-  const [cat, setCat] = useState<Cat>({});
+  const setCatName = useSetRecoilState(catNameAtom);
   useEffect(() => {
-    const getCat = async () => {
-      const res = await getCatInfo(encodeURIComponent(name!));
-      setCat(res.data);
-    };
+    setCatName(name);
+  }, [setCatName, name]);
 
-    getCat();
-  }, [name]);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Container>
-        <InfoContainer cat={cat} />
-        <DiaryContainer cat={cat} />
+        <InfoContainer />
+        <DiaryContainer />
         <Outlet />
       </Container>
     </Suspense>
@@ -38,4 +34,11 @@ const Container = styled.h1`
   height: 100%;
   background-color: #ffd078;
   border-radius: 15px;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    & > * {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
 `;

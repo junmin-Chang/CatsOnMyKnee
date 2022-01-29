@@ -6,7 +6,11 @@ import { CatController } from './cat.controller';
 import { CatRepository } from './cat.repository';
 import { CatService } from './cat.service';
 @Module({
-  imports: [TypeOrmModule.forFeature([CatRepository]), AuthModule, UploadModule],
+  imports: [
+    TypeOrmModule.forFeature([CatRepository]),
+    AuthModule,
+    UploadModule,
+  ],
   controllers: [CatController],
   providers: [CatService],
 })

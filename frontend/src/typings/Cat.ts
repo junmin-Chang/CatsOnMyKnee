@@ -12,4 +12,5 @@ export interface Cat {
   image?: {
     url: string;
   };
+  startDate?: string | Date | null;
 }

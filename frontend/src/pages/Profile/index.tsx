@@ -3,22 +3,27 @@ import styled from 'styled-components';
 import { Card, AddCard } from '@src/components/Molecules/Card';
 import COText from '@src/components/Atoms/COText';
 import { useRecoilValue } from 'recoil';
-import { userAtom } from '@src/recoil/atom';
+import { catAtom } from '@src/recoil/atom/cat';
+import { userAtom } from '@src/recoil/atom/user';
 import { Outlet } from 'react-router-dom';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
-
+  const cats = useRecoilValue(catAtom);
+  console.log(cats);
   return (
-    <Container>
-      <COText fontColor="#18171c" fontSize={25} fontWeight={600}>
-        {user?.name}님의 아이들
-      </COText>
-      <CardContainer>
-        {user && user.cat?.map((c, i) => <Card key={i} cat={c} />)}
-        <AddCard />
-      </CardContainer>
-      <Outlet />
-    </Container>
+    <React.Suspense fallback={<div>Loading..</div>}>
+      <Container>
+        <COText fontColor="#18171c" fontSize={25} fontWeight={600}>
+          {user?.name}님의 아이들
+        </COText>
+        <CardContainer>
+          {/* {cats && cats?.map((c, i) => <Card key={i} cat={c} />)} */}
+          {cats && cats.map((c, i) => <Card key={i} cat={c} />)}
+          <AddCard />
+        </CardContainer>
+        <Outlet />
+      </Container>
+    </React.Suspense>
   );
 };
 

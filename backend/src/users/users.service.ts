@@ -21,13 +21,12 @@ export class UsersService {
 
   async getUserInfo(user: User): Promise<ResponseUserDto> {
     const userInfo = await this.userRepository.findUserById(user.id);
-    const { username, name, cat } = userInfo;
+    const { username, name } = userInfo;
 
     return {
       user: {
         username,
         name,
-        cat,
       },
     };
   }
@@ -44,7 +43,10 @@ export class UsersService {
     const user = await this.userRepository.findUserById(id);
     console.log(user);
 
-    const isRefreshTokenMatching = await compare(refreshToken, user.currentHashedRefreshToken);
+    const isRefreshTokenMatching = await compare(
+      refreshToken,
+      user.currentHashedRefreshToken,
+    );
 
     if (isRefreshTokenMatching) {
       return user;

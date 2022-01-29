@@ -6,7 +6,8 @@ import { CreateCatDto } from './dto/create-cat.dto';
 @EntityRepository(Cat)
 export class CatRepository extends Repository<Cat> {
   async enrollCat(createCatDto: CreateCatDto, user: User): Promise<any> {
-    const { name, age, breed, hate, favorite, gender } = createCatDto;
+    const { name, age, breed, hate, favorite, gender, startDate } =
+      createCatDto;
     const cat = this.create({
       name,
       age,
@@ -15,6 +16,7 @@ export class CatRepository extends Repository<Cat> {
       gender,
       favorite,
       hate,
+      startDate,
     });
 
     await this.save(cat);
