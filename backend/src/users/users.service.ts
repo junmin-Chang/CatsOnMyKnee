@@ -21,13 +21,12 @@ export class UsersService {
 
   async getUserInfo(user: User): Promise<ResponseUserDto> {
     const userInfo = await this.userRepository.findUserById(user.id);
-    const { username, name, cat } = userInfo;
+    const { username, name } = userInfo;
 
     return {
       user: {
         username,
         name,
-        cat,
       },
     };
   }

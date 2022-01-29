@@ -29,6 +29,12 @@ export class CatController {
   constructor(private catService: CatService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get()
+  async getCats(@GetUser() user: User) {
+    return await this.catService.getCats(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':name')
   async getCatInfo(@GetUser() user: User, @Param('name') name: string) {
     return await this.catService.getCatInfo(decodeURIComponent(name), user);

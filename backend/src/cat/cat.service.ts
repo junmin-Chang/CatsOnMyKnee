@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UploadService } from 'src/upload/upload.service';
 import { User } from 'src/users/user.entity';
+import { Cat } from './cat.entity';
 import { CatRepository } from './cat.repository';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -14,6 +15,14 @@ export class CatService {
     private readonly uploadService: UploadService,
   ) {}
   private logger = new Logger('CatService');
+
+  async getCats(user: User): Promise<Cat[] | []> {
+    const cats = this.catRepository.find({ user });
+    if (cats) {
+      return cats;
+    }
+    return [];
+  }
   async enrollCat(createCatDto: CreateCatDto, user: User): Promise<any> {
     this.catRepository.enrollCat(createCatDto, user);
   }
