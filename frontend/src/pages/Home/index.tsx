@@ -1,3 +1,5 @@
+import HomeBanner from '@src/components/Organisms/Home/HomeBanner';
+import HomeContent from '@src/components/Organisms/Home/HomeContent';
 import { userAtom } from '@src/recoil/atom';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -8,7 +10,8 @@ const Home = () => {
   console.log(user);
   return (
     <Container>
-      <h2>안녕하세요 {user?.name}님</h2>
+      <HomeBanner />
+      <HomeContent />
     </Container>
   );
 };
@@ -18,6 +21,7 @@ export default Home;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100%;
 `;

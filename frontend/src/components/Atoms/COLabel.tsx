@@ -8,11 +8,13 @@ const COLabel: React.FC = ({ children }) => {
 export default COLabel;
 
 const Container = styled.div`
-  background-color: #ffd078;
+  background-color: #fff;
   border-radius: 15px;
   padding: 8px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #000;
+  font-size: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `;
