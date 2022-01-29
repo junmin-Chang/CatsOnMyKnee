@@ -1,4 +1,9 @@
 import axiosInstance from '../index';
+
+export const getCats = async () => {
+  const res = await axiosInstance.get('/cat');
+  return res.data.data;
+};
 export const getCatInfo = async (name: string) => {
   const res = await axiosInstance.get(`/cat/${name}`);
   return res.data;

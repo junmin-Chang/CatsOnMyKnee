@@ -1,13 +1,13 @@
-import { Cat } from '@src/typings/Cat';
 import React from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
 import Notebook from '@src/assets/notebook.svg';
-interface Props {
-  cat: Cat;
-}
-const DiaryContainer = ({ cat }: Props) => {
+import { useRecoilValue } from 'recoil';
+import { filteredCat } from '@src/recoil/selector/cat';
+
+const DiaryContainer = () => {
+  const cat = useRecoilValue(filteredCat);
   return (
     <Container>
       <Header>

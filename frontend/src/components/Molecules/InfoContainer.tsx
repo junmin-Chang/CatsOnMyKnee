@@ -11,10 +11,10 @@ import COError from '../Atoms/COError';
 import { ChangeEvent } from 'react';
 import COImage from '../Atoms/COImage';
 import useTimeDiff from '@src/hooks/useTimeDiff';
-interface Props {
-  cat: Cat;
-}
-const InfoContainer = ({ cat }: Props) => {
+import { useRecoilValue } from 'recoil';
+import { filteredCat } from '@src/recoil/selector/cat';
+const InfoContainer = () => {
+  const cat = useRecoilValue(filteredCat);
   const [edit, setEdit] = useState<boolean>(false);
   const [name, onChangeName] = useInput('');
   const [age, onChangeAge] = useInput('');

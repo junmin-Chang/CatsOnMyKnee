@@ -1,8 +1,8 @@
 import HomeBanner from '@src/components/Organisms/Home/HomeBanner';
 import HomeContent from '@src/components/Organisms/Home/HomeContent';
-import { userAtom } from '@src/recoil/atom';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import { userAtom } from '@src/recoil/atom/user';
 import styled from 'styled-components';
 
 const Home = () => {
