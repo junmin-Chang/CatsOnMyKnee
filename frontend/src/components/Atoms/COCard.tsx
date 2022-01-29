@@ -26,4 +26,8 @@ const Container = styled.div<{ width: string; height: string; color: string }>`
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: transform 250ms;
+  &:hover {
+    transform: translateY(-10px);
+  }
 `;
