@@ -17,7 +17,7 @@ export class AuthService {
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(this.configService.get('JWT_EXPIRES')) * 1000,
+      maxAge: 600 * 1000,
       signed: true,
       secure: true,
     };
@@ -27,14 +27,14 @@ export class AuthService {
     const payload = { id: user.id, username: user.username };
     const token = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_SECRET'),
-      expiresIn: Number(this.configService.get('REFRESH_EXPIRES')),
+      expiresIn: 1209600,
     });
     return {
       refreshToken: token,
       domain: 'localhost',
       path: '/',
       httpOnly: true,
-      maxAge: Number(this.configService.get('REFRESH_EXPIRES')) * 1000,
+      maxAge: 1209600 * 1000,
       signed: true,
       secure: true,
     };
