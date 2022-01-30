@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiPlus } from 'react-icons/bi';
 import { useSetRecoilState } from 'recoil';
-import { modalAtom } from '@src/recoil/atom';
+import { modalAtom } from '@src/recoil/atom/modal';
 import COText from '../Atoms/COText';
 import { Cat } from '@src/typings/Cat';
 import { Link } from 'react-router-dom';

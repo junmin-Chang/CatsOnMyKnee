@@ -1,4 +1,4 @@
-import { modalAtom } from '@src/recoil/atom';
+import { modalAtom } from '@src/recoil/atom/modal';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';

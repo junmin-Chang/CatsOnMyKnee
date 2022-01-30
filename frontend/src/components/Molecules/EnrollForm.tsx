@@ -8,7 +8,7 @@ import { Cat, CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
 import { enrollCat } from '@src/api/Cat/index';
 import { useRecoilState } from 'recoil';
-import { modalAtom } from '@src/recoil/atom';
+import { modalAtom } from '@src/recoil/atom/modal';
 import { catAtom } from '@src/recoil/atom/cat';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
