@@ -5,3 +5,11 @@ export interface Diary {
   feeling: string;
   description: string;
 }
+
+export enum DiaryFilter {
+  'DESC' = 'DESC',
+  'ASC' = 'ASC',
+  'GOOD' = 'GOOD',
+  'SOSO' = 'SOSO',
+  'BAD' = 'BAD',
+}

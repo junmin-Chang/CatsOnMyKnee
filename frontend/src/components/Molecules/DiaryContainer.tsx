@@ -3,33 +3,49 @@ import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
 import Notebook from '@src/assets/notebook.svg';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filteredCat } from '@src/recoil/selector/cat';
-
+import { filteredDiaries } from '@src/recoil/selector/diary';
+import SelectInput from '../Organisms/SelectInput';
+import { filterOptions } from '@src/data/SelectData';
+import { diaryFilterAtom } from '@src/recoil/atom/diary';
+import { DiaryFilter } from '@src/typings/Diary';
 const DiaryContainer = () => {
   const cat = useRecoilValue(filteredCat);
+  const diaries = useRecoilValue(filteredDiaries);
+  const [filter, setFilter] = useRecoilState(diaryFilterAtom);
   return (
     <Container>
       <Header>
         <p>
           <Name>{cat.name}의 다이어리</Name>
         </p>
+        <SelectInput
+          options={filterOptions}
+          onChange={({ value }) => {
+            setFilter(value);
+            console.log(filter);
+          }}
+          value={filter}
+          placeholder="정렬"
+        />
         <Button to={`/cat/${cat.name}/diary`}>글 작성</Button>
       </Header>
       <COText fontColor="#18171c" fontSize={20}>
-        총 {cat.diary?.length}개 있네요!
+        총 {diaries?.length}개 있네요!
       </COText>
       <Content>
-        {cat.diary?.map((d, i) => (
-          <Link to={`/cat/${cat.name}/diary/${d.id}`} style={{ marginRight: '15px', textDecoration: 'none' }}>
-            <NoteBookIcon />
-            <div>
-              <COText fontColor="#18171c" fontSize={15}>
-                {d.date}
-              </COText>
-            </div>
-          </Link>
-        ))}
+        {diaries &&
+          diaries.map((d, i) => (
+            <Link to={`/cat/${cat.name}/diary/${d.id}`} style={{ marginRight: '15px', textDecoration: 'none' }} key={i}>
+              <NoteBookIcon />
+              <div>
+                <COText fontColor="#18171c" fontSize={15}>
+                  {d.date}
+                </COText>
+              </div>
+            </Link>
+          ))}
       </Content>
     </Container>
   );

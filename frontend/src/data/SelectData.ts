@@ -12,3 +12,26 @@ export const ageOptions = [
 
   { value: 11, label: '11' },
 ];
+
+export const filterOptions = [
+  {
+    value: 'ASC',
+    label: '오래된 순',
+  },
+  {
+    value: 'DESC',
+    label: '최근 순',
+  },
+  {
+    value: 'GOOD',
+    label: '기분 좋았을 때',
+  },
+  {
+    value: 'SOSO',
+    label: '기분이 그저 그럴 때',
+  },
+  {
+    value: 'BAD',
+    label: '기분이 안 좋을 때',
+  },
+];
