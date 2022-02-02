@@ -13,6 +13,7 @@ import COImage from '../Atoms/COImage';
 import useTimeDiff from '@src/hooks/useTimeDiff';
 import { useRecoilValue } from 'recoil';
 import { filteredCat } from '@src/recoil/selector/cat';
+import COLabel from '../Atoms/COLabel';
 const InfoContainer = () => {
   const cat = useRecoilValue(filteredCat);
   const [edit, setEdit] = useState<boolean>(false);
@@ -127,37 +128,26 @@ const InfoContainer = () => {
           <>
             <Content>
               <Label>{cat.name}와 함께한지...</Label>
-              <COText fontSize={24} fontColor="#18171c">
-                +{diff} Day
-              </COText>
+              <COLabel>+{diff} Day</COLabel>
             </Content>
             <Content>
               <Label>나이 :</Label>
-              <COText fontSize={15} fontColor="#18171c">
-                {cat.age}살
-              </COText>
+              <COLabel>{cat.age}살</COLabel>
             </Content>
             <Content>
               <Label>종 : </Label>
 
-              <COText fontSize={15} fontColor="#18171c">
-                {cat.breed}
-              </COText>
+              <COLabel>{cat.breed}</COLabel>
             </Content>
             <Content>
               <Label>좋아하는 것 : </Label>
 
-              <COText fontSize={15} fontColor="#18171c">
-                {cat.favorite}
-              </COText>
+              <COLabel>{cat.favorite}</COLabel>
             </Content>
-
             <Content>
               <Label>싫어하는 것 : </Label>
 
-              <COText fontSize={15} fontColor="#18171c">
-                {cat.hate}
-              </COText>
+              <COLabel>{cat.hate}</COLabel>
             </Content>
           </>
         )}
@@ -266,4 +256,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  align-items: center;
+  padding: 2% 0;
 `;

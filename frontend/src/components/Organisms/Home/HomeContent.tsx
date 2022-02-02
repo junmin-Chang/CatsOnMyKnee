@@ -26,6 +26,7 @@ const Container = styled.div`
   background-color: inherit;
   align-items: center;
   justify-content: space-evenly;
+  padding: 5% 0;
   @media only screen and (max-width: 600px) {
     flex-wrap: wrap;
   }

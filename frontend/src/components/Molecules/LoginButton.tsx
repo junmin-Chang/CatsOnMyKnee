@@ -1,8 +1,7 @@
-import { modalAtom } from '@src/recoil/atom';
+import { modalAtom } from '@src/recoil/atom/modal';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import COText from '../Atoms/COText';
 
 const LoginButton = () => {
   const setModal = useSetRecoilState(modalAtom);

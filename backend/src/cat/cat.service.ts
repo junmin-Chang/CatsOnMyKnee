@@ -53,9 +53,12 @@ export class CatService {
   ) {
     const image = await this.uploadService.uploadImage(imageBuffer, filename);
     const cat = await this.catRepository.findOne({ name, user });
-    this.logger.verbose(`FOUNDED CAT ${JSON.stringify(cat)}`);
-
     const { id } = cat;
+    const prevImage = cat.image;
+
+    if (prevImage) {
+      await this.deleteImage(name, user);
+    }
     await this.catRepository.update(
       { id },
       {

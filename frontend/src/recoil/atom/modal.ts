@@ -1,6 +1,6 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 
-const modalAtom = atom({
+export const modalAtom = atom({
   key: 'atom/modal',
   default: {
     id: 'none',
@@ -11,5 +11,3 @@ const modalAtom = atom({
     },
   },
 });
-
-export { modalAtom };
