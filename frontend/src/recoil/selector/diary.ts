@@ -9,26 +9,26 @@ export const filteredDiaries = selector({
     const filters = get(diaryFilterAtom);
     const diaries = get(filteredCat).diary;
     switch (filters) {
-      case 'ASC':
+      case '오래된 순':
         return [...diaries!].sort((a, b) => {
           return compareAsc(new Date(a.date), new Date(b.date));
         });
-      case 'DESC':
+      case '최근 순':
         return [...diaries!].sort((a, b) => {
           return compareDesc(new Date(a.date), new Date(b.date));
         });
 
-      case 'GOOD':
+      case '기분 좋음':
         return diaries?.filter((diary) => {
           return diary.feeling === '기분 좋음';
         });
 
-      case 'SOSO':
+      case '그저그럼':
         return diaries?.filter((diary) => {
           return diary.feeling === '그저 그럼';
         });
 
-      case 'BAD':
+      case '기분 안 좋음':
         return diaries?.filter((diary) => {
           return diary.feeling === '기분 안 좋음';
         });

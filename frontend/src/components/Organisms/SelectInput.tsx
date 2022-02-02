@@ -8,7 +8,29 @@ interface Props {
   placeholder?: string;
 }
 const SelectInput = ({ options, onChange, value, placeholder }: Props) => {
-  return <Select options={options} onChange={onChange} value={value} placeholder={placeholder} />;
+  return (
+    <Select
+      options={options}
+      onChange={onChange}
+      value={value}
+      placeholder={placeholder}
+      styles={{
+        input: (base) => ({
+          ...base,
+          height: 28,
+          width: 200,
+        }),
+        control: (base) => ({
+          ...base,
+          fontSize: 16,
+        }),
+        menu: (base) => ({
+          ...base,
+          fontSize: 16,
+        }),
+      }}
+    />
+  );
 };
 
 export default SelectInput;

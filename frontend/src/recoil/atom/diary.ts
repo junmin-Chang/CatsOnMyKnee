@@ -3,5 +3,5 @@ import { atom } from 'recoil';
 
 export const diaryFilterAtom = atom<DiaryFilter>({
   key: 'atom/diaryFilter',
-  default: DiaryFilter.ASC,
+  default: DiaryFilter['오래된 순'],
 });
