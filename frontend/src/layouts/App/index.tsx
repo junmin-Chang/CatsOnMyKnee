@@ -9,6 +9,7 @@ import Profile from '@src/pages/Profile';
 import CatInfo from '@src/components/Organisms/CatInfo';
 import DiaryReadModal from '@src/components/Organisms/Modal/DiaryReadModal';
 import DiaryWriteModal from '@src/components/Organisms/Modal/DiaryWriteModal';
+import Footer from '@src/components/Organisms/Footer';
 const App = () => {
   return (
     <React.Suspense fallback={<div>Loading..</div>}>
@@ -28,6 +29,7 @@ const App = () => {
           </Routes>
         </Container>
       </BrowserRouter>
+      {/* <Footer /> */}
     </React.Suspense>
   );
 };

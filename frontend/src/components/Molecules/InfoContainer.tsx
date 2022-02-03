@@ -1,7 +1,6 @@
 import { Cat } from '@src/typings/Cat';
 import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import COText from '../Atoms/COText';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
 import COButton from '../Atoms/COButton';
 import useInput from '@src/hooks/useInput';
@@ -15,7 +14,7 @@ import { useRecoilValue } from 'recoil';
 import { filteredCat } from '@src/recoil/selector/cat';
 import COLabel from '../Atoms/COLabel';
 const InfoContainer = () => {
-  const cat = useRecoilValue(filteredCat);
+  const cat = useRecoilValue(filteredCat) as Cat;
   const [edit, setEdit] = useState<boolean>(false);
   const [name, onChangeName] = useInput('');
   const [age, onChangeAge] = useInput('');

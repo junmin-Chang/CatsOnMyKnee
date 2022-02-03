@@ -9,15 +9,16 @@ import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
 import { filterOptions } from '@src/data/SelectData';
 import { diaryFilterAtom } from '@src/recoil/atom/diary';
+import { Diary } from '@src/typings/Diary';
 const DiaryContainer = () => {
   const cat = useRecoilValue(filteredCat);
-  const diaries = useRecoilValue(filteredDiaries);
+  const diaries = useRecoilValue(filteredDiaries) as Diary[];
   const [filter, setFilter] = useRecoilState(diaryFilterAtom);
   return (
     <Container>
       <Header>
         <p>
-          <Name>{cat.name}의 다이어리</Name>
+          <Name>{cat.name}의 일기장</Name>
         </p>
         <div>
           <SelectInput
