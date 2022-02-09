@@ -7,11 +7,12 @@ import { deleteDiary, getDiary } from '@src/api/Diary/index';
 import COTextArea from '../../Atoms/COTextArea';
 import { CloseIcon, CreateModal, Header } from '@src/components/Organisms/Modal/styles';
 import COButton from '@src/components/Atoms/COButton';
-import { useRecoilState } from 'recoil';
-import { diaryItemState } from '@src/recoil/atom/diary';
+import { useRecoilRefresher_UNSTABLE, useRecoilState } from 'recoil';
+import { diaryAtom, diaryItemState } from '@src/recoil/atom/diary';
 const DiaryReadModal = () => {
   const { name, id } = useParams();
   const [diary, setDiary] = useRecoilState(diaryItemState(id as string));
+  const refresh = useRecoilRefresher_UNSTABLE(diaryAtom);
   const navigate = useNavigate();
   const goBack = useCallback(() => {
     navigate(-1);
@@ -19,6 +20,15 @@ const DiaryReadModal = () => {
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);
+  const onDelete = useCallback(async () => {
+    try {
+      await deleteDiary(name!, id!);
+      goBack();
+      refresh();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [goBack, id, name, refresh]);
 
   return (
     <CreateModal width={700} height={700} onClick={goBack}>
@@ -33,16 +43,7 @@ const DiaryReadModal = () => {
             이 날 {name}의 기분 : <mark>{diary?.feeling}</mark>
           </Feeling>
           <COTextArea disabled defaultValue={diary?.description} />
-          <COButton
-            onClick={() => {
-              deleteDiary(encodeURIComponent(name!), id!).then(() => {
-                navigate(`/cat/${name}`);
-                window.location.reload();
-              });
-            }}
-          >
-            삭제하기
-          </COButton>
+          <COButton onClick={onDelete}>삭제하기</COButton>
         </Content>
       </div>
     </CreateModal>
