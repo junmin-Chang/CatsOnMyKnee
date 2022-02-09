@@ -13,6 +13,7 @@ import { catAtom, catItemState, catNameAtom } from '@src/recoil/atom/cat';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router';
+import Creatable from '../Organisms/Creatable';
 
 const EnrollForm = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
@@ -24,8 +25,8 @@ const EnrollForm = () => {
   const [age, onChangeAge] = useInput(modal.edit ? cat?.age : '');
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [breed, onChangeBreed] = useInput(modal.edit ? cat?.breed : '');
-  const [favorite, onChangeFavorite] = useInput(modal.edit ? cat?.favorite : '');
-  const [hate, onChangeHate] = useInput(modal.edit ? cat?.hate : '');
+  const [hate, setHate] = useState(modal.edit ? cat.favorite : []);
+  const [favorite, setFavorite] = useState(modal.edit ? cat.hate : []);
   const [gender, _, setGender] = useInput<CatGender>(modal.edit ? cat.gender : 'NO');
   const [error, setError] = useState<string[] | null>(null);
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const EnrollForm = () => {
         console.log(err);
       }
     }
-  }, [name, age, gender, breed, favorite, hate, modal, setModal, startDate, refresh]);
+  }, [name, age, gender, breed, modal, setModal, favorite, hate, startDate, refresh, cat.name, navigate]);
   return (
     <Container>
       <LeftContent>
@@ -103,16 +104,30 @@ const EnrollForm = () => {
             dateFormat="yyyy/MM/dd"
           />
         </Content>
-        <Content2>
+        <Content>
           <Label>좋아하는 것</Label>
-          <Input placeholder="생략 가능" name="favorite" onChange={onChangeFavorite} defaultValue={favorite} />
-        </Content2>
-        <Content2>
+          <Creatable
+            onChange={(value) => {
+              setFavorite(value);
+              console.log(favorite);
+            }}
+            name="favorite"
+            value={favorite}
+          />
+        </Content>
+        <Content>
           <Label>싫어하는 것</Label>
-          <Input placeholder="생략 가능" name="hate" onChange={onChangeHate} defaultValue={hate} />
-        </Content2>
+          <Creatable
+            onChange={(value) => {
+              setHate(value);
+              console.log(hate);
+            }}
+            name="hate"
+            value={hate}
+          />
+        </Content>
         {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
-        <div style={{ marginTop: 'auto', width: '100%' }}>
+        <div style={{ width: '100%' }}>
           <COButton onClick={onSubmit}>등록하기!</COButton>
         </div>
       </LeftContent>
@@ -134,28 +149,17 @@ const EnrollForm = () => {
   );
 };
 
-export { EnrollForm };
+export default EnrollForm;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
-  align-items: center;
   padding: 15px;
-  justify-content: center;
 `;
 
 const Content = styled.div`
-  width: 100%;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-const Content2 = styled.div`
   width: 100%;
   margin-bottom: 15px;
   display: flex;
@@ -191,6 +195,7 @@ const LeftContent = styled.div`
   border-radius: 15px;
   margin-right: 10px;
   align-items: center;
+  justify-content: space-between;
   padding: 20px;
 `;
 

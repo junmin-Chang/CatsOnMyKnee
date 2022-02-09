@@ -6,8 +6,8 @@ export interface Cat {
   breed?: string;
   gender: CatGender;
   age?: string;
-  favorite?: string;
-  hate?: string;
+  favorite?: { value: string; label: string }[];
+  hate?: { value: string; label: string }[];
   diary?: Diary[] | null;
   image?: {
     url: string;

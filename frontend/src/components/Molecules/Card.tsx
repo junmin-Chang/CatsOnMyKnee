@@ -24,7 +24,7 @@ export const Card = ({ cat }: Props) => {
 export const AddCard = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
   return (
-    <CardButton onClick={() => setModal({ ...modal, id: 'enroll', visible: true })}>
+    <CardButton onClick={() => setModal({ ...modal, id: 'enroll', visible: true, size: { width: 800, height: 800 } })}>
       <AddIcon />
     </CardButton>
   );
