@@ -1,26 +1,20 @@
 import { Exclude } from 'class-transformer';
+import { CommonEntity } from 'src/common/entities/common.entity';
 import { Diary } from 'src/diary/diary.entity';
 import { UploadImage } from 'src/upload/upload.entity';
 import { User } from 'src/users/user.entity';
 import {
-  BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { CatGender } from './cat-gender.enum';
 
 @Entity()
-export class Cat extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Cat extends CommonEntity {
   @Column({ nullable: false })
   name: string;
 
@@ -59,12 +53,4 @@ export class Cat extends BaseEntity {
   })
   @JoinColumn()
   public image?: UploadImage;
-
-  @Exclude({ toPlainOnly: true })
-  @CreateDateColumn()
-  created_at: Date;
-
-  @Exclude({ toPlainOnly: true })
-  @UpdateDateColumn()
-  updated_at: Date;
 }
