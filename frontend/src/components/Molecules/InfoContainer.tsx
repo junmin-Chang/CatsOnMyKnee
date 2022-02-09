@@ -19,21 +19,12 @@ interface Props {
 }
 const InfoContainer = ({ catName }: Props) => {
   const cat = useRecoilValue(catItemState(catName)) as Cat;
-  console.log(cat);
-  const [edit, setEdit] = useState<boolean>(false);
-  const [name, onChangeName] = useInput('');
-  const [age, onChangeAge] = useInput('');
-  const [breed, onChangeBreed] = useInput('');
-  const [favorite, onChangeFavorite] = useInput('');
-  const [hate, onChangeHate] = useInput('');
   const [image, setImage] = useState<any>({
     file: '',
     previewUrl: '',
   });
-  const [error, setError] = useState<string[] | null>(null);
   const diff = useTimeDiff(new Date(cat.startDate!));
   const hiddenFileRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const onChangeFile = (e: ChangeEvent<any>) => {
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -54,18 +45,17 @@ const InfoContainer = ({ catName }: Props) => {
   }, [image, cat]);
 
   const onClickImage = useCallback(() => {
-    if (edit && hiddenFileRef.current) {
+    if (hiddenFileRef.current) {
       hiddenFileRef.current.click();
     }
-  }, [edit, hiddenFileRef]);
+  }, [hiddenFileRef]);
   return (
     <Container>
       <Input type="file" onChange={onChangeFile} style={{ display: 'none' }} ref={hiddenFileRef} />
 
       <Header>
-        {edit ? <Input placeholder={String(cat.name)} onChange={onChangeName} /> : <Name>{cat.name}</Name>}
         <DropdownContainer>
-          <DropdownCard handleEdit={setEdit} />
+          <DropdownCard />
         </DropdownContainer>
       </Header>
 
@@ -74,87 +64,29 @@ const InfoContainer = ({ catName }: Props) => {
       </ImageContainer>
 
       <TextContainer>
-        {edit && (
-          <EditContainer>
-            {image.file && <button onClick={onSubmit}>변경하기</button>}
-            <button
-              onClick={() => {
-                deleteImage(encodeURIComponent(cat.name!)).then(() => {
-                  window.location.reload();
-                });
-              }}
-            >
-              사진 삭제
-            </button>
-            <Label style={{ marginBottom: '15px', color: 'red', whiteSpace: 'nowrap' }}>
-              수정할 영역만 수정해주세요
-            </Label>
-            {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
+        <Content>
+          <Label>{cat.name}와 함께한지...</Label>
+          <COLabel>+{diff} Day</COLabel>
+        </Content>
+        <Content>
+          <Label>나이 :</Label>
+          <COLabel>{cat.age}살</COLabel>
+        </Content>
+        <Content>
+          <Label>종 : </Label>
 
-            <Label>나이</Label>
-            <Input type="number" placeholder={cat.age} onChange={onChangeAge} />
-            <Label>종</Label>
-            <Input placeholder={cat.breed} onChange={onChangeBreed} />
-            <Label>좋아하는 것</Label>
-            <Input placeholder={cat.favorite} onChange={onChangeFavorite} />
-            <Label>싫어하는 것</Label>
-            <Input placeholder={cat.hate} onChange={onChangeHate} />
-            <COButton
-              onClick={() => {
-                console.log(typeof age);
-                updateCat(encodeURIComponent(cat?.name!), {
-                  name: name.trim().length !== 0 ? name : undefined,
-                  age: age.trim().length !== 0 ? age : undefined,
-                  breed: breed.trim().length !== 0 ? breed : undefined,
-                  hate: hate.trim().length !== 0 ? hate : undefined,
-                  favorite: favorite.trim().length !== 0 ? favorite : undefined,
-                })
-                  .then(() => {
-                    if (name !== undefined) {
-                      navigate(`/cat/${name}`);
-                      window.location.reload();
-                    } else {
-                      navigate(`/cat/${cat.name}`);
-                      window.location.reload();
-                    }
-                  })
-                  .catch((err) => {
-                    setError(err.response.data.message);
-                  });
-              }}
-            >
-              수정하기
-            </COButton>
-            <COButton onClick={() => setEdit(false)}>취소</COButton>
-          </EditContainer>
-        )}
-        {!edit && (
-          <>
-            <Content>
-              <Label>{cat.name}와 함께한지...</Label>
-              <COLabel>+{diff} Day</COLabel>
-            </Content>
-            <Content>
-              <Label>나이 :</Label>
-              <COLabel>{cat.age}살</COLabel>
-            </Content>
-            <Content>
-              <Label>종 : </Label>
+          <COLabel>{cat.breed}</COLabel>
+        </Content>
+        <Content>
+          <Label>좋아하는 것 : </Label>
 
-              <COLabel>{cat.breed}</COLabel>
-            </Content>
-            <Content>
-              <Label>좋아하는 것 : </Label>
+          <COLabel>{cat.favorite}</COLabel>
+        </Content>
+        <Content>
+          <Label>싫어하는 것 : </Label>
 
-              <COLabel>{cat.favorite}</COLabel>
-            </Content>
-            <Content>
-              <Label>싫어하는 것 : </Label>
-
-              <COLabel>{cat.hate}</COLabel>
-            </Content>
-          </>
-        )}
+          <COLabel>{cat.hate}</COLabel>
+        </Content>
       </TextContainer>
     </Container>
   );

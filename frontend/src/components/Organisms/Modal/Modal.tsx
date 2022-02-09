@@ -8,7 +8,7 @@ import EnrollModal from './EnrollModal';
 const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
   const closeModal = useCallback(() => {
-    setModal({ ...modal, visible: false });
+    setModal({ ...modal, visible: false, edit: false });
   }, [modal, setModal]);
 
   const stopPropagation = useCallback((e) => {
