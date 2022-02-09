@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { Cat } from '@src/typings/Cat';
 import { getCats } from '@src/api/Cat';
 export const catAtom = atom<Cat[]>({
@@ -9,6 +9,19 @@ export const catAtom = atom<Cat[]>({
       getCats().catch(() => {
         return [];
       }),
+  }),
+});
+
+export const catItemState = atomFamily({
+  key: 'catItemState',
+  default: selectorFamily({
+    key: 'catItemState/Default',
+    get:
+      (name: string) =>
+      ({ get }) => {
+        const cat = get(catAtom);
+        return cat.find((v) => v.name === name);
+      },
   }),
 });
 

@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
 import Notebook from '@src/assets/notebook.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { filteredCat } from '@src/recoil/selector/cat';
 import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
 import { filterOptions } from '@src/data/SelectData';
-import { diaryFilterAtom } from '@src/recoil/atom/diary';
-const DiaryContainer = () => {
-  const cat = useRecoilValue(filteredCat);
-  const diaries = useRecoilValue(filteredDiaries);
+import { diaryAtom, diaryFilterAtom } from '@src/recoil/atom/diary';
+import { Diary } from '@src/typings/Diary';
+import { catItemState } from '@src/recoil/atom/cat';
+import { Cat } from '@src/typings/Cat';
+
+interface Props {
+  catName: string;
+}
+const DiaryContainer = ({ catName }: Props) => {
+  const cat = useRecoilValue(catItemState(catName)) as Cat;
+  const diaries = useRecoilValue(filteredDiaries) as Diary[];
   const [filter, setFilter] = useRecoilState(diaryFilterAtom);
+
   return (
     <Container>
       <Header>
         <p>
-          <Name>{cat.name}의 다이어리</Name>
+          <Name>{cat.name}의 일기장</Name>
         </p>
         <div>
           <SelectInput

@@ -4,18 +4,30 @@ import { useNavigate, useParams } from 'react-router';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import useOutsideClick from '@src/hooks/useOutsideClick';
 import { deleteCat } from '@src/api/Cat/index';
+import { useRecoilRefresher_UNSTABLE, useRecoilState } from 'recoil';
+import { catAtom } from '@src/recoil/atom/cat';
+import { modalAtom } from '@src/recoil/atom/modal';
 
-interface Props {
-  handleEdit: (edit: boolean) => void;
-}
-const DropdownCard = ({ handleEdit }: Props) => {
+const DropdownCard = () => {
   const { name } = useParams();
+  const [modal, setModal] = useRecoilState(modalAtom);
   const [active, setActive] = useState<boolean>(false);
+  const refresh = useRecoilRefresher_UNSTABLE(catAtom);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const onToggle = useCallback(() => {
     setActive((prev) => !prev);
   }, []);
+  const onDelete = useCallback(async () => {
+    try {
+      await deleteCat(name!);
+      navigate(-1);
+      onToggle();
+      refresh();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [name, navigate, refresh, onToggle]);
   useOutsideClick(dropdownRef, () => setActive(false));
   return (
     <div>
@@ -28,24 +40,14 @@ const DropdownCard = ({ handleEdit }: Props) => {
                 onClick={() => {
                   // api call,
                   onToggle();
-                  handleEdit(true);
+                  setModal({ ...modal, id: 'enroll', visible: true, edit: true });
                 }}
               >
                 수정하기
               </Menu>
             </Li>
             <Li>
-              <Menu
-                onClick={() => {
-                  // api call,
-                  deleteCat(name!).then(() => {
-                    navigate('/cat');
-                    onToggle();
-                  });
-                }}
-              >
-                삭제하기
-              </Menu>
+              <Menu onClick={onDelete}>삭제하기</Menu>
             </Li>
             <Li>
               <Menu

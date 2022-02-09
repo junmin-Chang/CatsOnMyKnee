@@ -1,12 +1,14 @@
 import { modalAtom } from '@src/recoil/atom/modal';
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 const LoginButton = () => {
-  const setModal = useSetRecoilState(modalAtom);
+  const [modal, setModal] = useRecoilState(modalAtom);
   return (
-    <Button onClick={() => setModal({ id: 'login', visible: true, size: { width: 600, height: 440 } })}>로그인</Button>
+    <Button onClick={() => setModal({ ...modal, id: 'login', visible: true, size: { width: 600, height: 440 } })}>
+      로그인
+    </Button>
   );
 };
 

@@ -23,7 +23,7 @@ const Container = styled.div`
   flex-direction: row;
   width: 100%;
   height: 500px;
-  background-color: inherit;
+  background-color: #ffd078;
   align-items: center;
   justify-content: space-evenly;
   padding: 5% 0;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiPlus } from 'react-icons/bi';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalAtom } from '@src/recoil/atom/modal';
 import COText from '../Atoms/COText';
 import { Cat } from '@src/typings/Cat';
@@ -22,9 +22,9 @@ export const Card = ({ cat }: Props) => {
   );
 };
 export const AddCard = () => {
-  const setModal = useSetRecoilState(modalAtom);
+  const [modal, setModal] = useRecoilState(modalAtom);
   return (
-    <CardButton onClick={() => setModal({ id: 'enroll', visible: true, size: { width: 600, height: 700 } })}>
+    <CardButton onClick={() => setModal({ ...modal, id: 'enroll', visible: true })}>
       <AddIcon />
     </CardButton>
   );

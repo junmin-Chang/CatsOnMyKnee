@@ -1,13 +1,13 @@
 import { selector } from 'recoil';
-import { diaryFilterAtom } from '../atom/diary';
-import { filteredCat } from './cat';
+import { diaryAtom, diaryFilterAtom } from '../atom/diary';
 import { compareAsc, compareDesc } from 'date-fns';
+import { Diary } from '@src/typings/Diary';
 
 export const filteredDiaries = selector({
   key: 'selector/filteredDiaries',
   get: ({ get }) => {
     const filters = get(diaryFilterAtom);
-    const diaries = get(filteredCat).diary;
+    const diaries = get(diaryAtom) as Diary[];
     switch (filters) {
       case '오래된 순':
         return [...diaries!].sort((a, b) => {

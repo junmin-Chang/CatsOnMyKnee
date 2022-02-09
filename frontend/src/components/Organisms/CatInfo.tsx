@@ -16,8 +16,8 @@ const CatInfo = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Container>
-        <InfoContainer />
-        <DiaryContainer />
+        <InfoContainer catName={name as string} />
+        <DiaryContainer catName={name as string} />
         <Outlet />
       </Container>
     </Suspense>

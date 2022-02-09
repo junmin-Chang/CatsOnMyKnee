@@ -6,43 +6,66 @@ import COButton from '@src/components/Atoms/COButton';
 import useInput from '@src/hooks/useInput';
 import { Cat, CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
-import { enrollCat } from '@src/api/Cat/index';
-import { useRecoilState } from 'recoil';
+import { enrollCat, updateCat } from '@src/api/Cat/index';
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil';
 import { modalAtom } from '@src/recoil/atom/modal';
-import { catAtom } from '@src/recoil/atom/cat';
+import { catAtom, catItemState, catNameAtom } from '@src/recoil/atom/cat';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router';
 
 const EnrollForm = () => {
-  const [cat, setCat] = useRecoilState(catAtom);
-  const [name, onChangeName] = useInput('');
-  const [age, onChangeAge] = useInput('');
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [breed, onChangeBreed] = useInput('');
-  const [favorite, onChangeFavorite] = useInput('');
-  const [hate, onChangeHate] = useInput('');
-  const [gender, _, setGender] = useInput<CatGender>('NO');
-  const [error, setError] = useState<string[] | null>(null);
   const [modal, setModal] = useRecoilState(modalAtom);
-  const onSubmit = useCallback(() => {
-    const newCat: Cat = {
-      name,
-      age,
-      gender,
-      favorite,
-      hate,
-      breed,
-      startDate,
-    };
-    enrollCat(newCat)
-      .then(() => {
+
+  const catName = useRecoilValue(catNameAtom);
+  const cat = useRecoilValue(catItemState(catName!)) as Cat;
+  const refresh = useRecoilRefresher_UNSTABLE(catAtom);
+  const [name, onChangeName] = useInput(modal.edit ? cat?.name : '');
+  const [age, onChangeAge] = useInput(modal.edit ? cat?.age : '');
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [breed, onChangeBreed] = useInput(modal.edit ? cat?.breed : '');
+  const [favorite, onChangeFavorite] = useInput(modal.edit ? cat?.favorite : '');
+  const [hate, onChangeHate] = useInput(modal.edit ? cat?.hate : '');
+  const [gender, _, setGender] = useInput<CatGender>(modal.edit ? cat.gender : 'NO');
+  const [error, setError] = useState<string[] | null>(null);
+  const navigate = useNavigate();
+  const onSubmit = useCallback(async () => {
+    if (modal.edit) {
+      try {
+        await updateCat(encodeURIComponent(cat.name!), {
+          name,
+          age,
+          breed,
+          hate,
+          favorite,
+          gender,
+          startDate,
+        });
+        setModal({ ...modal, visible: false, edit: false });
+        navigate('/cat');
+        refresh();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const newCat: Cat = {
+          name,
+          age,
+          gender,
+          favorite,
+          hate,
+          breed,
+          startDate,
+        };
+        await enrollCat(newCat);
         setModal({ ...modal, visible: false });
-        setCat([...cat, newCat]);
-      })
-      .catch((err) => {
-        setError(err.response.data.message);
-      });
-  }, [name, age, gender, breed, favorite, hate, modal, setModal, startDate, cat, setCat]);
+        refresh();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [name, age, gender, breed, favorite, hate, modal, setModal, startDate, refresh]);
   return (
     <Container>
       <LeftContent>
@@ -51,15 +74,23 @@ const EnrollForm = () => {
         </COText>
         <Content>
           <Label>이름</Label>
-          <Input type="text" placeholder="이름" name="name" onChange={onChangeName} value={name} />
+          <Input type="text" placeholder="이름" name="name" onChange={onChangeName} defaultValue={name} />
         </Content>
         <Content>
           <Label>나이</Label>
-          <Input type="number" placeholder="나이" name="age" onChange={onChangeAge} min={1} max={20} value={age} />
+          <Input
+            type="number"
+            placeholder="나이"
+            name="age"
+            onChange={onChangeAge}
+            min={1}
+            max={20}
+            defaultValue={age}
+          />
         </Content>
         <Content>
           <Label>종</Label>
-          <Input placeholder="종" name="breed" onChange={onChangeBreed} value={breed} />
+          <Input placeholder="종" name="breed" onChange={onChangeBreed} defaultValue={breed} />
         </Content>
         <Content>
           <Label>처음 만난 날</Label>
@@ -73,11 +104,11 @@ const EnrollForm = () => {
         </Content>
         <Content2>
           <Label>좋아하는 것</Label>
-          <Input placeholder="생략 가능" name="favorite" onChange={onChangeFavorite} value={favorite} />
+          <Input placeholder="생략 가능" name="favorite" onChange={onChangeFavorite} defaultValue={favorite} />
         </Content2>
         <Content2>
           <Label>싫어하는 것</Label>
-          <Input placeholder="생략 가능" name="hate" onChange={onChangeHate} value={hate} />
+          <Input placeholder="생략 가능" name="hate" onChange={onChangeHate} defaultValue={hate} />
         </Content2>
         {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
         <div style={{ marginTop: 'auto', width: '100%' }}>

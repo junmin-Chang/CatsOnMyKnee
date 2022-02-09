@@ -1,22 +1,11 @@
 import { Exclude } from 'class-transformer';
 import { Cat } from 'src/cat/cat.entity';
-import { Diary } from 'src/diary/diary.entity';
+import { CommonEntity } from 'src/common/entities/common.entity';
 import { Provider } from 'src/types/user';
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class User extends CommonEntity {
   @Column({ nullable: false })
   provider: Provider;
 
@@ -31,14 +20,6 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Cat, (cat) => cat.user, { eager: true })
   cat: Cat[];
-
-  @Column()
-  @CreateDateColumn()
-  created_at: Date;
-
-  @Column()
-  @UpdateDateColumn()
-  updated_at: Date;
 
   @Column({ nullable: true })
   @Exclude()
