@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Cat } from 'src/cat/cat.entity';
 import { User } from 'src/users/user.entity';
 import {
@@ -27,6 +28,7 @@ export class Diary extends BaseEntity {
   @Column({ nullable: false })
   date: string;
 
+  @Exclude({ toPlainOnly: true })
   @ManyToOne((type) => Cat, (cat) => cat.diary, {
     eager: false,
     onDelete: 'CASCADE',

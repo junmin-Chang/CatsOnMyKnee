@@ -24,7 +24,7 @@ export class CatService {
     return [];
   }
   async enrollCat(createCatDto: CreateCatDto, user: User): Promise<any> {
-    this.catRepository.enrollCat(createCatDto, user);
+    return this.catRepository.enrollCat(createCatDto, user);
   }
 
   async getCatInfo(name: string, user: User) {

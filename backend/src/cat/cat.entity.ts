@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Diary } from 'src/diary/diary.entity';
 import { UploadImage } from 'src/upload/upload.entity';
 import { User } from 'src/users/user.entity';
@@ -41,11 +42,13 @@ export class Cat extends BaseEntity {
   @Column({ nullable: false, type: 'date' })
   startDate: string;
 
+  @Exclude({ toPlainOnly: true })
   @ManyToOne((type) => User, (user) => user.cat, { eager: false })
   user: User;
 
+  @Exclude()
   @OneToMany((type) => Diary, (diary) => diary.cat, {
-    eager: true,
+    eager: false,
     nullable: true,
   })
   diary: Diary[];
@@ -57,9 +60,11 @@ export class Cat extends BaseEntity {
   @JoinColumn()
   public image?: UploadImage;
 
+  @Exclude({ toPlainOnly: true })
   @CreateDateColumn()
   created_at: Date;
 
+  @Exclude({ toPlainOnly: true })
   @UpdateDateColumn()
   updated_at: Date;
 }

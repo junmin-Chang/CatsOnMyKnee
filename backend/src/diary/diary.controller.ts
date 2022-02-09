@@ -26,6 +26,12 @@ export class DiaryController {
     return this.diaryService.createDiary(createDiaryDto, name);
   }
 
+  @Get(':name')
+  @UseGuards(JwtAuthGuard)
+  getDiaries(@Param('name') name: string): Promise<any> {
+    return this.diaryService.getDiaries(name);
+  }
+
   @Get(':name/:id')
   @UseGuards(JwtAuthGuard)
   getDiary(@Param('name') name: string, @Param('id') id: string): Promise<any> {
