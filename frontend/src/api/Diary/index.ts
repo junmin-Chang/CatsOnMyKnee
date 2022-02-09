@@ -5,6 +5,11 @@ export const createDiary = async (name: string, data: any) => {
   return res.data;
 };
 
+export const getDiaries = async (name: string) => {
+  const res = await axiosInstance.get(`/diary/${encodeURIComponent(name)}`);
+  return res.data;
+};
+
 export const getDiary = async (name: string, id: string) => {
   const res = await axiosInstance.get(`diary/${name}/${id}`);
   return res.data;

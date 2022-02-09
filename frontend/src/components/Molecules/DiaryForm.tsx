@@ -8,14 +8,16 @@ import COTextArea from '../Atoms/COTextArea';
 import SelectInput from '@src/components/Organisms/SelectInput';
 import { feelingOptions } from '@src/data/SelectData';
 import COText from '@src/components/Atoms/COText';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useSetRecoilState } from 'recoil';
+import { diaryAtom } from '@src/recoil/atom/diary';
+import { filteredCat } from '@src/recoil/selector/cat';
 import { filteredDiaries } from '@src/recoil/selector/diary';
+import { Diary } from '@src/typings/Diary';
 
 interface Props {
   name: string;
 }
 const DiaryForm = ({ name }: Props) => {
-  const setDiary = useSetRecoilState(filteredDiaries);
   const [title, onChangeTitle] = useInput('');
   const [description, onChangeDescription] = useInput('');
   const [date, onChangeDate] = useInput('');
@@ -28,20 +30,21 @@ const DiaryForm = ({ name }: Props) => {
   });
 
   const navigate = useNavigate();
+  const refresh = useRecoilRefresher_UNSTABLE(diaryAtom);
   const onSubmit = useCallback(async () => {
     try {
-      const newDiary = await createDiary(encodeURIComponent(name), {
+      await createDiary(encodeURIComponent(name), {
         title,
         description,
         date,
         feeling: feeling.value,
       });
-      setDiary(newDiary);
       navigate(`/cat/${name}`);
+      refresh();
     } catch (err) {
       console.log(err);
     }
-  }, [name, navigate, date, title, description, feeling, setDiary]);
+  }, [date, title, description, feeling, name, navigate, refresh]);
   return (
     <Container>
       <COText fontSize={20} fontColor="#18171c">

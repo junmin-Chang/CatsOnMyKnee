@@ -11,10 +11,15 @@ import { ChangeEvent } from 'react';
 import COImage from '../Atoms/COImage';
 import useTimeDiff from '@src/hooks/useTimeDiff';
 import { useRecoilValue } from 'recoil';
-import { filteredCat } from '@src/recoil/selector/cat';
 import COLabel from '../Atoms/COLabel';
-const InfoContainer = () => {
-  const cat = useRecoilValue(filteredCat) as Cat;
+import { catItemState } from '@src/recoil/atom/cat';
+
+interface Props {
+  catName: string;
+}
+const InfoContainer = ({ catName }: Props) => {
+  const cat = useRecoilValue(catItemState(catName)) as Cat;
+  console.log(cat);
   const [edit, setEdit] = useState<boolean>(false);
   const [name, onChangeName] = useInput('');
   const [age, onChangeAge] = useInput('');

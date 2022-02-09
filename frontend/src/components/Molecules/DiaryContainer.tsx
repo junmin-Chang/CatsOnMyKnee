@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
 import Notebook from '@src/assets/notebook.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { filteredCat } from '@src/recoil/selector/cat';
 import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
 import { filterOptions } from '@src/data/SelectData';
-import { diaryFilterAtom } from '@src/recoil/atom/diary';
+import { diaryAtom, diaryFilterAtom } from '@src/recoil/atom/diary';
 import { Diary } from '@src/typings/Diary';
-const DiaryContainer = () => {
-  const cat = useRecoilValue(filteredCat);
-  const diaries = useRecoilValue(filteredDiaries) as Diary[];
+import { catItemState } from '@src/recoil/atom/cat';
+import { Cat } from '@src/typings/Cat';
+
+interface Props {
+  catName: string;
+}
+const DiaryContainer = ({ catName }: Props) => {
+  const cat = useRecoilValue(catItemState(catName)) as Cat;
+  const diaries = useRecoilValue(diaryAtom) as Diary[];
+  const refresh = useRecoilRefresher_UNSTABLE(diaryAtom);
   const [filter, setFilter] = useRecoilState(diaryFilterAtom);
+  useEffect(() => {
+    refresh();
+  }, [catName, refresh]);
   return (
     <Container>
       <Header>

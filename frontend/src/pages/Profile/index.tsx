@@ -9,7 +9,6 @@ import { Outlet } from 'react-router-dom';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
   const cats = useRecoilValue(catAtom);
-  console.log(cats);
   return (
     <React.Suspense fallback={<div>Loading..</div>}>
       <Container>
@@ -17,7 +16,6 @@ const Profile = () => {
           {user?.name}님의 아이들
         </COText>
         <CardContainer>
-          {/* {cats && cats?.map((c, i) => <Card key={i} cat={c} />)} */}
           {cats && cats.map((c, i) => <Card key={i} cat={c} />)}
           <AddCard />
         </CardContainer>
