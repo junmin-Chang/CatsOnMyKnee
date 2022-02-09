@@ -30,17 +30,18 @@ const EnrollForm = () => {
   const [error, setError] = useState<string[] | null>(null);
   const navigate = useNavigate();
   const onSubmit = useCallback(async () => {
+    const updated = {
+      name: cat.name === name ? undefined : name,
+      age,
+      breed,
+      hate,
+      favorite,
+      startDate,
+      gender,
+    };
     if (modal.edit) {
       try {
-        await updateCat(encodeURIComponent(cat.name!), {
-          name,
-          age,
-          breed,
-          hate,
-          favorite,
-          gender,
-          startDate,
-        });
+        await updateCat(encodeURIComponent(cat.name!), updated);
         setModal({ ...modal, visible: false, edit: false });
         navigate('/cat');
         refresh();
