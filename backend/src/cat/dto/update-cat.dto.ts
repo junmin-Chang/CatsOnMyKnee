@@ -19,9 +19,9 @@ export class UpdateCatDto {
 
   @IsOptional()
   @IsString()
-  favorite: string;
+  favorite: { value: string; label: string }[];
 
   @IsOptional()
   @IsString()
-  hate: string;
+  hate: { value: string; label: string }[];
 }

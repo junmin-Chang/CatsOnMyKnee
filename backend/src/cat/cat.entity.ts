@@ -28,10 +28,10 @@ export class Cat extends CommonEntity {
   gender: CatGender;
 
   @Column({ nullable: true })
-  favorite: string;
+  favorite: { value: string; label: string }[];
 
   @Column({ nullable: true })
-  hate: string;
+  hate: { value: string; label: string }[];
 
   @Column({ nullable: false, type: 'date' })
   startDate: string;
