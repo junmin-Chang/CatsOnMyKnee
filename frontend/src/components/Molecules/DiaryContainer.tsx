@@ -18,7 +18,7 @@ interface Props {
 }
 const DiaryContainer = ({ catName }: Props) => {
   const cat = useRecoilValue(catItemState(catName)) as Cat;
-  const diaries = useRecoilValue(diaryAtom) as Diary[];
+  const diaries = useRecoilValue(filteredDiaries) as Diary[];
   const refresh = useRecoilRefresher_UNSTABLE(diaryAtom);
   const [filter, setFilter] = useRecoilState(diaryFilterAtom);
   useEffect(() => {
