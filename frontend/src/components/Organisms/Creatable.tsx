@@ -6,8 +6,21 @@ interface Props {
   name: string;
   value: any;
 }
+const components = {
+  DropdownIndicator: null,
+};
 const Creatable = ({ onChange, name, value }: Props) => {
-  return <Styled onChange={onChange} isMulti placeholder="입력해주세요" name={name} value={value} />;
+  return (
+    <Styled
+      components={components}
+      onChange={onChange}
+      isMulti
+      placeholder="입력 후 ENTER"
+      name={name}
+      value={value}
+      noOptionsMessage={() => null}
+    />
+  );
 };
 
 export default Creatable;

@@ -16,10 +16,10 @@ export class CreateCatDto {
   gender: CatGender;
 
   @IsOptional()
-  favorite: { value: string; label: string }[];
+  favorite: string[];
 
   @IsOptional()
-  hate: { value: string[]; label: string }[];
+  hate: string[];
 
   @IsNotEmpty({ message: '날짜를 입력해주세요' })
   startDate: string;

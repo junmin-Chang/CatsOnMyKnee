@@ -18,10 +18,8 @@ export class UpdateCatDto {
   gender: CatGender;
 
   @IsOptional()
-  @IsString()
-  favorite: { value: string; label: string }[];
+  favorite: string[];
 
   @IsOptional()
-  @IsString()
-  hate: { value: string; label: string }[];
+  hate: string[];
 }

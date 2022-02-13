@@ -9,8 +9,10 @@ import { catNameAtom } from '@src/recoil/atom/cat';
 const CatInfo = () => {
   const { name } = useParams();
   const setCatName = useSetRecoilState(catNameAtom);
+  console.log(name);
+
   useEffect(() => {
-    setCatName(name);
+    setCatName(name!);
   }, [setCatName, name]);
 
   return (

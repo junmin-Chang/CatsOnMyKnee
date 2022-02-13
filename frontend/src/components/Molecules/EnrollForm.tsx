@@ -4,7 +4,6 @@ import COText from '@src/components/Atoms/COText';
 import COError from '@src/components/Atoms/COError';
 import COButton from '@src/components/Atoms/COButton';
 import useInput from '@src/hooks/useInput';
-import { Cat, CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
 import { enrollCat, updateCat } from '@src/api/Cat/index';
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil';
@@ -19,30 +18,30 @@ const EnrollForm = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
 
   const catName = useRecoilValue(catNameAtom);
-  const cat = useRecoilValue(catItemState(catName!)) as Cat;
+  const cat = useRecoilValue(catItemState(catName));
   const refresh = useRecoilRefresher_UNSTABLE(catAtom);
-  const [name, onChangeName] = useInput(modal.edit ? cat?.name : '');
-  const [age, onChangeAge] = useInput(modal.edit ? cat?.age : '');
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [breed, onChangeBreed] = useInput(modal.edit ? cat?.breed : '');
-  const [hate, setHate] = useState(modal.edit ? cat.favorite : []);
-  const [favorite, setFavorite] = useState(modal.edit ? cat.hate : []);
-  const [gender, _, setGender] = useInput<CatGender>(modal.edit ? cat.gender : 'NO');
+  const [name, onChangeName] = useInput(modal.edit && cat ? cat.name : '');
+  const [age, onChangeAge] = useInput(modal.edit && cat ? cat.age : '');
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [breed, onChangeBreed] = useInput(modal.edit && cat ? cat.breed : '');
+  const [hate, setHate] = useState(modal.edit && cat ? cat.favorite : []);
+  const [favorite, setFavorite] = useState(modal.edit && cat ? cat.hate : []);
+  const [gender, _, setGender] = useInput(modal.edit && cat ? cat.gender : 'NO');
   const [error, setError] = useState<string[] | null>(null);
   const navigate = useNavigate();
   const onSubmit = useCallback(async () => {
     const updated = {
-      name: cat.name === name ? undefined : name,
+      name: cat?.name === name ? undefined : name,
       age,
       breed,
-      hate,
-      favorite,
+      favorite: favorite?.map((f) => f.value),
+      hate: hate?.map((h) => h.value),
       startDate,
       gender,
     };
     if (modal.edit) {
       try {
-        await updateCat(encodeURIComponent(cat.name!), updated);
+        await updateCat(encodeURIComponent(cat?.name!), updated);
         setModal({ ...modal, visible: false, edit: false });
         navigate('/cat');
         refresh();
@@ -51,12 +50,12 @@ const EnrollForm = () => {
       }
     } else {
       try {
-        const newCat: Cat = {
+        const newCat = {
           name,
           age,
           gender,
-          favorite,
-          hate,
+          favorite: favorite?.map((f) => f.value),
+          hate: hate?.map((h) => h.value),
           breed,
           startDate,
         };
@@ -67,7 +66,8 @@ const EnrollForm = () => {
         console.log(err);
       }
     }
-  }, [name, age, gender, breed, modal, setModal, favorite, hate, startDate, refresh, cat.name, navigate]);
+  }, [name, age, gender, breed, modal, setModal, favorite, hate, startDate, refresh, cat?.name, navigate]);
+
   return (
     <Container>
       <LeftContent>
@@ -96,9 +96,9 @@ const EnrollForm = () => {
         </Content>
         <Content>
           <Label>처음 만난 날</Label>
-          <DatePicker
+          <DatePick
             selected={startDate}
-            onChange={(date) => {
+            onChange={(date: Date) => {
               setStartDate(date);
             }}
             dateFormat="yyyy/MM/dd"
@@ -170,7 +170,7 @@ const Content = styled.div`
 
 const Input = styled.input`
   width: 70%;
-  height: 30px;
+  height: 50px;
   background-color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -225,4 +225,11 @@ const IconWrapper = styled.div<{ selected: boolean }>`
     background-color: #f28500;
     color: #ffffff;
   }
+`;
+
+const DatePick = styled(DatePicker)`
+  height: 50px;
+  width: 80%;
+  font-size: 20px;
+  text-align: center;
 `;

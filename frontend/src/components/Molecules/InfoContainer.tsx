@@ -2,7 +2,7 @@ import { Cat } from '@src/typings/Cat';
 import React, { useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import DropdownCard from '@src/components/Molecules/DropdownCard';
-import COButton from '../Atoms/COButton';
+import COButton, { Button } from '../Atoms/COButton';
 import useInput from '@src/hooks/useInput';
 import { deleteImage, updateCat, uploadImage } from '@src/api/Cat/index';
 import { useNavigate } from 'react-router';
@@ -61,6 +61,7 @@ const InfoContainer = ({ catName }: Props) => {
 
       <ImageContainer>
         <COImage src={image.previewUrl || cat.image?.url} onClick={onClickImage} />
+        {image.file.length !== 0 && <Button onClick={onSubmit}>이미지 변경</Button>}
       </ImageContainer>
 
       <TextContainer>
@@ -79,13 +80,15 @@ const InfoContainer = ({ catName }: Props) => {
         </Content>
         <Content>
           <Label>좋아하는 것 : </Label>
-
-          <COLabel>{cat.favorite}</COLabel>
+          {cat.favorite?.map((v, i) => (
+            <COLabel key={i}>{v.value}</COLabel>
+          ))}
         </Content>
         <Content>
           <Label>싫어하는 것 : </Label>
-
-          <COLabel>{cat.hate}</COLabel>
+          {cat.hate?.map((v, i) => (
+            <COLabel key={i}>{v.value}</COLabel>
+          ))}
         </Content>
       </TextContainer>
     </Container>
