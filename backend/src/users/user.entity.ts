@@ -24,4 +24,7 @@ export class User extends CommonEntity {
   @Column({ nullable: true })
   @Exclude()
   currentHashedRefreshToken?: string;
+
+  @Column({ nullable: true })
+  profileImage: string;
 }

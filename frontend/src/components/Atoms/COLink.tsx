@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 interface Props {
   color?: string;
   to: string;
-  size: number;
-  weight: number;
+  size?: number;
+  weight?: number;
 }
-const COLink: React.FC<Props> = ({ children, color, to, size, weight }) => {
+const COLink: React.FC<Props> = ({ children, color, to, size = 16, weight = 500 }) => {
   return (
     <Button backgroundColor={color} to={to} fontSize={size} fontWeight={weight}>
       {children}

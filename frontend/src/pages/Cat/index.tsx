@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { catAtom } from '@src/recoil/atom/cat';
 import { userAtom } from '@src/recoil/atom/user';
 import { Outlet } from 'react-router-dom';
-const Profile = () => {
+const Cat = () => {
   const user = useRecoilValue(userAtom);
   const cats = useRecoilValue(catAtom);
   return (
@@ -51,4 +51,4 @@ const CardContainer = styled.div`
   }
 `;
 
-export default Profile;
+export default Cat;

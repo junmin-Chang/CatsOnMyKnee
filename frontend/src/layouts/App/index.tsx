@@ -5,11 +5,11 @@ import GlobalStyle from './GlobalStyles';
 import styled from 'styled-components';
 import Header from '@src/components/Organisms/Header';
 import Modal from '@src/components/Organisms/Modal/Modal';
-import Profile from '@src/pages/Profile';
 import CatInfo from '@src/components/Organisms/CatInfo';
 import DiaryReadModal from '@src/components/Organisms/Modal/DiaryReadModal';
 import DiaryWriteModal from '@src/components/Organisms/Modal/DiaryWriteModal';
-import Footer from '@src/components/Organisms/Footer';
+import Cat from '@src/pages/Cat';
+import MyPage from '@src/pages/MyPage';
 const App = () => {
   return (
     <React.Suspense fallback={<div>Loading..</div>}>
@@ -20,12 +20,13 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cat" element={<Profile />}>
+            <Route path="/cat" element={<Cat />}>
               <Route path=":name" element={<CatInfo />}>
                 <Route path="diary" element={<DiaryWriteModal />} />
                 <Route path="diary/:id" element={<DiaryReadModal />} />
               </Route>
             </Route>
+            <Route path="/profile" element={<MyPage />} />
           </Routes>
         </Container>
       </BrowserRouter>
