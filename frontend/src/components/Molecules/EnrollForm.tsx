@@ -22,7 +22,7 @@ const EnrollForm = () => {
   const refresh = useRecoilRefresher_UNSTABLE(catAtom);
   const [name, onChangeName] = useInput(modal.edit && cat ? cat.name : '');
   const [age, onChangeAge] = useInput(modal.edit && cat ? cat.age : '');
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(modal.edit && cat ? new Date(cat.startDate!) : new Date());
   const [breed, onChangeBreed] = useInput(modal.edit && cat ? cat.breed : '');
   const [hate, setHate] = useState(modal.edit && cat ? cat.favorite : []);
   const [favorite, setFavorite] = useState(modal.edit && cat ? cat.hate : []);
