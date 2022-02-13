@@ -18,7 +18,7 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
     _refreshToken: string,
     profile: Profile,
   ) {
-    const { id, name, emails, _json } = profile;
+    const { id, name, emails } = profile;
     console.log(profile);
     let user = await this.usersService.getUserByProvider('google', id);
     if (!user) {
@@ -27,7 +27,6 @@ export class GoogleOauthStrategy extends PassportStrategy(Strategy, 'google') {
         providerId: id,
         name: name.givenName,
         username: emails[0].value,
-        profileImage: _json.picture,
       });
     }
     return user;

@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Provider } from 'src/types/user';
-import { FindManyOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { hash, compare } from 'bcryptjs';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { UserRepository } from './users.repository';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UploadService } from 'src/upload/upload.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+    private uploadService: UploadService,
   ) {}
 
-  createUser(user: CreateUserDto) {
+  createUser(user: any) {
     return this.userRepository.createUser(user);
   }
 
@@ -31,6 +32,31 @@ export class UsersService {
         profileImage,
       },
     };
+  }
+  async uploadUserImage(
+    user: User,
+    imageBuffer: Buffer,
+    filename: string,
+  ): Promise<any> {
+    const image = await this.uploadService.uploadImage(imageBuffer, filename);
+    const prevImage = user.profileImage;
+
+    if (prevImage) {
+      await this.deleteImage(user);
+    }
+    await this.userRepository.update(user, {
+      ...user,
+      profileImage: image,
+    });
+  }
+  async deleteImage(user: User) {
+    const fileId = user.profileImage.id;
+    if (fileId) {
+      await this.userRepository.update(user, {
+        profileImage: null,
+      });
+    }
+    await this.uploadService.deleteImage(fileId);
   }
 
   async updateUserInfo(user: User, updateUserDto: UpdateUserDto): Promise<any> {

@@ -13,7 +13,6 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
   async validate(_accessToken: string, _refreshToken: string, profile: any) {
     const { id, _json } = profile;
-    console.log(profile);
 
     let user = await this.usersService.getUserByProvider('kakao', id);
     if (!user) {
@@ -22,7 +21,6 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
         providerId: id,
         name: _json.properties.nickname,
         username: _json.kakao_account.email,
-        profileImage: _json.properties.thumbnail_image,
       });
     }
     return user;

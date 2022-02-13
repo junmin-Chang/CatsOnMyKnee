@@ -5,5 +5,4 @@ export class CreateUserDto {
   providerId: string;
   username: string;
   name: string;
-  profileImage: string;
 }
