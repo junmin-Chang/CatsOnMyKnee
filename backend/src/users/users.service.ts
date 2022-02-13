@@ -61,10 +61,8 @@ export class UsersService {
 
   async updateUserInfo(user: User, updateUserDto: UpdateUserDto): Promise<any> {
     const { name } = updateUserDto;
-    const userInfo = await this.userRepository.findUserById(user.id);
 
     this.userRepository.update(user, {
-      ...userInfo,
       name,
     });
   }
