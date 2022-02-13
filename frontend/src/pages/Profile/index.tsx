@@ -31,13 +31,13 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   align-items: center;
-  padding: 30px;
+  padding-top: 30px;
 `;
 
 const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 80%;
+  width: 90%;
   min-height: 150px;
   border-radius: 15px;
   background-color: #ffd078;

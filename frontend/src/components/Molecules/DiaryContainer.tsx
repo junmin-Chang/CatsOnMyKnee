@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
 import Notebook from '@src/assets/notebook.svg';
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { filteredCat } from '@src/recoil/selector/cat';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
 import { filterOptions } from '@src/data/SelectData';
-import { diaryAtom, diaryFilterAtom } from '@src/recoil/atom/diary';
+import { diaryFilterAtom } from '@src/recoil/atom/diary';
 import { Diary } from '@src/typings/Diary';
 import { catItemState } from '@src/recoil/atom/cat';
 import { Cat } from '@src/typings/Cat';
@@ -67,8 +66,7 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #ffedad;
   border-radius: 15px;
-  width: 70%;
-  height: 100%;
+  width: 100%;
   padding: 20px;
 `;
 
@@ -104,6 +102,7 @@ const NoteBookIcon = styled(Notebook)`
 const Name = styled.span`
   display: inline;
   box-shadow: inset 0 -30px 0 #eee71b;
+  font-size: 1.5rem;
 
   &::after {
     display: inline;
