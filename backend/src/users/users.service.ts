@@ -7,6 +7,7 @@ import { User } from './user.entity';
 import { hash, compare } from 'bcryptjs';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { UserRepository } from './users.repository';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,16 @@ export class UsersService {
         name,
       },
     };
+  }
+
+  async updateUserInfo(user: User, updateUserDto: UpdateUserDto): Promise<any> {
+    const { name } = updateUserDto;
+    const userInfo = await this.userRepository.findUserById(user.id);
+
+    this.userRepository.update(user, {
+      ...userInfo,
+      name,
+    });
   }
 
   async getUserByProvider(provider: Provider, providerId: string) {
