@@ -6,3 +6,7 @@ export const getUserInfo = async () => {
 export const logout = async () => {
   return await axiosInstance.get('/auth/logout');
 };
+
+export const uploadUserImage = async (formData: any) => {
+  return await axiosInstance.post('/users/image', formData);
+};

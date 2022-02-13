@@ -1,10 +1,10 @@
-import CardContainer from '@src/components/Atoms/MyPage/CardContainer';
+import Profile from '@src/components/Organisms/MyPage/Profile';
 import React from 'react';
 import styled from 'styled-components';
 const MyPage = () => {
   return (
     <Container>
-      <CardContainer>Profile</CardContainer>
+      <Profile />
     </Container>
   );
 };

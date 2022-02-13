@@ -8,6 +8,7 @@ import { logout } from '@src/api/User/index';
 import { useNavigate } from 'react-router-dom';
 import useOutsideClick from '@src/hooks/useOutsideClick';
 import { Link } from 'react-router-dom';
+import COImage from '../Atoms/COImage';
 
 const Header = () => {
   const user = useRecoilValue(userAtom);
@@ -32,7 +33,7 @@ const Header = () => {
       {!user && <LoginButton />}
       {user && (
         <ButtonWrapper>
-          <ProfileImage src={user.profileImage} alt="profile_image" onClick={onToggle} />
+          <COImage src={user?.profileImage?.url} onClick={onToggle} style={{ marginRight: '10px' }} />
           {active && (
             <Dropdown ref={dropdownRef}>
               <Ul>
@@ -89,7 +90,7 @@ const ButtonWrapper = styled.div`
 const ProfileImage = styled.img`
   width: 50px;
   height: 50px;
-  border-radius: 50px;
+  border-radius: 100%;
   margin-right: 20px;
 `;
 
