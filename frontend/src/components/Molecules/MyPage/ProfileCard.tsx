@@ -1,5 +1,4 @@
 import COImage from '@src/components/Atoms/COImage';
-import COText from '@src/components/Atoms/COText';
 import CardContainer from '@src/components/Atoms/MyPage/CardContainer';
 import { userAtom } from '@src/recoil/atom/user';
 import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
@@ -7,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import InfoContainer from '@src/components/Atoms/MyPage/InfoContainer';
 import { uploadUserImage } from '@src/api/User';
 import { Button } from '@src/components/Atoms/COButton';
-
+import CardTop from '@src/components/Atoms/MyPage/CardTop';
 const ProfileCard: React.FC = ({ children }) => {
   const user = useRecoilValue(userAtom);
   const [image, setImage] = useState<any>({
@@ -41,9 +40,11 @@ const ProfileCard: React.FC = ({ children }) => {
   }, [image]);
   return (
     <CardContainer>
-      <COImage src={image.previewUrl || user?.profileImage?.url} onClick={onClickImage} width="200" height="200" />
-      <input type="file" style={{ display: 'none' }} ref={hiddenFileRef} onChange={onChangeFile} />
-      {image.file.length !== 0 && <Button onClick={onSubmit}>변경하기</Button>}
+      <CardTop>
+        <COImage src={image.previewUrl || user?.profileImage?.url} onClick={onClickImage} width="150" height="150" />
+        <input type="file" style={{ display: 'none' }} ref={hiddenFileRef} onChange={onChangeFile} />
+        {image.file.length !== 0 && <Button onClick={onSubmit}>변경하기</Button>}
+      </CardTop>
       <InfoContainer>{children}</InfoContainer>
     </CardContainer>
   );

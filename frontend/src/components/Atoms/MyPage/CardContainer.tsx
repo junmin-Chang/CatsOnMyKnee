@@ -10,9 +10,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffd078;
+  background-color: #fff;
   border-radius: 15px;
   width: 50%;
-  height: 800px;
-  padding: 2%;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 `;

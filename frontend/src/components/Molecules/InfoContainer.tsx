@@ -57,7 +57,7 @@ const InfoContainer = ({ catName }: Props) => {
       </Header>
 
       <ImageContainer>
-        <COImage src={image.previewUrl || cat.image?.url} onClick={onClickImage} />
+        <COImage src={image.previewUrl || cat.image?.url} onClick={onClickImage} width="200" height="200" />
         {image.file.length !== 0 && <Button onClick={onSubmit}>이미지 변경</Button>}
       </ImageContainer>
 

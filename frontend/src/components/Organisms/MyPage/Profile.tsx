@@ -8,42 +8,89 @@ import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { AiFillEdit } from 'react-icons/ai';
 import { updateUserInfo } from '@src/api/User';
+import CODivider from '@src/components/Atoms/CODivider';
 const Profile = () => {
   const user = useRecoilValue(userAtom);
   const refresh = useRecoilRefresher_UNSTABLE(userAtom);
   const cat = useRecoilValue(catAtom);
-  const [edit, setEdit] = useState(false);
-  const [name, setName] = useState(user?.name || '');
-  const onToggle = useCallback(() => {
-    setEdit((prev) => !prev);
+  const [info, setInfo] = useState({
+    name: user?.name || '',
+    bio: user?.bio || '',
+  });
+  const [editName, setEditName] = useState(false);
+  const [editBio, setEditBio] = useState(false);
+
+  const onToggleName = useCallback(() => {
+    setEditName((prev) => !prev);
   }, []);
-  const onChangeName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const onToggleBio = useCallback(() => {
+    setEditBio((prev) => !prev);
   }, []);
-  const onSubmitNickname = useCallback(async () => {
+
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setInfo({
+        ...info,
+        [e.target.name]: e.target.value,
+      });
+    },
+    [info],
+  );
+
+  const onSubmit = useCallback(async () => {
     await updateUserInfo({
-      name,
+      name: info.name,
+      bio: info.bio,
     });
-    onToggle();
+
+    if (editName && user?.name !== info.name) {
+      onToggleName();
+    }
+    if (editBio && user?.bio !== info.bio) {
+      onToggleBio();
+    }
+
     refresh();
-  }, [name, onToggle, refresh]);
+  }, [refresh, info, user, onToggleName, onToggleBio, editName, editBio]);
+
   return (
     <ProfileCard>
       <TextContent>
-        {!edit ? (
+        {!editName ? (
           <>
             <COText fontSize={20} fontColor="#18171c">
-              <mark>{user?.name}</mark> 집사님
+              <mark>{user?.name}</mark>
             </COText>
-            <AiFillEdit onClick={onToggle} size={20} style={{ cursor: 'pointer' }} />
+            <AiFillEdit onClick={onToggleName} size={20} style={{ cursor: 'pointer', marginLeft: '5px' }} />
           </>
         ) : (
           <>
-            <input defaultValue={name} onChange={onChangeName} />
-            <button onClick={onSubmitNickname}>변경</button>
-            <button onClick={onToggle}>취소</button>
+            <input type="text" defaultValue={info.name} onChange={onChange} name="name" />
+            <button onClick={onSubmit}>변경</button>
+            <button onClick={onToggleName}>취소</button>
           </>
         )}
+      </TextContent>
+
+      <TextContent>
+        {!editBio ? (
+          <>
+            <COText fontSize={14} fontColor="#18171c">
+              {user?.bio}
+            </COText>
+            <AiFillEdit onClick={onToggleBio} size={20} style={{ cursor: 'pointer', marginLeft: '5px' }} />
+          </>
+        ) : (
+          <>
+            <input type="text" defaultValue={info.bio} onChange={onChange} name="bio" />
+            <button onClick={onSubmit}>변경</button>
+            <button onClick={onToggleBio}>취소</button>
+          </>
+        )}
+      </TextContent>
+
+      <TextContent>
+        <CODivider />
       </TextContent>
 
       <TextContent>
