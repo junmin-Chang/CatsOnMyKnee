@@ -3,5 +3,6 @@ export class ResponseUserDto {
     name: string;
     username: string;
     profileImage: string;
+    bio: string;
   };
 }

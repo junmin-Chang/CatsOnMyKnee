@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Provider } from 'src/types/user';
-import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { hash, compare } from 'bcryptjs';
 import { ResponseUserDto } from './dto/response-user.dto';
@@ -23,13 +22,14 @@ export class UsersService {
 
   async getUserInfo(user: User): Promise<ResponseUserDto> {
     const userInfo = await this.userRepository.findUserById(user.id);
-    const { username, name, profileImage } = userInfo;
+    const { username, name, profileImage, bio } = userInfo;
 
     return {
       user: {
         username,
         name,
         profileImage,
+        bio,
       },
     };
   }
@@ -60,10 +60,11 @@ export class UsersService {
   }
 
   async updateUserInfo(user: User, updateUserDto: UpdateUserDto): Promise<any> {
-    const { name } = updateUserDto;
+    const { name, bio } = updateUserDto;
 
     this.userRepository.update(user, {
       name,
+      bio,
     });
   }
 

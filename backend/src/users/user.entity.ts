@@ -19,6 +19,9 @@ export class User extends CommonEntity {
   @Column({ nullable: false })
   name: string;
 
+  @Column({ nullable: true })
+  bio: string;
+
   @OneToMany((type) => Cat, (cat) => cat.user, { eager: true })
   cat: Cat[];
 
