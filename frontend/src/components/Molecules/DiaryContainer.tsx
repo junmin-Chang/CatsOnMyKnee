@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
-import Notebook from '@src/assets/notebook.svg';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
@@ -11,6 +10,7 @@ import { diaryFilterAtom } from '@src/recoil/atom/diary';
 import { Diary } from '@src/typings/Diary';
 import { catItemState } from '@src/recoil/atom/cat';
 import { Cat } from '@src/typings/Cat';
+import DiaryContent from './DiaryContent';
 
 interface Props {
   catName: string;
@@ -42,19 +42,7 @@ const DiaryContainer = ({ catName }: Props) => {
       <COText fontColor="#18171c" fontSize={20}>
         총 {diaries?.length}개 있네요!
       </COText>
-      <Content>
-        {diaries &&
-          diaries.map((d, i) => (
-            <Link to={`/cat/${cat.name}/diary/${d.id}`} style={{ marginRight: '15px', textDecoration: 'none' }} key={i}>
-              <NoteBookIcon />
-              <div>
-                <COText fontColor="#18171c" fontSize={15}>
-                  {d.date}
-                </COText>
-              </div>
-            </Link>
-          ))}
-      </Content>
+      <Content>{diaries && diaries.map((d, i) => <DiaryContent diary={d} key={i} />)}</Content>
     </Container>
   );
 };
@@ -89,14 +77,6 @@ const Content = styled.div`
   flex-direction: row;
   width: 100%;
   padding: 20px;
-`;
-const NoteBookIcon = styled(Notebook)`
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-  &:hover {
-    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
-  }
 `;
 
 const Name = styled.span`

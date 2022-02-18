@@ -98,9 +98,11 @@ const Profile = () => {
           함께하는 냥이
         </COText>
       </TextContent>
-      {cat.map((cat) => (
-        <Card cat={cat} />
-      ))}
+      <CatContainer>
+        {cat.map((cat) => (
+          <Card cat={cat} backgroundColor="#feede2" />
+        ))}
+      </CatContainer>
     </ProfileCard>
   );
 };
@@ -114,4 +116,11 @@ const TextContent = styled.div`
   width: 100%;
   align-items: center;
   margin-bottom: 20px;
+`;
+
+const CatContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 5%;
 `;
