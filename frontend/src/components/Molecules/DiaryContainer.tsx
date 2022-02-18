@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import COText from '@src/components/Atoms/COText';
 import { Link } from 'react-router-dom';
-import Notebook from '@src/assets/notebook.svg';
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { filteredCat } from '@src/recoil/selector/cat';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filteredDiaries } from '@src/recoil/selector/diary';
 import SelectInput from '../Organisms/SelectInput';
 import { filterOptions } from '@src/data/SelectData';
-import { diaryAtom, diaryFilterAtom } from '@src/recoil/atom/diary';
+import { diaryFilterAtom } from '@src/recoil/atom/diary';
 import { Diary } from '@src/typings/Diary';
 import { catItemState } from '@src/recoil/atom/cat';
 import { Cat } from '@src/typings/Cat';
+import DiaryContent from './DiaryContent';
 
 interface Props {
   catName: string;
@@ -43,19 +42,7 @@ const DiaryContainer = ({ catName }: Props) => {
       <COText fontColor="#18171c" fontSize={20}>
         총 {diaries?.length}개 있네요!
       </COText>
-      <Content>
-        {diaries &&
-          diaries.map((d, i) => (
-            <Link to={`/cat/${cat.name}/diary/${d.id}`} style={{ marginRight: '15px', textDecoration: 'none' }} key={i}>
-              <NoteBookIcon />
-              <div>
-                <COText fontColor="#18171c" fontSize={15}>
-                  {d.date}
-                </COText>
-              </div>
-            </Link>
-          ))}
-      </Content>
+      <Content>{diaries && diaries.map((d, i) => <DiaryContent diary={d} key={i} />)}</Content>
     </Container>
   );
 };
@@ -67,8 +54,7 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #ffedad;
   border-radius: 15px;
-  width: 70%;
-  height: 100%;
+  width: 100%;
   padding: 20px;
 `;
 
@@ -92,18 +78,11 @@ const Content = styled.div`
   width: 100%;
   padding: 20px;
 `;
-const NoteBookIcon = styled(Notebook)`
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-  &:hover {
-    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
-  }
-`;
 
 const Name = styled.span`
   display: inline;
   box-shadow: inset 0 -30px 0 #eee71b;
+  font-size: 1.5rem;
 
   &::after {
     display: inline;

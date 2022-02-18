@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
-import { EnrollForm } from '@src/components/Molecules/EnrollForm';
+import EnrollForm from '@src/components/Molecules/EnrollForm';
 
 interface Props {
   onClose: () => void;

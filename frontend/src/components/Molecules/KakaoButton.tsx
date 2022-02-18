@@ -23,7 +23,7 @@ const Icon = styled(RiKakaoTalkFill)`
 `;
 const Button = styled.button`
   display: inline-flex;
-  width: 383px;
+  width: 80%;
   height: 68px;
   background-color: #fee500;
   border-radius: 6px;

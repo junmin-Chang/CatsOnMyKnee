@@ -10,7 +10,7 @@ const CatInfo = () => {
   const { name } = useParams();
   const setCatName = useSetRecoilState(catNameAtom);
   useEffect(() => {
-    setCatName(name);
+    setCatName(name!);
   }, [setCatName, name]);
 
   return (
@@ -30,15 +30,11 @@ const Container = styled.h1`
   display: flex;
   flex-direction: row;
   padding: 10px;
-  width: 80%;
+  width: 90%;
   height: 100%;
   background-color: #ffd078;
   border-radius: 15px;
   @media (max-width: 1024px) {
     flex-direction: column;
-    & > * {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
   }
 `;

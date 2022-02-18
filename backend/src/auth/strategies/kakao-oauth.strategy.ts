@@ -13,6 +13,7 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
   async validate(_accessToken: string, _refreshToken: string, profile: any) {
     const { id, _json } = profile;
+
     let user = await this.usersService.getUserByProvider('kakao', id);
     if (!user) {
       user = await this.usersService.createUser({

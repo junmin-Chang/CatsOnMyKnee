@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiPlus } from 'react-icons/bi';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { modalAtom } from '@src/recoil/atom/modal';
 import COText from '../Atoms/COText';
 import { Cat } from '@src/typings/Cat';
@@ -9,11 +9,12 @@ import { Link } from 'react-router-dom';
 
 interface Props {
   cat: Cat;
+  backgroundColor?: string;
 }
 
-export const Card = ({ cat }: Props) => {
+export const Card = ({ cat, backgroundColor = '#fff' }: Props) => {
   return (
-    <CardContent to={`/cat/${cat.name}`}>
+    <CardContent to={`/cat/${cat.name}`} backgroundColor={backgroundColor}>
       <COText fontSize={25} fontColor="#000000" fontWeight={700}>
         {cat.name}
       </COText>
@@ -24,17 +25,17 @@ export const Card = ({ cat }: Props) => {
 export const AddCard = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
   return (
-    <CardButton onClick={() => setModal({ ...modal, id: 'enroll', visible: true })}>
+    <CardButton onClick={() => setModal({ ...modal, id: 'enroll', visible: true, size: { width: 800, height: 800 } })}>
       <AddIcon />
     </CardButton>
   );
 };
-const CardContent = styled(Link)`
+const CardContent = styled(Link)<{ backgroundColor?: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 15px;
   width: 130px;
   height: 130px;

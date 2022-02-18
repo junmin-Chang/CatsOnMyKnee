@@ -17,10 +17,15 @@ export const catItemState = atomFamily({
   default: selectorFamily({
     key: 'catItemState/Default',
     get:
-      (name: string) =>
+      (name: string | undefined) =>
       ({ get }) => {
         const cat = get(catAtom);
-        return cat.find((v) => v.name === name);
+        const target = cat.find((v) => v.name === name);
+        return {
+          ...target,
+          favorite: target?.favorite?.map((v) => ({ value: v, label: v })),
+          hate: target?.hate?.map((v) => ({ value: v, label: v })),
+        };
       },
   }),
 });
@@ -30,8 +35,12 @@ export const catNameAtom = atom({
   default: selector({
     key: 'catName/default',
     get: ({ get }) => {
-      const catName = get(catAtom)[0].name;
-      return catName;
+      const cat = get(catAtom);
+      if (cat.length > 0) {
+        return cat[0].name;
+      } else {
+        return undefined;
+      }
     },
   }),
 });

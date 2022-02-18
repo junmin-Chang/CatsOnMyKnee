@@ -25,7 +25,7 @@ const Logo = styled(FcGoogle)`
 
 const Button = styled.button`
   display: inline-flex;
-  width: 383px;
+  width: 80%;
   height: 68px;
   background-color: #ffffff;
   border-radius: 6px;

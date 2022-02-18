@@ -40,7 +40,7 @@ const DropdownCard = () => {
                 onClick={() => {
                   // api call,
                   onToggle();
-                  setModal({ ...modal, id: 'enroll', visible: true, edit: true });
+                  setModal({ id: 'enroll', visible: true, edit: true, size: { width: 800, height: 800 } });
                 }}
               >
                 수정하기

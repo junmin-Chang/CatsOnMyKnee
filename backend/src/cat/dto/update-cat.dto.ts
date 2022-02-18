@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { CatGender } from '../cat-gender.enum';
 
 export class UpdateCatDto {
@@ -18,10 +18,8 @@ export class UpdateCatDto {
   gender: CatGender;
 
   @IsOptional()
-  @IsString()
-  favorite: string;
+  favorite: string[];
 
   @IsOptional()
-  @IsString()
-  hate: string;
+  hate: string[];
 }

@@ -4,7 +4,6 @@ import COText from '@src/components/Atoms/COText';
 import COError from '@src/components/Atoms/COError';
 import COButton from '@src/components/Atoms/COButton';
 import useInput from '@src/hooks/useInput';
-import { Cat, CatGender } from '@src/typings/Cat';
 import { BsGenderAmbiguous, BsGenderFemale, BsGenderMale } from 'react-icons/bs';
 import { enrollCat, updateCat } from '@src/api/Cat/index';
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil';
@@ -13,34 +12,36 @@ import { catAtom, catItemState, catNameAtom } from '@src/recoil/atom/cat';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router';
+import Creatable from '../Organisms/Creatable';
 
 const EnrollForm = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
 
   const catName = useRecoilValue(catNameAtom);
-  const cat = useRecoilValue(catItemState(catName!)) as Cat;
+  const cat = useRecoilValue(catItemState(catName));
   const refresh = useRecoilRefresher_UNSTABLE(catAtom);
-  const [name, onChangeName] = useInput(modal.edit ? cat?.name : '');
-  const [age, onChangeAge] = useInput(modal.edit ? cat?.age : '');
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [breed, onChangeBreed] = useInput(modal.edit ? cat?.breed : '');
-  const [favorite, onChangeFavorite] = useInput(modal.edit ? cat?.favorite : '');
-  const [hate, onChangeHate] = useInput(modal.edit ? cat?.hate : '');
-  const [gender, _, setGender] = useInput<CatGender>(modal.edit ? cat.gender : 'NO');
+  const [name, onChangeName] = useInput(modal.edit && cat ? cat.name : '');
+  const [age, onChangeAge] = useInput(modal.edit && cat ? cat.age : '');
+  const [startDate, setStartDate] = useState<Date>(modal.edit && cat ? new Date(cat.startDate!) : new Date());
+  const [breed, onChangeBreed] = useInput(modal.edit && cat ? cat.breed : '');
+  const [hate, setHate] = useState(modal.edit && cat ? cat.favorite : []);
+  const [favorite, setFavorite] = useState(modal.edit && cat ? cat.hate : []);
+  const [gender, _, setGender] = useInput(modal.edit && cat ? cat.gender : 'NO');
   const [error, setError] = useState<string[] | null>(null);
   const navigate = useNavigate();
   const onSubmit = useCallback(async () => {
+    const updated = {
+      name: cat?.name === name ? undefined : name,
+      age,
+      breed,
+      favorite: favorite?.map((f) => f.value),
+      hate: hate?.map((h) => h.value),
+      startDate,
+      gender,
+    };
     if (modal.edit) {
       try {
-        await updateCat(encodeURIComponent(cat.name!), {
-          name,
-          age,
-          breed,
-          hate,
-          favorite,
-          gender,
-          startDate,
-        });
+        await updateCat(encodeURIComponent(cat?.name!), updated);
         setModal({ ...modal, visible: false, edit: false });
         navigate('/cat');
         refresh();
@@ -49,12 +50,12 @@ const EnrollForm = () => {
       }
     } else {
       try {
-        const newCat: Cat = {
+        const newCat = {
           name,
           age,
           gender,
-          favorite,
-          hate,
+          favorite: favorite?.map((f) => f.value),
+          hate: hate?.map((h) => h.value),
           breed,
           startDate,
         };
@@ -65,7 +66,8 @@ const EnrollForm = () => {
         console.log(err);
       }
     }
-  }, [name, age, gender, breed, favorite, hate, modal, setModal, startDate, refresh]);
+  }, [name, age, gender, breed, modal, setModal, favorite, hate, startDate, refresh, cat?.name, navigate]);
+
   return (
     <Container>
       <LeftContent>
@@ -94,24 +96,38 @@ const EnrollForm = () => {
         </Content>
         <Content>
           <Label>처음 만난 날</Label>
-          <DatePicker
+          <DatePick
             selected={startDate}
-            onChange={(date) => {
+            onChange={(date: Date) => {
               setStartDate(date);
             }}
             dateFormat="yyyy/MM/dd"
           />
         </Content>
-        <Content2>
+        <Content>
           <Label>좋아하는 것</Label>
-          <Input placeholder="생략 가능" name="favorite" onChange={onChangeFavorite} defaultValue={favorite} />
-        </Content2>
-        <Content2>
+          <Creatable
+            onChange={(value) => {
+              setFavorite(value);
+              console.log(favorite);
+            }}
+            name="favorite"
+            value={favorite}
+          />
+        </Content>
+        <Content>
           <Label>싫어하는 것</Label>
-          <Input placeholder="생략 가능" name="hate" onChange={onChangeHate} defaultValue={hate} />
-        </Content2>
+          <Creatable
+            onChange={(value) => {
+              setHate(value);
+              console.log(hate);
+            }}
+            name="hate"
+            value={hate}
+          />
+        </Content>
         {error && error.map((err, i) => <COError key={i}>{err}</COError>)}
-        <div style={{ marginTop: 'auto', width: '100%' }}>
+        <div style={{ width: '100%' }}>
           <COButton onClick={onSubmit}>등록하기!</COButton>
         </div>
       </LeftContent>
@@ -133,28 +149,17 @@ const EnrollForm = () => {
   );
 };
 
-export { EnrollForm };
+export default EnrollForm;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
-  align-items: center;
   padding: 15px;
-  justify-content: center;
 `;
 
 const Content = styled.div`
-  width: 100%;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-const Content2 = styled.div`
   width: 100%;
   margin-bottom: 15px;
   display: flex;
@@ -165,7 +170,7 @@ const Content2 = styled.div`
 
 const Input = styled.input`
   width: 70%;
-  height: 30px;
+  height: 50px;
   background-color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -190,6 +195,7 @@ const LeftContent = styled.div`
   border-radius: 15px;
   margin-right: 10px;
   align-items: center;
+  justify-content: space-between;
   padding: 20px;
 `;
 
@@ -219,4 +225,11 @@ const IconWrapper = styled.div<{ selected: boolean }>`
     background-color: #f28500;
     color: #ffffff;
   }
+`;
+
+const DatePick = styled(DatePicker)`
+  height: 50px;
+  width: 80%;
+  font-size: 20px;
+  text-align: center;
 `;

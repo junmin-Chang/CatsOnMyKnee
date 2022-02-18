@@ -27,11 +27,11 @@ export class Cat extends CommonEntity {
   @Column({ nullable: false })
   gender: CatGender;
 
-  @Column({ nullable: true })
-  favorite: string;
+  @Column('simple-array', { nullable: true })
+  favorite: string[];
 
-  @Column({ nullable: true })
-  hate: string;
+  @Column('simple-array', { nullable: true })
+  hate: string[];
 
   @Column({ nullable: false, type: 'date' })
   startDate: string;

@@ -4,6 +4,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '@src/recoil/atom/user';
 import styled from 'styled-components';
+import COFloating from '@src/components/Atoms/COFloating';
 
 const Home = () => {
   const user = useRecoilValue(userAtom);
@@ -12,6 +13,7 @@ const Home = () => {
     <Container>
       <HomeBanner />
       <HomeContent />
+      {user && <COFloating />}
     </Container>
   );
 };
