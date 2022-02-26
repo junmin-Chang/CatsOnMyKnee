@@ -7,11 +7,12 @@ interface Props {
   onClose: () => void;
 }
 const LoginModal = ({ onClose }: Props) => {
+  const isDev = process.env.NODE_ENV === 'development';
   const onClickKakao = useCallback(() => {
-    window.open('http://localhost:8000/auth/kakao', '_self');
+    window.open(isDev ? 'http://localhost:8000/auth/kakao' : process.env.BASE_URL + '/auth/kakao', '_self');
   }, []);
   const onClickGoogle = useCallback(() => {
-    window.open('http://localhost:8000/auth/google', '_self');
+    window.open(isDev ? 'http://localhost:8000/auth/google' : process.env.BASE_URL + '/auth/google', '_self');
   }, []);
   return (
     <Container>
