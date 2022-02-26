@@ -8,7 +8,7 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
     super({
       clientID: process.env.KAKAO_CLIENT_ID,
       clientSecret: process.env.KAKAO_SECRET,
-      callbackURL: 'http://localhost:8000/auth/kakao/redirect',
+      callbackURL: process.env.BASE_URL + '/auth/kakao/redirect',
     });
   }
   async validate(_accessToken: string, _refreshToken: string, profile: any) {

@@ -27,15 +27,19 @@ export class AuthController {
   ) {
     const user = req.user;
     this.logger.verbose(`google req.user ${JSON.stringify(user)}`);
-    const { accessToken, ...accessOption } =
+    const { accessToken, ...accessOption }: any =
       this.authService.getAccessToken(user);
-    const { refreshToken, ...refreshOption } =
+    const { refreshToken, ...refreshOption }: any =
       this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
     res.cookie('jwt', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
-    return res.redirect('http://localhost:3000/');
+    return res.redirect(
+      process.env.NODE_ENV
+        ? 'http://localhost:3000/'
+        : 'https://catsonmyknee.kro.kr',
+    );
   }
 
   @Get('/kakao')
@@ -51,15 +55,19 @@ export class AuthController {
     const user = req.user;
     this.logger.verbose(`kakao req.user ${JSON.stringify(user)}`);
 
-    const { accessToken, ...accessOption } =
+    const { accessToken, ...accessOption }: any =
       this.authService.getAccessToken(user);
-    const { refreshToken, ...refreshOption } =
+    const { refreshToken, ...refreshOption }: any =
       this.authService.getRefreshToken(user);
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
     res.cookie('jwt', accessToken, accessOption);
     res.cookie('Refresh', refreshToken, refreshOption);
-    return res.redirect('http://localhost:3000/');
+    return res.redirect(
+      process.env.NODE_ENV
+        ? 'http://localhost:3000/'
+        : 'https://catsonmyknee.kro.kr',
+    );
   }
   @Get('/refresh')
   @UseGuards(JwtRefreshGuard)
@@ -68,7 +76,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<ResponseUserDto> {
     const user = req.user;
-    const { accessToken, ...accessOption } =
+    const { accessToken, ...accessOption }: any =
       this.authService.getAccessToken(user);
     res.cookie('jwt', accessToken, accessOption);
     return await this.userService.getUserInfo(user);
