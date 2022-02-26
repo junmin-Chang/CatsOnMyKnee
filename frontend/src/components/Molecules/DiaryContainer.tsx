@@ -75,6 +75,7 @@ const Button = styled(Link)`
 const Content = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
   padding: 20px;
 `;

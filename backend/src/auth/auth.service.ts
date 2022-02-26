@@ -14,12 +14,13 @@ export class AuthService {
     const payload = { id: user.id, username: user.username };
     return {
       accessToken: this.jwtService.sign(payload),
-      domain: 'localhost',
+      domain: process.env.NODE_ENV ? 'localhost' : 'catsonmyknee.kro.kr',
       path: '/',
       httpOnly: true,
       maxAge: 600 * 1000,
       signed: true,
       secure: true,
+      sameSite: 'None',
     };
   }
 
@@ -31,12 +32,13 @@ export class AuthService {
     });
     return {
       refreshToken: token,
-      domain: 'localhost',
+      domain: process.env.NODE_ENV ? 'localhost' : 'catsonmyknee.kro.kr',
       path: '/',
       httpOnly: true,
       maxAge: 1209600 * 1000,
       signed: true,
       secure: true,
+      sameSite: 'None',
     };
   }
 }
