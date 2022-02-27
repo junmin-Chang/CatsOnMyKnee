@@ -81,7 +81,6 @@ const Button = styled.button`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 20px;
   margin-left: auto;
   margin-right: 20px;
   align-items: center;

@@ -33,6 +33,8 @@ export const AddCard = () => {
 const CardContent = styled(Link)<{ backgroundColor?: string }>`
   display: flex;
   flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   background-color: ${({ backgroundColor }) => backgroundColor};
@@ -47,6 +49,8 @@ const CardContent = styled(Link)<{ backgroundColor?: string }>`
 const CardButton = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   background-color: #ffffff44;
