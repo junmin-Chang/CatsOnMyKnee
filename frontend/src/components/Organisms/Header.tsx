@@ -85,13 +85,7 @@ const ButtonWrapper = styled.div`
   margin-left: auto;
   margin-right: 20px;
   align-items: center;
-`;
-
-const ProfileImage = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  margin-right: 20px;
+  white-space: nowrap;
 `;
 
 const Ul = styled.ul`
