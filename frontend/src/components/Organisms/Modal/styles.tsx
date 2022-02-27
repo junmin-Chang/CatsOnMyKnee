@@ -19,6 +19,10 @@ const CreateModal = styled.div<{ width: number; height: number }>`
     margin: 0 auto;
     width: ${({ width }) => width}px;
     height: ${({ height }) => height}px;
+    @media (max-width: 500px) {
+      width: 80%;
+      height: 70%;
+    }
     background: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.08);
     background-color: #ffffff;

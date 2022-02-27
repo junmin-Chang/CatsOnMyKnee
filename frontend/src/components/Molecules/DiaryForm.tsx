@@ -47,7 +47,13 @@ const DiaryForm = ({ name }: Props) => {
   }, [date, title, description, feeling, name, navigate, refresh]);
   return (
     <Container>
-      <COText fontSize={20} fontColor="#18171c">
+      <COText
+        fontSize={20}
+        fontColor="#18171c"
+        style={{
+          marginBottom: '15px',
+        }}
+      >
         오늘 {name}의 하루는 어땠나요?
       </COText>
       <Form>
