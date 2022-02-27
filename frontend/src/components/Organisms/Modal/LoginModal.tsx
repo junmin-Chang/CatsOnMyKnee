@@ -60,13 +60,20 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   padding: 25px;
+  @media (max-width: 500px) {
+    padding: 3%;
+  }
 `;
 
 const Title = styled.span`
   font-size: 30px;
+  @media (max-width: 500px) {
+    font-size: 18px;
+  }
   font-weight: 600;
   color: #18171c;
 `;
@@ -76,4 +83,7 @@ const ButtonWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 70%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
