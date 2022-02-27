@@ -27,6 +27,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const Header = styled.div`
@@ -51,6 +52,8 @@ const Content = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 100%;
   padding: 25px;
+  @media (max-width: 500px) {
+    padding: 3%;
+  }
 `;

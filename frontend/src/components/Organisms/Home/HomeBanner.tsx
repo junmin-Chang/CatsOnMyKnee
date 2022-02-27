@@ -31,6 +31,9 @@ const Container = styled.div`
   height: 650px;
   padding: 3%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const BannerIcon = styled(Banner)`
@@ -46,6 +49,9 @@ const Content = styled.div`
   justify-content: center;
   width: 50%;
   height: 100%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 
   & > * {
     user-select: none;

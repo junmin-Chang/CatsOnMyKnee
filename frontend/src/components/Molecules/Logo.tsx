@@ -13,5 +13,6 @@ const Logo = () => {
 
 const Container = styled.div`
   padding: 0 20px;
+  white-space: nowrap;
 `;
 export default Logo;

@@ -30,5 +30,8 @@ const Button = styled(Link)<{
   text-decoration: none;
   color: #18171c;
   font-size: ${({ fontSize }) => fontSize}px;
+  @media (max-width: 500px) {
+    font-size: 14px;
+  }
   font-weight: ${({ fontWeight }) => fontWeight};
 `;

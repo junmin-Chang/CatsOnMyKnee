@@ -36,5 +36,6 @@ const Container = styled.h1`
   border-radius: 15px;
   @media (max-width: 1024px) {
     flex-direction: column;
+    width: 95%;
   }
 `;

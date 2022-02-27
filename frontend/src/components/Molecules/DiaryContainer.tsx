@@ -84,6 +84,7 @@ const Name = styled.span`
   display: inline;
   box-shadow: inset 0 -30px 0 #eee71b;
   font-size: 1.5rem;
+  white-space: nowrap;
 
   &::after {
     display: inline;
@@ -96,13 +97,22 @@ const Header = styled.div`
   flex-direction: row;
   width: 100%;
   align-items: center;
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 
   & > div {
     display: flex;
     flex-direction: row;
+    width: 100%;
     margin-left: auto;
+    white-space: nowrap;
+    gap: 10px;
     & > * {
       margin-left: 1.5em;
+      @media (max-width: 500px) {
+        margin-left: 0;
+      }
     }
   }
 `;

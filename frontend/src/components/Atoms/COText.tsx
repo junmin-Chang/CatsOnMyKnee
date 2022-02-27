@@ -5,10 +5,11 @@ interface Props {
   fontColor: string;
   fontSize: number;
   fontWeight?: number;
+  style?: React.CSSProperties;
 }
-const COText: React.FC<Props> = ({ fontColor, fontSize, fontWeight = 300, children }) => {
+const COText: React.FC<Props> = ({ fontColor, fontSize, fontWeight = 300, children, style }) => {
   return (
-    <TextArea fontColor={fontColor} fontSize={fontSize} fontWeight={fontWeight}>
+    <TextArea fontColor={fontColor} fontSize={fontSize} fontWeight={fontWeight} style={style}>
       {children}
     </TextArea>
   );
@@ -20,4 +21,7 @@ const TextArea = styled.span<{ fontColor: string; fontSize: number; fontWeight?:
   color: ${({ fontColor }) => fontColor};
   font-weight: ${({ fontWeight }) => fontWeight};
   font-size: ${({ fontSize }) => fontSize}px;
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
