@@ -37,7 +37,7 @@ const Container = styled.div`
 `;
 
 const BannerIcon = styled(Banner)`
-  width: 500px;
+  width: 100%;
   height: 600px;
   margin-left: auto;
 `;

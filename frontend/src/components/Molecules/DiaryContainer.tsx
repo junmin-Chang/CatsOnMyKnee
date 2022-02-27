@@ -39,7 +39,7 @@ const DiaryContainer = ({ catName }: Props) => {
           <Button to={`/cat/${cat.name}/diary`}>글 작성</Button>
         </div>
       </Header>
-      <COText fontColor="#18171c" fontSize={20}>
+      <COText fontColor="#18171c" fontSize={20} style={{ marginTop: '10px' }}>
         총 {diaries?.length}개 있네요!
       </COText>
       <Content>{diaries && diaries.map((d, i) => <DiaryContent diary={d} key={i} />)}</Content>
@@ -95,6 +95,7 @@ const Name = styled.span`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 10px;
   width: 100%;
   align-items: center;
   @media (max-width: 500px) {
