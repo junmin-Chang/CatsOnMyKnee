@@ -24,8 +24,8 @@ const EnrollForm = () => {
   const [age, onChangeAge] = useInput(modal.edit && cat ? cat.age : '');
   const [startDate, setStartDate] = useState<Date>(modal.edit && cat ? new Date(cat.startDate!) : new Date());
   const [breed, onChangeBreed] = useInput(modal.edit && cat ? cat.breed : '');
-  const [hate, setHate] = useState(modal.edit && cat ? cat.favorite : []);
-  const [favorite, setFavorite] = useState(modal.edit && cat ? cat.hate : []);
+  const [hate, setHate] = useState(modal.edit && cat ? cat.hate : []);
+  const [favorite, setFavorite] = useState(modal.edit && cat ? cat.favorite : []);
   const [gender, _, setGender] = useInput(modal.edit && cat ? cat.gender : 'NO');
   const [error, setError] = useState<string[] | null>(null);
   const navigate = useNavigate();
