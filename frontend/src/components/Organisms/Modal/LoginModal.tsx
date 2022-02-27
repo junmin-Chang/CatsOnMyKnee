@@ -20,7 +20,7 @@ const LoginModal = ({ onClose }: Props) => {
         <CloseIcon onClick={onClose} />
       </Header>
       <Content>
-        <Title>소셜로 간편하게 로그인하세요!</Title>
+        <Title>소셜로 간편하게 로그인하세요</Title>
         <ButtonWrapper>
           <GoogleButton onClick={onClickGoogle} />
           <KakaoButton onClick={onClickKakao} />
