@@ -24,6 +24,9 @@ const Icon = styled(RiKakaoTalkFill)`
 const Button = styled.button`
   display: inline-flex;
   width: 80%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
   height: 68px;
   background-color: #fee500;
   border-radius: 6px;
