@@ -25,6 +25,7 @@
     "fork-ts-checker-webpack-plugin": "^6.4.0",
     "html-webpack-plugin": "^5.5.0",
     "lint": "^0.7.0",
+    "lottie-web": "^5.8.1",
     "react": "^17.0.2",
     "react-datepicker": "^4.6.0",
     "react-dom": "^17.0.2",
