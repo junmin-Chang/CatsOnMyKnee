@@ -75,18 +75,22 @@ const InfoContainer = ({ catName }: Props) => {
 
           <COLabel>{cat.breed}</COLabel>
         </Content>
-        <Content>
-          <Label>좋아하는 것 : </Label>
-          {cat.favorite?.map((v, i) => (
-            <COLabel key={i}>{v.value}</COLabel>
-          ))}
-        </Content>
-        <Content>
-          <Label>싫어하는 것 : </Label>
-          {cat.hate?.map((v, i) => (
-            <COLabel key={i}>{v.value}</COLabel>
-          ))}
-        </Content>
+        <Content2>
+          <Label>좋아하는 것 </Label>
+          <Content>
+            {cat.favorite?.map((v, i) => (
+              <COLabel key={i}>{v.value}</COLabel>
+            ))}
+          </Content>
+        </Content2>
+        <Content2>
+          <Label>싫어하는 것 </Label>
+          <Content>
+            {cat.hate?.map((v, i) => (
+              <COLabel key={i}>{v.value}</COLabel>
+            ))}
+          </Content>
+        </Content2>
       </TextContainer>
     </Container>
   );
@@ -149,6 +153,8 @@ const Label = styled.label`
   color: #18171c;
   font-weight: normal;
   width: 40%;
+  white-space: nowrap;
+  margin-right: auto;
 `;
 
 const Content = styled.div`
@@ -156,5 +162,13 @@ const Content = styled.div`
   flex-direction: row;
   width: 100%;
   align-items: center;
+  padding: 2% 0;
+  flex-wrap: wrap;
+`;
+
+const Content2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   padding: 2% 0;
 `;
