@@ -6,22 +6,22 @@ import { useRecoilValue } from 'recoil';
 import { catAtom } from '@src/recoil/atom/cat';
 import { userAtom } from '@src/recoil/atom/user';
 import { Outlet } from 'react-router-dom';
+import EmptyCat from '@src/components/Organisms/Animation/EmptyCat';
 const Cat = () => {
   const user = useRecoilValue(userAtom);
   const cats = useRecoilValue(catAtom);
   return (
-    <React.Suspense fallback={<div>Loading..</div>}>
-      <Container>
-        <COText fontColor="#18171c" fontSize={25} fontWeight={600}>
-          {user?.name}님의 아이들
-        </COText>
-        <CardContainer>
-          {cats && cats.map((c, i) => <Card key={i} cat={c} />)}
-          <AddCard />
-        </CardContainer>
-        <Outlet />
-      </Container>
-    </React.Suspense>
+    <Container>
+      <COText fontColor="#18171c" fontSize={25} fontWeight={600}>
+        {user?.name}님의 아이들
+      </COText>
+      <CardContainer>
+        {cats && cats.map((c, i) => <Card key={i} cat={c} />)}
+        <AddCard />
+      </CardContainer>
+      {cats.length === 0 && <EmptyCat />}
+      <Outlet />
+    </Container>
   );
 };
 

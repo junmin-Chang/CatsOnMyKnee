@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '@src/pages/Home';
 import GlobalStyle from './GlobalStyles';
@@ -8,24 +8,12 @@ import Modal from '@src/components/Organisms/Modal/Modal';
 import CatInfo from '@src/components/Organisms/CatInfo';
 import DiaryReadModal from '@src/components/Organisms/Modal/DiaryReadModal';
 import DiaryWriteModal from '@src/components/Organisms/Modal/DiaryWriteModal';
-import loadingAnimation from '@src/assets/loading.json';
-import lottie from 'lottie-web';
+import Loading from '@src/components/Organisms/Animation/Loading';
 const MyPage = React.lazy(() => import('@src/pages/MyPage/index'));
 const Cat = React.lazy(() => import('@src/pages/Cat/index'));
 const App = () => {
-  const loading = useRef(null);
-  useEffect(() => {
-    lottie.loadAnimation({
-      container: loading.current as any,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: loadingAnimation,
-    });
-    return () => lottie.stop();
-  }, []);
   return (
-    <React.Suspense fallback={<div ref={loading}></div>}>
+    <React.Suspense fallback={<Loading />}>
       <BrowserRouter>
         <GlobalStyle />
         <Container>
