@@ -11,6 +11,7 @@ import { Diary } from '@src/typings/Diary';
 import { catItemState } from '@src/recoil/atom/cat';
 import { Cat } from '@src/typings/Cat';
 import DiaryContent from './DiaryContent';
+import EmptyDiary from '../Organisms/Animation/EmptyDiary';
 
 interface Props {
   catName: string;
@@ -42,7 +43,10 @@ const DiaryContainer = ({ catName }: Props) => {
       <COText fontColor="#18171c" fontSize={20} style={{ marginTop: '10px' }}>
         총 {diaries?.length}개 있네요!
       </COText>
-      <Content>{diaries && diaries.map((d, i) => <DiaryContent diary={d} key={i} />)}</Content>
+      <Content>
+        {diaries.length === 0 && <EmptyDiary />}
+        {diaries && diaries.map((d, i) => <DiaryContent diary={d} key={i} />)}
+      </Content>
     </Container>
   );
 };
@@ -55,6 +59,7 @@ const Container = styled.div`
   background-color: #ffedad;
   border-radius: 15px;
   width: 100%;
+  min-height: 500px;
   padding: 20px;
 `;
 
