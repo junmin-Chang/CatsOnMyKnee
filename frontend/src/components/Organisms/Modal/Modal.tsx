@@ -19,7 +19,7 @@ const Modal = () => {
   return (
     <>
       {modal.visible && (
-        <CreateModal onClick={closeModal} width={modal.size.width} height={modal.size.height}>
+        <CreateModal onClick={closeModal}>
           <div onClick={stopPropagation}>
             {modal.id === 'login' && modal.visible && <LoginModal onClose={closeModal} />}
             {modal.id === 'enroll' && modal.visible && <EnrollModal onClose={closeModal} />}
@@ -32,7 +32,7 @@ const Modal = () => {
 
 export default Modal;
 
-const CreateModal = styled.div<{ width: number; height: number }>`
+const CreateModal = styled.div<{ width?: number; height?: number }>`
   display: flex;
   align-items: center;
   position: fixed;
@@ -49,8 +49,10 @@ const CreateModal = styled.div<{ width: number; height: number }>`
     flex-direction: column;
     opacity: 1 !important;
     margin: 0 auto;
-    width: ${({ width }) => width}px;
-    height: ${({ height }) => height}px;
+    width: ${({ width }) => (width && width + 'px') || '50%'};
+    max-width: 600px;
+    height: ${({ height }) => (height && height + 'px') || '80%'};
+    max-height: 600px;
     @media (max-width: 500px) {
       width: 80%;
       height: 70%;

@@ -29,6 +29,7 @@ const CreateModal = styled.div<{ width?: number; height?: number }>`
     border-radius: 5px;
     user-select: none;
     z-index: 1012;
+    overflow-y: scroll;
   }
 `;
 
@@ -37,6 +38,7 @@ const Header = styled.div`
   flex-direction: row;
   width: 100%;
   height: 80px;
+  min-height: 80px;
   align-items: center;
   border-bottom: 1px solid #eeeeee;
 `;

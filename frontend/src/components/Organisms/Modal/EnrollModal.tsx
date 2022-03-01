@@ -35,6 +35,7 @@ const Header = styled.div`
   flex-direction: row;
   width: 100%;
   height: 80px;
+  min-height: 80px;
   align-items: center;
   border-bottom: 1px solid #eeeeee;
 `;

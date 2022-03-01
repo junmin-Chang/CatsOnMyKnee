@@ -35,7 +35,7 @@ const DiaryReadModal = () => {
 
   useDisableBodyScroll(location.pathname.split('/')[4] !== undefined);
   return (
-    <CreateModal onClick={goBack}>
+    <CreateModal onClick={goBack} width={600} height={600}>
       <div onClick={stopPropagation}>
         <Header>
           <CloseIcon onClick={goBack} />
