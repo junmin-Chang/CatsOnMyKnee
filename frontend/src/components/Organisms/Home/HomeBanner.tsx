@@ -8,12 +8,20 @@ const HomeBanner = () => {
     <Container>
       <Content>
         <COText fontColor="#000" fontSize={25} fontWeight={500}>
-          '고양이' 와의 소중한 기억을 담는 곳
+          <span
+            style={{
+              color: '#FFFFFF',
+            }}
+          >
+            고양이
+          </span>{' '}
+          와의 소중한 기억을 담는 곳
         </COText>
 
         <COLabel>내 무릎 위 고양이 입니다.</COLabel>
-        <COText fontColor="#000" fontSize={20} fontWeight={300}>
-          '내 무릎 위 고양이' 는 우리와 함께 살아가고 있는 아이들의 하루하루를 담는 집사들의 일기장 서비스 입니다.
+        <COText fontColor="#000" fontSize={20} fontWeight={300} style={{ lineHeight: '30px' }}>
+          <span style={{ color: '#FFFFFF' }}>내 무릎 위 고양이</span> 는 우리와 함께 살아가고 있는 아이들의 하루하루를
+          담는 집사들의 일기장 서비스 입니다.
         </COText>
       </Content>
       <BannerIcon />
@@ -28,7 +36,7 @@ const Container = styled.div`
   flex-direction: row;
   background-color: #f3b184;
   width: 100%;
-  height: 650px;
+  height: 400px;
   padding: 3%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
   @media (max-width: 500px) {
@@ -38,7 +46,7 @@ const Container = styled.div`
 
 const BannerIcon = styled(Banner)`
   width: 100%;
-  height: 600px;
+  height: 300px;
   margin-left: auto;
 `;
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
-const CreateModal = styled.div<{ width: number; height: number }>`
+const CreateModal = styled.div<{ width?: number; height?: number }>`
   display: flex;
   align-items: center;
   position: fixed;
@@ -17,8 +17,8 @@ const CreateModal = styled.div<{ width: number; height: number }>`
     flex-direction: column;
     opacity: 1 !important;
     margin: 0 auto;
-    width: ${({ width }) => width}px;
-    height: ${({ height }) => height}px;
+    width: ${({ width }) => (width && width + 'px') || '50%'};
+    height: ${({ height }) => (height && height + 'px') || '90%'};
     @media (max-width: 500px) {
       width: 80%;
       height: 70%;

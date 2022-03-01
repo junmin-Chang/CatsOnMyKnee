@@ -19,6 +19,5 @@ const Container = styled(Link)`
   border-radius: 50px;
   justify-content: center;
   text-decoration: none;
-  box-shadow: 2px 2px 3px #999;
   align-items: center;
 `;

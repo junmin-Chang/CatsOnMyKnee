@@ -1,18 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
-import { Diary } from '@src/typings/Diary';
-import { deleteDiary, getDiary } from '@src/api/Diary/index';
+import { deleteDiary } from '@src/api/Diary/index';
 import COTextArea from '../../Atoms/COTextArea';
 import { CloseIcon, CreateModal, Header } from '@src/components/Organisms/Modal/styles';
 import COButton from '@src/components/Atoms/COButton';
 import { useRecoilRefresher_UNSTABLE, useRecoilState } from 'recoil';
 import { diaryAtom, diaryItemState } from '@src/recoil/atom/diary';
+import { useDisableBodyScroll } from '@src/hooks/useDisableBodyScroll';
+import { useLocation } from 'react-router';
+
 const DiaryReadModal = () => {
   const { name, id } = useParams();
   const [diary, setDiary] = useRecoilState(diaryItemState(id as string));
   const refresh = useRecoilRefresher_UNSTABLE(diaryAtom);
+  const location = useLocation();
   const navigate = useNavigate();
   const goBack = useCallback(() => {
     navigate(-1);
@@ -30,8 +33,9 @@ const DiaryReadModal = () => {
     }
   }, [goBack, id, name, refresh]);
 
+  useDisableBodyScroll(location.pathname.split('/')[4] !== undefined);
   return (
-    <CreateModal width={700} height={700} onClick={goBack}>
+    <CreateModal onClick={goBack}>
       <div onClick={stopPropagation}>
         <Header>
           <CloseIcon onClick={goBack} />

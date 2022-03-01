@@ -20,6 +20,7 @@ export default KakaoButton;
 
 const Icon = styled(RiKakaoTalkFill)`
   margin-right: 20px;
+  color: #181600;
 `;
 const Button = styled.button`
   display: inline-flex;

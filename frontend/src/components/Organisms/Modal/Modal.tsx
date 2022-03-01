@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import LoginModal from './LoginModal';
 import EnrollModal from './EnrollModal';
+import { useDisableBodyScroll } from '@src/hooks/useDisableBodyScroll';
 
 const Modal = () => {
   const [modal, setModal] = useRecoilState(modalAtom);
@@ -14,6 +15,7 @@ const Modal = () => {
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);
+  useDisableBodyScroll(modal.visible);
   return (
     <>
       {modal.visible && (
