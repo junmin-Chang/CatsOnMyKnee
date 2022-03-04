@@ -14,6 +14,7 @@ const SelectInput = ({ options, onChange, value, placeholder }: Props) => {
       onChange={onChange}
       value={value}
       placeholder={placeholder}
+      isSearchable={false}
       styles={{
         input: (base) => ({
           ...base,
