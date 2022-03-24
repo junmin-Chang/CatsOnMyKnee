@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-
+// 수정 필요
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : process.env.BASE_URL;
 const axiosInstance = axios.create({
   baseURL: baseUrl,
